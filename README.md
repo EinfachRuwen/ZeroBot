@@ -1,2 +1,2 @@
 # ZeroBot
-A discord bot with some awesome features :)
+A simple discord bot with some awesome features and more cool stuff.
