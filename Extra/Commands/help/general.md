@@ -29,8 +29,5 @@ Lets begin!
     credits
 > Shows you the sources of my code and help sources and websites I used for help.
 
-    write (text) // s
-> Write a message for you :3 - Limited for owners of the bot!
-
     developer
 > Show you some information about my father // my developer
