@@ -1,3 +1,4 @@
+# There is a more recent Version! Go check it out :D
 import discord
 import random
 import asyncio
