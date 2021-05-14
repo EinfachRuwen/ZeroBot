@@ -3,3 +3,6 @@ Meet ZeroBot, the best bot for your server! With the bot you can create giveaway
 
 ## Invite me :o
 Invite: https://zerobot.ml/invite
+
+## Support-Server
+https://byzer0.ml/discord
