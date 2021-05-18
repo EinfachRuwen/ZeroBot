@@ -123,61 +123,23 @@ async def on_message(message):
             PREFIXFORCOMMANDS = file.read()
         if message.content.lower() == MENTION:
                 await message.channel.send("The Prefix is: `" + PREFIXFORCOMMANDS + "`")
-
-        if message.content.lower() == "hallo":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
                 
-        if message.content.lower() == "moin":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
-        if message.content.lower() == "servus":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
-        if message.content.lower() == "hi":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-        
-
+        # optimized "hello"-feature                
+        hello_words = ["hallo", "moin", "servus", "hi"]
+        for word in hello_words:
+            if message.content.lower() == word:
+                number = random.randint(0, 5)
+                if number == 1:
+                    await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
+                if number == 2:
+                    await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
+                if number == 3:
+                    await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
+                if number == 4:
+                    await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
+                if number == 5:
+                    await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
+       
         if client.user.mentioned_in(message):
             await message.add_reaction("👋")
             
@@ -185,8 +147,7 @@ async def on_message(message):
         # If it is a command
         if message.content.startswith(PREFIXFORCOMMANDS):
             if message.author.id != 817092531874693131:
-                #stuff
-            
+
                 # Open the file in append & read mode ('a+')
                 with open("logs/commandlogs.txt", "a+", encoding='utf-8') as file_object:
                 # Move read cursor to the start of file.
