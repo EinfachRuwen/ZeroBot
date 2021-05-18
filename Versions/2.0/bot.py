@@ -47,7 +47,7 @@ async def on_ready():
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
     embed.set_author(name="Restart", icon_url="https://cloud.0network.de/Discord/ZeroBot/restart/restart.gif")
     embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
-    embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me", inline=False)
+    embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me.", inline=False)
     embed.set_footer(text="This is an automatic execution, should the bot ever restart.")
     await channel.send(embed=embed)
 
@@ -102,13 +102,13 @@ async def help(ctx):
    # General Commands
    with open('tokens/prefix.txt','r') as file:
     PREFIXFORCOMMANDS = file.read()
-   embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands listed, which you can use with my bot :)", color=0x6ce2e4)
+   embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands which you can use with my bot. :)", color=0x6ce2e4)
    embed.set_author(name="ZeroBot", icon_url="https://i.imgur.com/SExHItg.png")
    embed.add_field(name="General Commands", value="Just the general commands, like _avatar - [here](https://byzer0.ml/zerobot-general)", inline=True)
-   embed.add_field(name="Mod-Commands", value="That's commands only limited to moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
-   embed.add_field(name="Fun-Commands", value="Have fun with that commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
+   embed.add_field(name="Mod-Commands", value="These commands only for moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
+   embed.add_field(name="Fun-Commands", value="Have fun with these commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
    embed.add_field(name="Admin-Commands", value="Haha! That's a command list for me :D - [here](https://byzer0.ml/zerobot-admin)", inline=True)
-   embed.set_footer(text="Use _feature to make command-idea!")
+   embed.set_footer(text="Use _feature to submit a command-idea!")
    await ctx.author.send(embed=embed)
    await ctx.channel.purge(limit=1)
 
@@ -226,10 +226,10 @@ async def on_message(message):
                 
                 if message.content.startswith(f"{PREFIXFORCOMMANDS}start"): #command to start quessing game
                     channel = message.channel
-                    await channel.send(f"Quess the number from 0-35 by writing number in this channel! {message.author.mention}") #message that tells about the start of the game
+                    await channel.send(f"Guess the number from 0-35 by writing numbers in this channel! {message.author.mention}") #message that tells about the start of the game
 
                     number1 = random.randint(1,35) #picking random number from 1 - 35 and printing it
-                    print(f'The Number for the "Guess The Number"-Game is: {number1}')
+                    print(f'The solution for the "Guess The Number"-Game is: {number1}')
                     
                     number2 = str(number1) #converting int to str
                     
@@ -240,7 +240,7 @@ async def on_message(message):
                         zahl += 1
                     
                     msg = await client.wait_for('message', check=check)
-                    await channel.send(f"Correct answer {message.author.mention}!".format(msg)) #tells who got the answer
+                    await channel.send(f"Correct answer, {message.author.mention}!".format(msg)) #tells who got the correct answer
 
 
                 await client.process_commands(message)
