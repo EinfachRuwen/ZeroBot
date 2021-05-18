@@ -53,7 +53,6 @@ async def on_ready():
 
 @tasks.loop(seconds=20)
 async def change_status():
-    
     await client.change_presence(
         status=discord.Status.online,
         activity=discord.Activity(
@@ -191,18 +190,15 @@ async def on_message(message):
 
                     number1 = random.randint(1,35) #picking random number from 1 - 35 and printing it
                     print(f'The solution for the "Guess The Number"-Game is: {number1}')
-                    
-                    number2 = str(number1) #converting int to str
-                    
+                                     
                     zahl = 0
 
                     def check(m):
-                        return m.content == number2 and m.channel == channel #checking answers
+                        return m.content == str(number1) and m.channel == channel #checking answers
                         zahl += 1
                     
                     msg = await client.wait_for('message', check=check)
                     await channel.send(f"Correct answer, {message.author.mention}!".format(msg)) #tells who got the correct answer
-
 
                 await client.process_commands(message)
 
@@ -333,42 +329,29 @@ async def unban(ctx, *, member):
 @client.command()
 async def dice(ctx):
         dice_result = random.randint(1, 6)
+                                     
+        embed=discord.Embed(title="The dice whispered to me:")
+        embed.set_thumbnail(url=f"https://cloud.0network.de/Discord/ZeroBot/Dice/{dice_result}.png")
+                                     
         if dice_result == 1:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/1.png")
             embed.add_field(name="1", value="That's not much :O", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 2:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/2.png")
             embed.add_field(name="2", value="That's not better than 1, 1 + 1 is 2", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 3:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/3.png")
             embed.add_field(name="3", value="Did you know that 3 is the middle?", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 4:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/4.png")
             embed.add_field(name="4", value="The holy **4**!", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 5:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/5.png")
             embed.add_field(name="5", value="Why didn't you get a 6?", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 6:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/6.png")
             embed.add_field(name="6", value="You may roll the dice again :3", inline=False)
-            await ctx.send(embed=embed)
-
+        
+        await ctx.send(embed=embed)
 
 @client.command()
 async def pickrandom(ctx, number):
@@ -631,51 +614,25 @@ async def rps(ctx, what):
         embed.set_thumbnail(url="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/images/sn-rockpaper.jpg")
         await ctx.send(embed=embed) 
     number = random.randint(0, 3)
-    if what == 'Rock':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
-    if what == 'Scissors':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
-    if what == 'Paper':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
+                                     
+    whats = ["Rock", "Paper", "Scissors"]
+    for word in whats:
+        if word == what:
+            if number == 1:
+                a = 'Rock'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
+            if number == 2:
+                a = 'Scissors'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
+            if number == 3:
+                a = 'Paper'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
+            embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+            embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
+            embed.set_thumbnail(url=b)
+            embed.add_field(name=a, value="lol", inline=True)
+            await ctx.send(embed=embed)
+
 
 # Short-Url-Feature by jcw05
 # https://github.com/joseywoermann
