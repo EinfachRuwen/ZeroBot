@@ -290,7 +290,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     embed=discord.Embed(title="You have been warned!", description=f"Reason: {reason}")
     embed.set_author(name=f"{member}", icon_url=f"{member.avatar_url}")
     embed.set_thumbnail(url="https://media.tenor.com/images/932058cb6d102234800171857cb561f2/tenor.gif")
-    embed.add_field(name=f"This is your {warn} warn!", value=f"{warn}/12", inline=False)
+    embed.add_field(name=f"This is your {warn}. warn!", value=f"{warn}/12", inline=False)
     embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero#4840")
     await member.send(embed=embed)
 
@@ -547,8 +547,8 @@ async def cgiveaway(ctx, mins : int, numberOfWinners: int, giveawaychannel: int,
 async def developer(ctx):
     embed=discord.Embed(title="byZero#4840", url="https://byzer0.ml")
     embed.set_thumbnail(url="https://i.imgur.com/bp1UfAI.png")
-    embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero and I am a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. Recently I created my own Discord-Bot.", inline=False)
-    embed.add_field(name="Read more about me:", value="You can find more informations about me, here: https://byzer0.ml/github-info", inline=True)
+    embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero, a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. I recently created my own Discord-Bot.", inline=False)
+    embed.add_field(name="Read more about me:", value="You can find more informations about me here: https://byzer0.ml/github-info", inline=True)
     embed.set_footer(text="This Bot was coded by byZero!")
     await ctx.send(embed=embed)
 
@@ -567,7 +567,7 @@ async def rickroll(ctx, member : discord.Member):
     RICKROLLURL = file.read()
   await ctx.channel.purge(limit=1)
   await member.send(RICKROLLURL)
-  await ctx.author.send('So now, you rickrolled ' + f'{member}' + '!')
+  await ctx.author.send('So, now you rickrolled ' + f'{member}' + '!')
 
 @client.event
 async def on_command_error(ctx, error):
@@ -607,7 +607,9 @@ async def moveall(ctx, *, channel : discord.VoiceChannel, channelb : discord.Voi
     embed.add_field(name="Users", value=f"{vc_users}", inline=True)
     embed.add_field(name="Channel", value=f"{channel}", inline=True)
     await ctx.send(embed=embed)
-    
+
+# define-Feature by jcw05
+# https://github.com/joseywoermann                                     
 @client.command()
 @commands.guild_only()
 async def define(ctx, *, search_term):
@@ -753,7 +755,7 @@ async def botinfo(ctx):
     embed.add_field(name="📄 Name", value="ZeroBot", inline=True)
     embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
     embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)
-    embed.add_field(name="📁Server", value=f"`{len(client.guilds)}`", inline=True)
+    embed.add_field(name="📁Servers", value=f"`{len(client.guilds)}`", inline=True)
     embed.add_field(name="📄 Commands", value=f"`{len(client.commands)}`", inline=True)
     with open('tokens/stats/cpu.txt','r') as file:
         cpu = file.read()
