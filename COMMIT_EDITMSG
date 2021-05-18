@@ -1,0 +1,3 @@
+Revert "made sftp and folder sorting easier"
+
+This reverts commit b81490d8f03c7be3bcd9f83825d41b90d59d7481.
