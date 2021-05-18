@@ -47,13 +47,12 @@ async def on_ready():
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
     embed.set_author(name="Restart", icon_url="https://cloud.0network.de/Discord/ZeroBot/restart/restart.gif")
     embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
-    embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me", inline=False)
+    embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me.", inline=False)
     embed.set_footer(text="This is an automatic execution, should the bot ever restart.")
     await channel.send(embed=embed)
 
 @tasks.loop(seconds=20)
 async def change_status():
-    
     await client.change_presence(
         status=discord.Status.online,
         activity=discord.Activity(
@@ -102,13 +101,13 @@ async def help(ctx):
    # General Commands
    with open('tokens/prefix.txt','r') as file:
     PREFIXFORCOMMANDS = file.read()
-   embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands listed, which you can use with my bot :)", color=0x6ce2e4)
+   embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands which you can use with my bot. :)", color=0x6ce2e4)
    embed.set_author(name="ZeroBot", icon_url="https://i.imgur.com/SExHItg.png")
    embed.add_field(name="General Commands", value="Just the general commands, like _avatar - [here](https://byzer0.ml/zerobot-general)", inline=True)
-   embed.add_field(name="Mod-Commands", value="That's commands only limited to moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
-   embed.add_field(name="Fun-Commands", value="Have fun with that commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
+   embed.add_field(name="Mod-Commands", value="These commands are only for moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
+   embed.add_field(name="Fun-Commands", value="Have fun with these commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
    embed.add_field(name="Admin-Commands", value="Haha! That's a command list for me :D - [here](https://byzer0.ml/zerobot-admin)", inline=True)
-   embed.set_footer(text="Use _feature to make command-idea!")
+   embed.set_footer(text="Use _feature to submit a command-idea!")
    await ctx.author.send(embed=embed)
    await ctx.channel.purge(limit=1)
 
@@ -123,61 +122,23 @@ async def on_message(message):
             PREFIXFORCOMMANDS = file.read()
         if message.content.lower() == MENTION:
                 await message.channel.send("The Prefix is: `" + PREFIXFORCOMMANDS + "`")
-
-        if message.content.lower() == "hallo":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
                 
-        if message.content.lower() == "moin":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
-        if message.content.lower() == "servus":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-
-        if message.content.lower() == "hi":
-            number = random.randint(0, 5)
-            if number == 1:
-                await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-            if number == 2:
-                await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-            if number == 3:
-                await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-            if number == 4:
-                await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-            if number == 5:
-                await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
-        
-
+        # optimized "hello"-feature                
+        hello_words = ["hallo", "moin", "servus", "hi"]
+        for word in hello_words:
+            if message.content.lower() == word:
+                number = random.randint(0, 5)
+                if number == 1:
+                    await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
+                if number == 2:
+                    await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
+                if number == 3:
+                    await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
+                if number == 4:
+                    await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
+                if number == 5:
+                    await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
+       
         if client.user.mentioned_in(message):
             await message.add_reaction("👋")
             
@@ -185,8 +146,7 @@ async def on_message(message):
         # If it is a command
         if message.content.startswith(PREFIXFORCOMMANDS):
             if message.author.id != 817092531874693131:
-                #stuff
-            
+
                 # Open the file in append & read mode ('a+')
                 with open("logs/commandlogs.txt", "a+", encoding='utf-8') as file_object:
                 # Move read cursor to the start of file.
@@ -226,22 +186,19 @@ async def on_message(message):
                 
                 if message.content.startswith(f"{PREFIXFORCOMMANDS}start"): #command to start quessing game
                     channel = message.channel
-                    await channel.send(f"Quess the number from 0-35 by writing number in this channel! {message.author.mention}") #message that tells about the start of the game
+                    await channel.send(f"Guess the number from 0-35 by writing numbers in this channel! {message.author.mention}") #message that tells about the start of the game
 
                     number1 = random.randint(1,35) #picking random number from 1 - 35 and printing it
-                    print(f'The Number for the "Guess The Number"-Game is: {number1}')
-                    
-                    number2 = str(number1) #converting int to str
-                    
+                    print(f'The solution for the "Guess The Number"-Game is: {number1}')
+                                     
                     zahl = 0
 
                     def check(m):
-                        return m.content == number2 and m.channel == channel #checking answers
+                        return m.content == str(number1) and m.channel == channel #checking answers
                         zahl += 1
                     
                     msg = await client.wait_for('message', check=check)
-                    await channel.send(f"Correct answer {message.author.mention}!".format(msg)) #tells who got the answer
-
+                    await channel.send(f"Correct answer, {message.author.mention}!".format(msg)) #tells who got the correct answer
 
                 await client.process_commands(message)
 
@@ -290,7 +247,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     embed=discord.Embed(title="You have been warned!", description=f"Reason: {reason}")
     embed.set_author(name=f"{member}", icon_url=f"{member.avatar_url}")
     embed.set_thumbnail(url="https://media.tenor.com/images/932058cb6d102234800171857cb561f2/tenor.gif")
-    embed.add_field(name=f"This is your {warn} warn!", value=f"{warn}/12", inline=False)
+    embed.add_field(name=f"This is your {warn}. warn!", value=f"{warn}/12", inline=False)
     embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero#4840")
     await member.send(embed=embed)
 
@@ -372,42 +329,29 @@ async def unban(ctx, *, member):
 @client.command()
 async def dice(ctx):
         dice_result = random.randint(1, 6)
+                                     
+        embed=discord.Embed(title="The dice whispered to me:")
+        embed.set_thumbnail(url=f"https://cloud.0network.de/Discord/ZeroBot/Dice/{dice_result}.png")
+                                     
         if dice_result == 1:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/1.png")
             embed.add_field(name="1", value="That's not much :O", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 2:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/2.png")
             embed.add_field(name="2", value="That's not better than 1, 1 + 1 is 2", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 3:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/3.png")
             embed.add_field(name="3", value="Did you know that 3 is the middle?", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 4:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/4.png")
             embed.add_field(name="4", value="The holy **4**!", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 5:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/5.png")
             embed.add_field(name="5", value="Why didn't you get a 6?", inline=False)
-            await ctx.send(embed=embed)
 
         if dice_result == 6:
-            embed=discord.Embed(title="The dice whispered to me:")
-            embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/Dice/6.png")
             embed.add_field(name="6", value="You may roll the dice again :3", inline=False)
-            await ctx.send(embed=embed)
-
+        
+        await ctx.send(embed=embed)
 
 @client.command()
 async def pickrandom(ctx, number):
@@ -547,8 +491,8 @@ async def cgiveaway(ctx, mins : int, numberOfWinners: int, giveawaychannel: int,
 async def developer(ctx):
     embed=discord.Embed(title="byZero#4840", url="https://byzer0.ml")
     embed.set_thumbnail(url="https://i.imgur.com/bp1UfAI.png")
-    embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero and I am a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. Recently I created my own Discord-Bot.", inline=False)
-    embed.add_field(name="Read more about me:", value="You can find more informations about me, here: https://byzer0.ml/github-info", inline=True)
+    embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero, a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. I recently created my own Discord-Bot.", inline=False)
+    embed.add_field(name="Read more about me:", value="You can find more informations about me here: https://byzer0.ml/github-info", inline=True)
     embed.set_footer(text="This Bot was coded by byZero!")
     await ctx.send(embed=embed)
 
@@ -567,7 +511,7 @@ async def rickroll(ctx, member : discord.Member):
     RICKROLLURL = file.read()
   await ctx.channel.purge(limit=1)
   await member.send(RICKROLLURL)
-  await ctx.author.send('So now, you rickrolled ' + f'{member}' + '!')
+  await ctx.author.send('So, now you rickrolled ' + f'{member}' + '!')
 
 @client.event
 async def on_command_error(ctx, error):
@@ -607,7 +551,9 @@ async def moveall(ctx, *, channel : discord.VoiceChannel, channelb : discord.Voi
     embed.add_field(name="Users", value=f"{vc_users}", inline=True)
     embed.add_field(name="Channel", value=f"{channel}", inline=True)
     await ctx.send(embed=embed)
-    
+
+# define-Feature by jcw05
+# https://github.com/joseywoermann                                     
 @client.command()
 @commands.guild_only()
 async def define(ctx, *, search_term):
@@ -668,51 +614,25 @@ async def rps(ctx, what):
         embed.set_thumbnail(url="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/images/sn-rockpaper.jpg")
         await ctx.send(embed=embed) 
     number = random.randint(0, 3)
-    if what == 'Rock':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
-    if what == 'Scissors':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
-    if what == 'Paper':
-        if number == 1:
-            a = 'Rock'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-        if number == 2:
-            a = 'Scissors'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-        if number == 3:
-            a = 'Paper'
-            b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-        embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-        embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=b)
-        embed.add_field(name=a, value="lol", inline=True)
-        await ctx.send(embed=embed)
+                                     
+    whats = ["Rock", "Paper", "Scissors"]
+    for word in whats:
+        if word == what:
+            if number == 1:
+                a = 'Rock'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
+            if number == 2:
+                a = 'Scissors'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
+            if number == 3:
+                a = 'Paper'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
+            embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+            embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
+            embed.set_thumbnail(url=b)
+            embed.add_field(name=a, value="lol", inline=True)
+            await ctx.send(embed=embed)
+
 
 # Short-Url-Feature by jcw05
 # https://github.com/joseywoermann
@@ -753,7 +673,7 @@ async def botinfo(ctx):
     embed.add_field(name="📄 Name", value="ZeroBot", inline=True)
     embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
     embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)
-    embed.add_field(name="📁Server", value=f"`{len(client.guilds)}`", inline=True)
+    embed.add_field(name="📁Servers", value=f"`{len(client.guilds)}`", inline=True)
     embed.add_field(name="📄 Commands", value=f"`{len(client.commands)}`", inline=True)
     with open('tokens/stats/cpu.txt','r') as file:
         cpu = file.read()
