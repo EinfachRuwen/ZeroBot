@@ -196,7 +196,7 @@ async def on_message(message):
                     embed.set_thumbnail(url=f"{message.guild.icon_url}")
                     embed.add_field(name=f"Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
                     embed.add_field(name=f"Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
-                    embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
+                    embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by `byZero#4840`")
                     await channel.send(embed=embed)
 
                     
