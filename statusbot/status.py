@@ -42,4 +42,6 @@ async def check_bot():
 async def ping(ctx):
   await ctx.send(f'🏓 Pong! - The Bot has a latency of {round(client.latency * 1000)} ms!')
 
-client.run('ODM0MzU4NTQyNDkyMzY4ODk2.YH_u8g.Och9D7ocj8V5V8AOHWOVC0bPoyc')
+with open('tokens/token.txt','r') as file:
+    TOKEN = file.read()
+client.run(TOKEN)
