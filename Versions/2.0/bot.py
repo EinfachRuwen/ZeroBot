@@ -104,7 +104,7 @@ async def help(ctx):
    embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands which you can use with my bot. :)", color=0x6ce2e4)
    embed.set_author(name="ZeroBot", icon_url="https://i.imgur.com/SExHItg.png")
    embed.add_field(name="General Commands", value="Just the general commands, like _avatar - [here](https://byzer0.ml/zerobot-general)", inline=True)
-   embed.add_field(name="Mod-Commands", value="These commands only for moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
+   embed.add_field(name="Mod-Commands", value="These commands are only for moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
    embed.add_field(name="Fun-Commands", value="Have fun with these commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
    embed.add_field(name="Admin-Commands", value="Haha! That's a command list for me :D - [here](https://byzer0.ml/zerobot-admin)", inline=True)
    embed.set_footer(text="Use _feature to submit a command-idea!")
