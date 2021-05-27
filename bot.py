@@ -3,6 +3,10 @@
 # With the many commands, from fun, moderation and general, you can do an incredible amount. 
 # Thanks to a highly efficient server, the ZeroBot is almost always online. 
 
+# Currently Available Prefix (_)-Commands: 
+# _help
+# _s
+
 # Code start's here:
 import discord
 import random
@@ -23,14 +27,28 @@ from bs4 import BeautifulSoup
 import logging
 from random import randrange
 import pytz
+from discord_slash import SlashCommand
+from discord_slash.utils.manage_commands import create_option, create_choice
+from requests.api import options
+import statcord
 
 intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
 with open('tokens/prefix.txt','r') as file:
     PREFIXFORCOMMANDS = file.read()
 client = commands.Bot(command_prefix = PREFIXFORCOMMANDS, intents = intents)
 client.remove_command('help')
+slash = SlashCommand(client, sync_commands=True)
+with open('tokens/statcord.txt','r') as file:
+    STATCORDTOKEN = file.read()
+key = STATCORDTOKEN
+api = statcord.Client(client,key)
+api.start_loop()
 
-statusmessages = ['zerobot.ml', '_help', '_stats', 'byZero']
+@client.event
+async def on_command(ctx):
+    api.command_run(ctx)
+
+statusmessages = ['Invite again >> Slash-Commands | https://zerobot.ml/invite', 'zerobot.ml', '/help', 'Invite again >> Slash-Commands | https://zerobot.ml/invite', '/stats', 'byZero', 'Invite again >> Slash-Commands | https://zerobot.ml/invite']
 statusmsg = cycle(statusmessages)
 
 # Message for Starting the Bot
@@ -67,12 +85,14 @@ async def change_status():
 async def on_guild_join(guild):
     channel = client.get_channel(833599876721803274)
     embed=discord.Embed(title="I joined a new Server!", description=f"Name: '{guild}'")
-    embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
+    embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="What happended?", value="I JOINED A NEW SERVER YEAHHHHHHHHHHHHHHH", inline=False)
+    embed.add_field(name=f"Information about the Server", value=f"{guild.name} - {guild.id} | Owner: {guild.owner.mention} | Region: {guild.region} | Member-Count: {guild.member_count}", inline=True)
     embed.set_footer(text="This is an automatic execution, should I join a new Server!")
     await channel.send(embed=embed)
 
-@client.command()
+@slash.slash(name="invite",
+             description="Shows the invite link!")
 async def invite(ctx):
     embed = discord.Embed(
         title = "Lade den Bot auf deinen Server ein!",
@@ -108,27 +128,24 @@ async def on_member_remove(member):
             file_object.write("\n")
     # Append text at the end of file
         file_object.write(str(member) + ' has left the server.')
-        
+    
 
-@client.command(aliases=['pong', 'latency'])
+@slash.slash(name="ping",
+             description="Shows you the bot's ping (latency)")
 async def ping(ctx):
     await ctx.send(f'🏓 Pong! - The Bot has a latency of {round(client.latency * 1000)} ms!')
 
 # Hilfe-Command
 @client.command(aliases=['hilfe'])
 async def help(ctx):
-   # General Commands
-   with open('tokens/prefix.txt','r') as file:
-    PREFIXFORCOMMANDS = file.read()
-   embed=discord.Embed(title="Help - Prefix: `" + PREFIXFORCOMMANDS + "`", description="Here you can find all commands which you can use with my bot. :)", color=0x6ce2e4)
-   embed.set_author(name="ZeroBot", icon_url="https://i.imgur.com/SExHItg.png")
-   embed.add_field(name="General Commands", value="Just the general commands, like _avatar - [here](https://byzer0.ml/zerobot-general)", inline=True)
-   embed.add_field(name="Mod-Commands", value="These commands are only for moderators. - [here](https://byzer0.ml/zerobot-mod)", inline=True)
-   embed.add_field(name="Fun-Commands", value="Have fun with these commands :D - [here](https://byzer0.ml/zerobot-fun)", inline=True)
-   embed.add_field(name="Admin-Commands", value="Haha! That's a command list for me :D - [here](https://byzer0.ml/zerobot-admin)", inline=True)
-   embed.set_footer(text="Use _feature to submit a command-idea!")
-   await ctx.author.send(embed=embed)
-   await ctx.channel.purge(limit=1)
+    embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on.")
+    await ctx.send(embed=embed)
+
+# Hilfe-Command
+@slash.slash(name="help",
+             description="Why do you even want to try?")
+async def help(ctx):
+    await ctx.send("Seriously? You want to see all commands? There is a menu for that if you do `/`. Shut up. GET OUTTA HERE")
 
 @client.event
 async def on_message(message):
@@ -220,133 +237,291 @@ async def on_message(message):
                     await channel.send(f"Correct answer, {message.author.mention}!".format(msg)) #tells who got the correct answer
 
                 await client.process_commands(message)
+            
+@client.event
+async def on_slash_command(ctx):
+    # Open the file in append & read mode ('a+')
+                with open("logs/commandlogs.txt", "a+", encoding='utf-8') as file_object:
+                # Move read cursor to the start of file.
+                    file_object.seek(0)
+                # If file is not empty then append '\n'
+                    data = file_object.read(100)
+                    if len(data) > 0 :
+                        file_object.write("\n")
+                # Append text at the end of file
+                    timeGermany = pytz.timezone('Europe/Berlin')
+                    rn_tG = datetime.datetime.now(timeGermany)
+                    file_object.write("\n")
+                    file_object.write("----------------------------------------")
+                    file_object.write("\n")
+                    file_object.write(f"User: [{str(ctx.author)}] | {str(ctx.author.mention)} | Icon: [{ctx.author.avatar_url}]")
+                    file_object.write("\n")
+                    file_object.write(f"Command: [/{ctx.command} {ctx.args}]")
+                    file_object.write("\n")
+                    file_object.write(f"Channel: [{ctx.channel}] | {ctx.channel.mention}")
+                    file_object.write("\n")
+                    file_object.write(f"Time: [{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))}] - Server: {ctx.guild.name} ID: {ctx.guild.id} - Owner: {ctx.guild.owner} - Region: [{ctx.guild.region}] - Member-Count: [{ctx.guild.member_count}] - Icon-URL: [{ctx.guild.icon_url}]")
+                    file_object.write("\n")
+                    file_object.write("----------------------------------------")
+                    msg = ctx
+                    channel = client.get_channel(833599876721803274)
+                    embed=discord.Embed(title=f"/{ctx.command} {ctx.args}")
+                    embed.set_author(name=f"User: {str(ctx.author)} | {str(ctx.author.mention)}", icon_url=f"{ctx.author.avatar_url}")
+                    embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
+                    embed.add_field(name=f"Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
+                    embed.add_field(name=f"Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
+                    embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
+                    await channel.send(embed=embed)
 
-@client.command()
+@slash.slash(name="clear",
+             description="Deletes messages from a channel",
+             options=[
+               create_option(
+                 name="amount",
+                 description="How many messages do you wanna delete?",
+                 option_type=4,
+                 required=True
+               )
+             ])
 @commands.has_permissions(manage_messages=True)
-async def clear (ctx, amount=6):
+async def clear (ctx, amount: int):
     await ctx.channel.purge(limit=amount + 1)
     msg = await ctx.send(f'I deleted {amount} messages.')
     await asyncio.sleep(10)
     await msg.delete()
 
+@slash.slash(name="kick",
+             description="Kicks someone from the server.",
+             options=[
+               create_option(
+                 name="member",
+                 description="Who do you wanna kick?",
+                 option_type=6,
+                 required=True
+               ),
+               create_option(
+                name="reason",
+                description="Who do you wanna kick him?",
+                option_type=3,
+                required=False
+               )
+             ])
 @commands.has_permissions(kick_members=True)
-async def kick(ctx, member : discord.Member, *, reason=None):
+async def kick(ctx, member : discord.Member, *, reason: str = None):
     await member.kick(reason=reason)
-    print (f'Yea, so I just banned {member} if that\'s okay :)')
+    print (f'Yea, so I just kicked {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Kicking {member}")
-    embed.set_thumbnail(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
+    embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(833599876721803274)
     embed=discord.Embed(title=f"Kicking {member} on {ctx.guild.name}")
-    embed.set_thumbnail(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
+    embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await channel.send(embed=embed)
 
-@client.command()
+@slash.slash(name="ban",
+             description="Bans someone from the server.",
+             options=[
+               create_option(
+                 name="member",
+                 description="Who do you wanna ban?",
+                 option_type=6,
+                 required=True
+               ),
+               create_option(
+                name="reason",
+                description="Who do you wanna ban him?",
+                option_type=3,
+                required=False
+               )
+             ])
 @commands.has_permissions(ban_members=True)
-async def ban(ctx, member : discord.Member, *, reason=None):
+async def ban(ctx, member : discord.Member, *, reason: str = None):
     await member.ban(reason=reason)
     print (f'Yea, so I just banned {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Banning {member}")
-    embed.set_thumbnail(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
+    embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(833599876721803274)
     embed=discord.Embed(title=f"Banning {member} on {ctx.guild.name}")
-    embed.set_thumbnail(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
+    embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await channel.send(embed=embed)
 
-@client.command()
-@commands.has_permissions(kick_members=True)
-async def warn(ctx, member : discord.Member, *, reason=None):
-    serverid = ctx.guild.id
-    memberid = member.id
-    # Open the file in append & read mode ('a+')
-    with open(f"logs/members/server/{serverid}/member/{memberid}/warns.txt", "a+", encoding='utf-8') as file_object:
-    # Move read cursor to the start of file.
-        file_object.seek(0)
-    # Check existing warns
-        Warns = file.read()
-        if Warns == '':
-            Warns = '0'
-    # Replace the target string
-    NewWarns = int(Warns) + 1
-    # Write the file out again
-    with open('logs/members/server/{serverid}/member/{memberid}/warns.txt', 'a+') as file:
-        file.write(NewWarns)
-
-    # Add a Reason to it...
-    with open('logs/members/server/{serverid}/member/{memberid}/warn-{NewWarns}.txt', 'a+') as file:
-        file.write(reason)
-    # Send Message to Member
-    embed=discord.Embed(title="You have been warned!", description=f"Reason: {reason}")
-    embed.set_author(name=f"{member}", icon_url=f"{member.avatar_url}")
-    embed.set_thumbnail(url="https://media.tenor.com/images/932058cb6d102234800171857cb561f2/tenor.gif")
-    embed.add_field(name=f"This is your {warn}. warn!", value=f"{warn}/12", inline=False)
-    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero#4840")
-    await member.send(embed=embed)
-
-    # Send Message to Author
-    embed=discord.Embed(title="You warned {member}", description=f"Reason: {reason}")
-    embed.set_thumbnail(url="https://media1.tenor.com/images/1797102f0bf828f52ce5e955e2286b5d/tenor.gif")
-    embed.add_field(name=f"You sent {member} a nice message that I'm sure he will be happy about.", value="lol, why did you do that xD", inline=False)
-    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero#4840")
-    await ctx.author.send(embed=embed)
-
-    # Send Message to Owner
-    embed=discord.Embed(title=f"{ctx.author} warned {member}", description=f"Reason: {reason}")
-    embed.set_thumbnail(url="https://media1.tenor.com/images/33ad6c19e8e5f1ca831ba00f4685e760/tenor.gif")
-    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero#4840")
-    await ctx.guild.send(embed=embed)
-
-    # print if done
-    print('I warned somebody lol')
-
-@client.command()
-async def warns(ctx, member : discord.Member):
-    serverid = ctx.guild.id
-    memberid = member.id
-    # Open the file in append & read mode ('a+')
-    with open(f"logs/members/server/{serverid}/member/{memberid}/warns.txt", "a+", encoding='utf-8') as file_object:
-    # Move read cursor to the start of file.
-        file_object.seek(0)
-    # Check existing warns
-        Warns = file.read()
-        if Warns == '':
-            Warns == '0'
-    ctx.send(f'{member.mention} has already been warned {Warns} times')
+# IN BEARBEITUNG
+# @client.command()
+# @commands.has_permissions(kick_members=True)
+# async def warn(ctx, member : discord.Member, *, reason=None):
+#    serverid = ctx.guild.id
+#    memberid = member.id
+#    # Open the file in append & read mode ('a+')
+#    with open(f"logs/members/server/{serverid}/member/{memberid}/warns.txt", "a+", encoding='utf-8') as file_object:
+#    # Move read cursor to the start of file.
+#        file_object.seek(0)
+#    # Check existing warns
+#        Warns = file.read()
+#        if Warns == '':
+#            Warns = '0'
+#    # Replace the target string
+#    NewWarns = int(Warns) + 1
+#    # Write the file out again
+#    with open('logs/members/server/{serverid}/member/{memberid}/warns.txt', 'a+') as file:
+#        file.write(NewWarns)
+#
+#    # Add a Reason to it...
+#    with open('logs/members/server/{serverid}/member/{memberid}/warn-{NewWarns}.txt', 'a+') as file:
+#        file.write(reason)
+#    # Send Message to Member
+#    embed=discord.Embed(title="You have been warned!", description=f"Reason: {reason}")
+#    embed.set_author(name=f"{member}", icon_url=f"{member.avatar_url}")
+#    embed.set_thumbnail(url="https://media.tenor.com/images/932058cb6d102234800171857cb561f2/tenor.gif")
+#    embed.add_field(name=f"This is your {warn}. warn!", value=f"{warn}/12", inline=False)
+#    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero")
+#    await member.send(embed=embed)
+#
+#    # Send Message to Author
+#    embed=discord.Embed(title="You warned {member}", description=f"Reason: {reason}")
+#    embed.set_thumbnail(url="https://media1.tenor.com/images/1797102f0bf828f52ce5e955e2286b5d/tenor.gif")
+#    embed.add_field(name=f"You sent {member} a nice message that I'm sure he will be happy about.", value="lol, why did you do that xD", inline=False)
+#    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero")
+#    await ctx.author.send(embed=embed)
+#
+#    # Send Message to Owner
+#    embed=discord.Embed(title=f"{ctx.author} warned {member}", description=f"Reason: {reason}")
+#    embed.set_thumbnail(url="https://media1.tenor.com/images/33ad6c19e8e5f1ca831ba00f4685e760/tenor.gif")
+#    embed.set_footer(text="Inspired by SteffoSpieler and Yasu | Coded by byZero")
+#    await ctx.guild.send(embed=embed)
+#
+#    # print if done
+#    print('I warned somebody lol')
+#
+#@client.command()
+#async def warns(ctx, member : discord.Member):
+#    serverid = ctx.guild.id
+#    memberid = member.id
+#    # Open the file in append & read mode ('a+')
+#    with open(f"logs/members/server/{serverid}/member/{memberid}/warns.txt", "a+", encoding='utf-8') as file_object:
+#    # Move read cursor to the start of file.
+#        file_object.seek(0)
+#    # Check existing warns
+#        Warns = file.read()
+#        if Warns == '':
+#            Warns == '0'
+#    ctx.send(f'{member.mention} has already been warned {Warns} times')
 
 
 # Rich Presence Changer
 # Only limited to the Owner (byZero)
-@client.command(aliases=['ps', 'status'])
+@slash.slash(name="presence",
+             description="Changes the rich presence of the bot (watching, playing ...)",
+             options=[
+               create_option(
+                 name="type",
+                 description="0, 1, 2, 3? Beep Boop",
+                 option_type=4,
+                 required=True,
+                 choices=[
+                  create_choice(
+                    name="listening",
+                    value=0
+                  ),
+                  create_choice(
+                    name="watching",
+                    value=1
+                  ),
+                  create_choice(
+                    name="playing",
+                    value=2
+                  ),
+                  create_choice(
+                    name="streaming",
+                    value=3
+                  ),
+                  create_choice(
+                    name="auto",
+                    value=4
+                  )
+                 ]
+               ),
+               create_option(
+                 name="presence",
+                 description="hmmmm...",
+                 option_type=3,
+                 required=False
+                ),
+                create_option(
+                 name="url",
+                 description="twitch-stream-url lol",
+                 option_type=3,
+                 required=False
+                )
+             ])
 @commands.is_owner()
-async def presence(ctx, presence_type, presence):
+async def presence(ctx, type : int, presence: str = "Chilling with byZero", url : str = "https://zerobot.ml/404"):
   await ctx.channel.purge(limit=1)
-  await ctx.author.send(f'The new Presence should be: ZeroBot is `{presence_type} {presence}`')
-  if presence_type == "listening":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(presence)))
+  if type == 2:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `playing {presence}`')
 
-  elif presence_type == "watching":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=str(presence)))
+  elif type == 1:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `watching {presence}`')
 
-  elif presence_type == "playing":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=str(presence)))
+  elif type == 0:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `listening to {presence}`')
 
-  elif presence_type == "0":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=str(presence)))
+  elif type == 4:
+    change_status.start()
 
-  elif presence_type == "1":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=str(presence)))
-
-  elif presence_type == "2":
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(presence)))
+  elif type == 3:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Streaming(name=presence, url=url))
+    await ctx.send(f'The new Presence should be: ZeroBot is `streaming {presence}`')
  
 
 
-@client.command()
+@slash.slash(name="avatar",
+             description="Sends you a member's avatar URL!",
+             options=[
+               create_option(
+                 name="member",
+                 description="Just select someone xD",
+                 option_type=6,
+                 required=True
+               )
+             ])
 async def avatar(ctx, member : discord.Member):
-    await ctx.author.send(str(member) + "'s avatar url is " + str(member.avatar_url))
+    with open('tokens/shortio.txt','r') as file:
+        shortio_token = file.read()
 
-@client.command()
+    r = requests.post('https://api.short.io/links/public', {
+          'domain': 'zerobot.ml',
+          'originalURL': str(member.avatar_url),
+    }, headers = {
+          'authorization': shortio_token
+    }, json=True)
+
+    r.raise_for_status()
+    data = r.json()
+
+    #print(data)
+    shorted_url = data["shortURL"]
+    embed=discord.Embed(title=str(member) + "'s Avatar-URL", url=str(shorted_url), description=f"`{str(shorted_url)}`")
+    embed.set_image(url=str(shorted_url))
+    await ctx.send(embed=embed)
+
+@slash.slash(name="unban",
+             description="Unban's someone.",
+             options=[
+               create_option(
+                 name="member",
+                 description="example: byZero#0001",
+                 option_type=3,
+                 required=True
+               )
+             ])
 async def unban(ctx, *, member):
     banned_users = await ctx.guild.bans ()
     member_name, member_discriminator = member.split('#')
@@ -356,10 +531,18 @@ async def unban(ctx, *, member):
 
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
-            print (f'I just unbanned {user.mention} if that\'s okay :)')
+            print (f'Yea, so I just unbanned {member} if that\'s okay :)')
+            embed=discord.Embed(title=f"Unbanning {member}")
+            embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
+            await ctx.send(embed=embed)
+            channel = client.get_channel(833599876721803274)
+            embed=discord.Embed(title=f"Unbanning {member} on {ctx.guild.name}")
+            embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
+            await channel.send(embed=embed)
             return
 
-@client.command()
+@slash.slash(name="dice",
+             description="Roll's the dice for ya' :D")
 async def dice(ctx):
         dice_result = random.randint(1, 6)
                                      
@@ -386,14 +569,25 @@ async def dice(ctx):
         
         await ctx.send(embed=embed)
 
-@client.command()
+@slash.slash(name="pickrandom",
+             description="Picks a number between 1 and your specified number.",
+             options=[
+               create_option(
+                 name="number",
+                 description="just pick a number",
+                 option_type=4,
+                 required=True
+               )
+             ])
 async def pickrandom(ctx, number):
         dice_result = random.randint(1, int(number))
-        await ctx.send('The random number is: ' + (str(dice_result)))
+        embed=discord.Embed(title="I picked: " + (str(dice_result)))
+        await ctx.send(embed=embed)
 
-@client.command()
+@slash.slash(name="crash",
+             description="404! No information found.")
 async def crash(ctx):
-    crash_message = random.randint(1, 6)
+    crash_message = random.randint(1, 5)
     if crash_message == 1:
         await ctx.send('Crash yourself')
 
@@ -412,35 +606,36 @@ async def crash(ctx):
 
 # Create Issue-Feature by jcw05
 # https://github.com/joseywoermann
-@client.command(aliases = ['createissue', 'report', 'bug', 'bugreport'])
-async def makeissue(ctx, pTitle, pBody = None):
+# @client.command(aliases = ['createissue', 'report', 'bug', 'bugreport'])
+# async def makeissue(ctx, pTitle, pBody = None):
+#
+#    with open('tokens/personalaccesstoken.txt','r') as file:
+#        DATOKEN = file.read()
+#
+#    g = Github(DATOKEN)
+#    repo = g.get_repo("byZeroOfficial/ZeroBot")
+#
+#    if pBody:
+#        issue = repo.create_issue(
+#            title=pTitle,
+#            body = pBody + " (Issue created by Discord-user `" + str(ctx.author) + "`)",
+#            assignee="byZeroOfficial",
+#        )
+#    else:
+#        issue = repo.create_issue(
+#            title=pTitle,
+#            body = "(Issue created by Discord-user `" + str(ctx.author) + "`)",
+#            assignee="byZeroOfficial",
+#        )
+#
+#    issue_embed = discord.Embed(title = "Bug report has been sent!", description = "[View bug reports](https://github.com/byZeroOfficial/ZeroBot/issues)")
+#    await ctx.send(embed = issue_embed)
 
-    with open('tokens/personalaccesstoken.txt','r') as file:
-        DATOKEN = file.read()
-
-    g = Github(DATOKEN)
-    repo = g.get_repo("byZeroOfficial/ZeroBot")
-
-    if pBody:
-        issue = repo.create_issue(
-            title=pTitle,
-            body = pBody + " (Issue created by Discord-user `" + str(ctx.author) + "`)",
-            assignee="byZeroOfficial",
-        )
-    else:
-        issue = repo.create_issue(
-            title=pTitle,
-            body = "(Issue created by Discord-user `" + str(ctx.author) + "`)",
-            assignee="byZeroOfficial",
-        )
-
-    issue_embed = discord.Embed(title = "Bug report has been sent!", description = "[View bug reports](https://github.com/byZeroOfficial/ZeroBot/issues)")
-    await ctx.send(embed = issue_embed)
-
-@client.command(aliases=['license'])
+@slash.slash(name="credits",
+             description="Shows you the sources of my code and help sources and websites I used for help.")
 async def credits(ctx):
     embed=discord.Embed(title="Credits", description="Here are all my sources for code and information listed.", color=0x75e3ff)
-    embed.set_author(name="byZero#4840")
+    embed.set_author(name="byZero")
     embed.add_field(name="Users", value="[jcw05#1331](https://github.com/joseywoermann)", inline=True)
     embed.add_field(name="Websites", value="[StackOverflow](https://stackoverflow.com/), [YouTube](https://youtube.com/), [GitHub](https://github.com/), [Pixabay](https://pixabay.com), [FreePix](https://freepix.com/)", inline=True)
     await ctx.send(embed=embed)
@@ -452,11 +647,8 @@ async def write(ctx, *, text):
   await ctx.channel.purge(limit=1)
   await ctx.send(text)
 
-@client.command(aliases=['featurerequest', 'requestfeature', 'idea'])
-async def feature(ctx):
-    await ctx.send('If you wanna make a Feature / Command-Request, look here: https://byzer0.ml/ejkqw')
-
-@client.command()
+@slash.slash(name="commandclear",
+             description="Deletes messages sent by the bot.")
 @commands.has_permissions(manage_messages=True)
 async def commandclear(ctx):
     def is_me(m):
@@ -465,64 +657,68 @@ async def commandclear(ctx):
     deleted = await ctx.channel.purge(limit=100, check=is_me)
     await ctx.send('Deleted {} message(s)'.format(len(deleted)))
 
-@client.command()
+@slash.slash(name="giveaway",
+             description="Creates a giveaway. Only works if the bot is always online. Required: Giveaways Role",
+             options=[
+               create_option(
+                 name="time",
+                 description="How long should the giveaway last (in minutes)",
+                 option_type=4,
+                 required=True
+               ),
+                create_option(
+                 name="prize",
+                 description="what do you wanna give away?",
+                 option_type=3,
+                 required=True
+                ),
+                create_option(
+                 name="channel",
+                 description="choose a giveaway channel",
+                 option_type=7,
+                 required=True
+                ),
+                create_option(
+                 name="winners",
+                 description="Possible Winners",
+                 option_type=4,
+                 required=False
+                )
+             ])
 @commands.has_role('Giveaways')
-async def giveaway(ctx, mins : int, numberOfWinners: int, *, prize: str):
-    await ctx.message.delete()
+async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str):
+    await ctx.send('Giveaway is starting...')
+    await asyncio.sleep(1)
+    await ctx.channel.purge(limit=1)
+    await asyncio.sleep(1)
+    # Part of Channel-Send-System
     embed=discord.Embed(title="<a:tadaaa:840305140502495272> GIVEAWAY!!!", description=prize, color=0xee1153)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     embed.set_thumbnail(url="https://byzero.is-inside.me/DAYAr4h2.jpg")
-    embed.set_footer(text=f"Winners = {str(numberOfWinners)}")
-    end = datetime.datetime.utcnow() + datetime.timedelta(seconds = mins*60)
-    embed.add_field(name="How to:", value="React to the message with the <a:tadaaa:840305140502495272>-Emoji so you can enter the giveaway.", inline=True)
-    embed.timestamp = end
-    sent_message = await ctx.send(embed=embed)
-    await sent_message.add_reaction("<a:tadaaa:840305140502495272>")
-    await asyncio.sleep(mins*60)
-    new_message = await ctx.channel.fetch_message(sent_message.id)
-    users = await new_message.reactions[0].users().flatten()
-    users.pop(users.index(client.user))
-    for i in range(numberOfWinners):
-        member = random.choice(users)
-        await ctx.send(member.mention)
-        embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
-        embed.set_thumbnail(url="https://byzero.is-inside.me/a8XarhZG.gif")
-        embed.add_field(name="Winner:", value=member.mention + f"You have won {prize}!", inline=True)
-        embed.set_footer(text="Coded by byZero#4840")
-        await ctx.send(embed=embed)
-
-@client.command()
-@commands.has_role('Giveaways')
-async def cgiveaway(ctx, mins : int, numberOfWinners: int, giveawaychannel: int, *, prize: str):
-    await ctx.message.delete()
-    # Part of Channel-Send-System
-    channel1 = client.get_channel(giveawaychannel)
-    embed=discord.Embed(title="<a:tadaaa:840305140502495272> GIVEAWAY!!!", description=prize, color=0xee1153)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://byzero.is-inside.me/DAYAr4h2.jpg")
-    embed.set_footer(text=f"Winners = {str(numberOfWinners)}")
-    end = datetime.datetime.utcnow() + datetime.timedelta(seconds = mins*60)
+    embed.set_footer(text=f"Winners = {str(winners)}")
+    end = datetime.datetime.utcnow() + datetime.timedelta(seconds = time*60)
     embed.add_field(name="How to:", value="React to the message with the <a:tadaaa:840305140502495272>-Emoji so you can enter the giveaway.", inline=True)
     embed.timestamp = end
     # Part of Channel-Send-System
-    sent_message = await channel1.send(embed=embed)
+    sent_message = await channel.send(embed=embed)
     await sent_message.add_reaction("<a:tadaaa:840305140502495272>")
-    await asyncio.sleep(mins*60)
-    new_message = await channel1.fetch_message(sent_message.id)
+    await asyncio.sleep(time*60)
+    new_message = await channel.fetch_message(sent_message.id)
     users = await new_message.reactions[0].users().flatten()
     users.pop(users.index(client.user))
-    for i in range(numberOfWinners):
+    for i in range(winners):
         member = random.choice(users)
-        await channel1.send(member.mention)
+        await channel.send(member.mention)
         embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
         embed.set_thumbnail(url="https://byzero.is-inside.me/a8XarhZG.gif")
         embed.add_field(name="Winner:", value=member.mention + f"You have won {prize}!", inline=True)
-        embed.set_footer(text="Coded by byZero#4840")
-        await channel1.send(embed=embed)
+        embed.set_footer(text="Coded by byZero")
+        await channel.send(embed=embed)
 
-@client.command(aliases=["dev"])
+@slash.slash(name="developer",
+             description="Shows you some information about my father // my developer")
 async def developer(ctx):
-    embed=discord.Embed(title="byZero#4840", url="https://byzer0.ml")
+    embed=discord.Embed(title="byZero", url="https://byzer0.ml")
     embed.set_thumbnail(url="https://i.imgur.com/bp1UfAI.png")
     embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero, a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. I recently created my own Discord-Bot.", inline=False)
     embed.add_field(name="Read more about me:", value="You can find more informations about me here: https://byzer0.ml/github-info", inline=True)
@@ -530,7 +726,8 @@ async def developer(ctx):
     await ctx.send(embed=embed)
 
 # How Gay-Command like Dank Memer
-@client.command(aliases=["gay"])
+@slash.slash(name="howgay",
+             description="Show's you how gay u are rn.")
 async def howgay(ctx):
     howgayareyourightnow = random.randint(1, 100)
     embed=discord.Embed(title="gay r8 machine", description="u are " + f'{howgayareyourightnow}' + "% gay 🏳️‍🌈", color=0x8000a3)
@@ -538,56 +735,84 @@ async def howgay(ctx):
     await ctx.send(embed=embed)
 
 # Rickroll someone :D
-@client.command(aliases=['rr'])
+@slash.slash(name="rickroll",
+             description="Rickroll someone :D",
+             options=[
+               create_option(
+                 name="member",
+                 description="Who's the lucky one?",
+                 option_type=6,
+                 required=True
+               )])
 async def rickroll(ctx, member : discord.Member):
   with open('tokens/rickrollurl.txt','r') as file:
     RICKROLLURL = file.read()
   await ctx.channel.purge(limit=1)
   await member.send(RICKROLLURL)
-  await ctx.author.send('So, now you rickrolled ' + f'{member}' + '!')
+  await ctx.send('So, now you rickrolled ' + f'{member}' + '!' + f" - {ctx.author.mention}")
+  await asyncio.sleep(5)
+  await ctx.channel.purge(limit=1)
+
 
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRole):
         await ctx.channel.purge(limit=1)
-        msg = await ctx.send('You don\'t have the role to perform this command!')
-        await asyncio.sleep(5)
+        msg = await ctx.send('You don\'t have the role to perform this command! You should create the `Giveaways`-Role!')
+        await asyncio.sleep(20)
         await msg.delete()
 
-@client.command()
+@slash.slash(name="spam",
+             description="you wanna spam?",
+             options=[
+               create_option(
+                 name="yon",
+                 description="yes or no?!",
+                 option_type=3,
+                 required=True,
+                 choices=[
+                  create_choice(
+                    name="-y",
+                    value="-y"
+                  ),
+                  create_choice(
+                    name="-n",
+                    value="-n"
+                  )
+                 ]
+               ),
+               create_option(
+                 name="amount",
+                 description="how often do you wanna spam that message?",
+                 option_type=4,
+                 required=True
+                ),
+                create_option(
+                 name="message",
+                 description="what do you wanna spam?",
+                 option_type=3,
+                 required=True
+                )
+               ])
 @commands.is_owner()
 async def spam(ctx, yon, amount: int, message):
     if yon == "-y":
        await ctx.channel.purge(limit=1)
        for i in range(amount):
             await ctx.send(f'{message}')
-       
-# Moves all Members from one to another one.
-def in_voice_channel():  # check to make sure ctx.author.voice.channel exists
-    def predicate(ctx):
-        return ctx.author.voice and ctx.author.voice.channel
-    return check(predicate)
 
-@in_voice_channel()
-@client.command()
-@commands.has_permissions(manage_messages=True)
-async def moveall(ctx, *, channel : discord.VoiceChannel, channelb : discord.VoiceChannel):
-    vc = ctx.author.voice.channel.members
-    for members in ctx.author.voice.channel.members:
-        await members.move_to(channel)
-        vc_users = ""
-        for vc_user in vc:
-            vc_users += '{},\n'.format(vc_user.mention)
-    embed=discord.Embed(title="Users moved to different channel", color=0xf85454)
-    embed.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://i.imgur.com/VtB4b8y.png")
-    embed.add_field(name="Users", value=f"{vc_users}", inline=True)
-    embed.add_field(name="Channel", value=f"{channel}", inline=True)
-    await ctx.send(embed=embed)
 
 # define-Feature by jcw05
 # https://github.com/joseywoermann                                     
-@client.command()
+@slash.slash(name="define",
+             description="Defines a word! Just kiddin'",
+             options=[
+                create_option(
+                 name="search_term",
+                 description="...",
+                 option_type=3,
+                 required=True
+                )])
 @commands.guild_only()
 async def define(ctx, *, search_term):
 
@@ -612,34 +837,34 @@ async def define(ctx, *, search_term):
     define_embed.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
     await ctx.send(embed=define_embed)
 
-# Question-Feature by jcw05
-# https://github.com/joseywoermann
-@client.command()
-@commands.guild_only()
-async def question(ctx, *, question):
-    response = ['Yes', 'No', 'Maybe', 'Probably', 'Probably not']
-    response_embed = discord.Embed(title="Question: \"" + str(question) + "\" Answer: " + str(random.choice(response)), color=0x1affbe)
-    response_embed.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
-    await ctx.send(embed=response_embed)
-
-@client.command(aliases = ['bing'])
-@commands.guild_only()
-async def google(ctx, *, search_term):
-
-    while ' ' in search_term:
-        search_term = search_term.replace(' ', '+')
-
-    await ctx.send("https://google.com/search?q=" + search_term)
-
-@client.command()
-@commands.is_owner()
-async def pr(ctx):
-    with open('tokens/presence.txt','r') as file:
-        dapresence = file.read()
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=dapresence))
-    await ctx.author.send('I updated the Presence :D')
-
-@client.command()
+@slash.slash(name="rps",
+             description="Rock Paper Scissors on Discord",
+             options=[
+               create_option(
+                 name="what",
+                 description="Rock, Paper or Scissors?",
+                 option_type=3,
+                 required=True,
+                 choices=[
+                  create_choice(
+                    name="rock",
+                    value="rock"
+                  ),
+                  create_choice(
+                    name="paper",
+                    value="paper"
+                  ),
+                  create_choice(
+                    name="scissors",
+                    value="scissors"
+                  ),
+                  create_choice(
+                    name="help",
+                    value="help"
+                  )
+                 ]
+               )
+               ])
 async def rps(ctx, what):
     if what == 'help':
         embed=discord.Embed(title="Rock paper scissors", description="Rock paper scissors (also known by other orderings of the three items, with rock sometimes being called stone, or as roshambo or ro-sham-bo)[1][2][3] is a hand game usually played between two people, in which each player simultaneously forms one of three shapes with an outstretched hand.")
@@ -648,28 +873,47 @@ async def rps(ctx, what):
         await ctx.send(embed=embed) 
     number = random.randint(0, 3)
                                      
-    whats = ["Rock", "Paper", "Scissors"]
+    whats = ["rock", "paper", "scissors"]
     for word in whats:
         if word == what:
             if number == 1:
-                a = 'Rock'
+                a = 'rock'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
+                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
+                embed.set_thumbnail(url=b)
+                embed.add_field(name=a, value="lol", inline=True)
+                await ctx.send(embed=embed)
             if number == 2:
-                a = 'Scissors'
+                a = 'scissors'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
+                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
+                embed.set_thumbnail(url=b)
+                embed.add_field(name=a, value="lol", inline=True)
+                await ctx.send(embed=embed)
             if number == 3:
-                a = 'Paper'
-                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-            embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
-            embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
-            embed.set_thumbnail(url=b)
-            embed.add_field(name=a, value="lol", inline=True)
-            await ctx.send(embed=embed)
+                a = 'paper'
+                b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png'
+                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
+                embed.set_thumbnail(url=b)
+                embed.add_field(name=a, value="lol", inline=True)
+                await ctx.send(embed=embed)
 
 
 # Short-Url-Feature by jcw05
 # https://github.com/joseywoermann
-@client.command()
+@slash.slash(name="short",
+             description="Makes an URL shorter with zerobot.ml",
+             options=[
+               create_option(
+                 name="long_url",
+                 description="example: https://zerobot.ml",
+                 option_type=3,
+                 required=True
+               )
+             ])
 async def short(ctx, long_url):
     with open('tokens/shortio.txt','r') as file:
         shortio_token = file.read()
@@ -690,16 +934,9 @@ async def short(ctx, long_url):
     short_embed = discord.Embed(title="Your short URL:", description=shorted_url, color=000000)
     await ctx.send(embed=short_embed)
 
-@client.command()
-async def changelog(ctx):
-    with open('tokens/changelog.txt','r') as file:
-        Changelog = file.read()
-    embed=discord.Embed(title="Changelog", description=Changelog, color=0x14c5c8)
-    embed.set_footer(text="Made by byZero#4840")
-    await ctx.send(embed=embed)
-
-@client.command(aliases=['stats'])
-async def botinfo(ctx):
+@slash.slash(name="stats",
+             description="Shows you some bot information")
+async def stats(ctx):
     appinfo = await client.application_info() 
     embed=discord.Embed(title="Bot-Information", color=0xff0582)
     embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
@@ -726,10 +963,11 @@ async def botinfo(ctx):
     embed.add_field(name="🖥 ROM", value=rom, inline=True)
     embed.add_field(name="🖥 Hoster", value=hoster, inline=True)
     embed.add_field(name="🖥 Hoster-Model", value=model, inline=True)   
-    embed.set_footer(text="Made by byZero#4840")
+    embed.set_footer(text="Made by byZero")
     await ctx.send(embed=embed)
 
-@client.command()
+@slash.slash(name="whereami",
+             description="Shows you some information about your location")
 async def whereami(ctx):
     embed=discord.Embed(title="Where am I?")
     embed.set_author(name=str(ctx.author), icon_url=str(ctx.author.avatar_url))
@@ -747,6 +985,76 @@ async def whereami(ctx):
     embed.add_field(name="Author-Icon", value=f"[here]({ctx.author.avatar_url})", inline=True)
     await ctx.send(embed=embed)
 
+@slash.slash(name="sendmsg",
+             description="Send a message",
+             options=[
+               create_option(
+                 name="who",
+                 description="just pick one",
+                 option_type=3,
+                 required=True,
+                 choices=[
+                  create_choice(
+                    name="owner",
+                    value="owner"
+                  ),
+                  create_choice(
+                    name="channel",
+                    value="channel"
+                  ),
+                  create_choice(
+                    name="everyone",
+                    value="everyone"
+                  )
+                 ]
+               ),
+               create_option(
+                name="id",
+                description="id",
+                option_type=3,
+                required=False
+               ),
+               create_option(
+                name="message",
+                description="message",
+                option_type=3,
+                required=False
+            )])
+@commands.is_owner()
+async def sendmsg(ctx, who, id, *, message):
+    if who == 'owner':
+        guild = client.get_guild(int(id))
+        await guild.owner.send(message)
+    if who == 'channel':
+        channel = client.get_channel(int(id))
+        await channel.send(message)
+    if who == 'everyone':
+        activeservers = client.guilds
+        for guild in activeservers:
+            await guild.owner.send(message)
+    await ctx.send("done")
+
+@slash.slash(name="whois",
+             description="Shows Information about Minecraft-Player",
+             options=[
+               create_option(
+                 name="name",
+                 description="example: byZero",
+                 option_type=3,
+                 required=True
+               )
+             ])
+async def whois(ctx, name):
+    response = requests.get(f'https://api.mojang.com/users/profiles/minecraft/{name}')
+
+
+    json_response = response.json()
+    uuid = json_response['id']
+    image = f"https://crafatar.com/avatars/{uuid}"
+    embed=discord.Embed(title=name, url="https://namemc.com/search?q={name}", description=f'UUID: {uuid} - Name-Changes: https://namemc.com/search?q={name}', color=0x3f3f3f)
+    embed.set_author(name="Who is:", icon_url=f'https://crafatar.com/renders/head/{uuid}')
+    embed.set_thumbnail(url=image)
+    await ctx.send(embed=embed)
 
 # Token-File located in /root/Bots/ZeroBot/tokens/token.txt
 with open('tokens/token.txt','r') as file:
