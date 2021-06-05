@@ -1,0 +1,205 @@
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="icon"
+        href="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png">
+    <meta property="og:image" id="eIcon"
+        content='https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png' />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#2a78f5">
+    <meta name="description" content="Thank you for inviting the bot!">
+    <title>ZeroBot</title>
+    <link href="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kooh1zokp9a.css" rel="stylesheet">
+    <style>
+        .xterm {
+            font-feature-settings: "liga"0;
+            position: relative;
+            user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .xterm.focus,
+        .xterm:focus {
+            outline: none;
+        }
+
+        .xterm .xterm-helpers {
+            position: absolute;
+            top: 0;
+            z-index: 5;
+        }
+
+        .xterm .xterm-helper-textarea {
+            position: absolute;
+            opacity: 0;
+            left: -9999em;
+            top: 0;
+            width: 0;
+            height: 0;
+            z-index: -5;
+            white-space: nowrap;
+            overflow: hidden;
+            resize: none;
+        }
+
+        .xterm .composition-view {
+            background: #000;
+            color: #FFF;
+            display: none;
+            position: absolute;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        .xterm .composition-view.active {
+            display: block;
+        }
+
+        .xterm .xterm-viewport {
+            background-color: #000;
+            overflow-y: scroll;
+            cursor: default;
+            position: absolute;
+            right: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .xterm .xterm-screen {
+            position: relative;
+        }
+
+        .xterm .xterm-screen canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .xterm .xterm-scroll-area {
+            visibility: hidden;
+        }
+
+        .xterm-char-measure-element {
+            display: inline-block;
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: -9999em;
+            line-height: normal;
+        }
+
+        .xterm {
+            cursor: text;
+        }
+
+        .xterm.enable-mouse-events {
+            cursor: default;
+        }
+
+        .xterm.xterm-cursor-pointer {
+            cursor: pointer;
+        }
+
+        .xterm.column-select.focus {
+            cursor: crosshair;
+        }
+
+        .xterm .xterm-accessibility,
+        .xterm .xterm-message {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+            color: transparent;
+        }
+
+        .xterm .live-region {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .xterm-dim {
+            opacity: 0.5;
+        }
+
+        .xterm-underline {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.chargebee.com/v2/animation.css" type="text/css">
+</head>
+
+<body style="background-color: rgb(18, 18, 18); overflow: hidden;"><noscript>Bitte akitviere JavaScript, um diese seite
+        zu benutzen!</noscript>
+    <div id="root">
+        <div class="wrapper">
+            <div class="scroll-bg block absolute"></div>
+            <div class="AppLayout__DefaultLayout">
+                <center><img class="rounded-lg"
+                        src="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png"
+                        width="84">
+                    <h3 class="mt-1 text-lg font-semibold text-indigo-500">ZeroBot</h3>
+                    <h1 class="text-2xl font-bold">Thank you for inviting the bot!</h1>
+                </center>
+
+            </div>
+        </div>
+    </div><a id="portal-button" href="javascript:void(0)" data-cb-type="portal" style="display:hidden"></a>
+
+    <div id="cb-container" style="position: fixed; inset: 0px; z-index: 2147483647; display: none; overflow-y: scroll;">
+        <div id="cb-loader"
+            style="z-index: 99999; visibility: hidden; transition: all 0.5s ease 0s; background: rgb(244, 245, 249); position: absolute; left: 0px; right: 0px; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 9px 0px, rgba(0, 0, 0, 0.15) 0px 20px 30px 1px, rgba(0, 0, 0, 0.15) 0px 40px 40px 1px;">
+            <div style="overflow: hidden;">
+                <div id="cb-loader-header"
+                    style="padding: 12px 40px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px; text-align: center; min-height: 64px; box-sizing: border-box;">
+                    <div style="min-height: 46px; display: flex; align-items: center; margin-top: 1px;"><img
+                            id="cb-header-logo"
+                            style="max-height: 40px; max-width: 240px; vertical-align: middle; width: auto; margin: 3px auto;">
+                    </div>
+                </div>
+                <div id="cb-loading-bar"
+                    style="height: 2px; background: rgb(72, 231, 154); transition-duration: 0.5s; transition-timing-function: ease-in-out; visibility: hidden;">
+                </div>
+                <div style="padding: 24px 36px;">
+                    <div class="cb-placeholder" id="cb-placeholder">
+                        <div class="wavering"
+                            style="height: 20px; width: 100px; background: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(221, 221, 221) 18%, rgb(238, 238, 238) 33%) 0% 0% / 800px 104px; margin-bottom: 10px;">
+                        </div>
+                        <div class="wavering"
+                            style="height: 40px; width: 200px; background: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(221, 221, 221) 18%, rgb(238, 238, 238) 33%) 0% 0% / 800px 104px; margin-bottom: 10px;">
+                        </div>
+                        <div class="wavering"
+                            style="height: 10px; width: 150px; background: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(221, 221, 221) 18%, rgb(238, 238, 238) 33%) 0% 0% / 800px 104px; margin-bottom: 10px;">
+                        </div>
+                        <div class="wavering"
+                            style="height: 10px; width: 150px; background: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(221, 221, 221) 18%, rgb(238, 238, 238) 33%) 0% 0% / 800px 104px; margin-bottom: 10px;">
+                        </div>
+                        <div class="wavering"
+                            style="height: 10px; width: 150px; background: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(221, 221, 221) 18%, rgb(238, 238, 238) 33%) 0% 0% / 800px 104px; margin-bottom: 10px;">
+                        </div>
+                    </div>
+                    <div id="cb-error"
+                        style="font-size: 18px; line-height: 27px; color: rgb(248, 48, 48); text-align: center; display: none;">
+                    </div>
+                </div>
+                <div id="cb-modal-close"
+                    style="position: absolute; background: rgb(57, 57, 65); height: 24px; width: 24px; border-radius: 50%; right: -12px; top: -12px; font-size: 20px; color: rgba(255, 255, 255, 0.7); text-align: center; cursor: pointer; display: table; font-weight: 400; line-height: 24px;">
+                    ×</div>
+            </div>
+        </div><iframe id="cb-frame"
+            style="width: 100%; height: 100%; z-index: 999999; visibility: hidden; position: relative; border: 0px;"></iframe><iframe
+            id="cb-master-frame" name="cb-master-frame"
+            src="https://js.chargebee.com/v2/master-ce25081991fa6ca202f1c312abc42fab.html#tixte.com"
+            style="margin: 0px; padding: 0px; border: none; overflow: hidden; display: block; min-width: 100%; width: 1px; height: 1.2em;"></iframe>
+    </div>
+</body>
+
+</html>
