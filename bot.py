@@ -7,6 +7,9 @@
 # _help
 # _s
 
+#Changelog:
+# - Made joinesandleaves log better
+
 # Code start's here:
 import discord
 import random
@@ -61,7 +64,7 @@ async def on_ready():
     print (firstprint)
     print (secondprint)
     change_status.start()
-    channel = client.get_channel(833599876721803274)
+    channel = client.get_channel(847777027885236235)
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
     embed.set_author(name="Restart", icon_url="https://cloud.0network.de/Discord/ZeroBot/restart/restart.gif")
     embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
@@ -83,7 +86,7 @@ async def change_status():
 # On Server Join
 @client.event
 async def on_guild_join(guild):
-    channel = client.get_channel(833599876721803274)
+    channel = client.get_channel(847777027885236235)
     embed=discord.Embed(title="I joined a new Server!", description=f"Name: '{guild}'")
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="What happended?", value="I JOINED A NEW SERVER YEAHHHHHHHHHHHHHHH", inline=False)
@@ -138,7 +141,8 @@ async def ping(ctx):
 # Hilfe-Command
 @client.command(aliases=['hilfe'])
 async def help(ctx):
-    embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on.")
+    embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on. The gif explains how to use a slash command.")
+    embed.set_image(url='https://cdn.tixte.com/uploads/zerobot.sucks-at.life/kp7xiel4w9a.gif')
     await ctx.send(embed=embed)
 
 # Hilfe-Command
@@ -157,23 +161,25 @@ async def on_message(message):
         with open('tokens/prefix.txt','r') as file:
             PREFIXFORCOMMANDS = file.read()
         if message.content.lower() == MENTION:
-                await message.channel.send("The Prefix is: `" + PREFIXFORCOMMANDS + "`")
+                await message.channel.send("The Prefix is: `/`")
                 
         # optimized "hello"-feature                
         hello_words = ["hallo", "moin", "servus", "hi"]
-        for word in hello_words:
-            if message.content.lower() == word:
-                number = random.randint(0, 5)
-                if number == 1:
-                    await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
-                if number == 2:
-                    await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
-                if number == 3:
-                    await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
-                if number == 4:
-                    await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
-                if number == 5:
-                    await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
+        
+        if message.guild.id == 728308958682415175:
+          for word in hello_words:
+              if message.content.lower() == word:
+                  number = random.randint(0, 5)
+                  if number == 1:
+                      await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
+                  if number == 2:
+                      await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
+                  if number == 3:
+                      await message.channel.send("https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558")
+                  if number == 4:
+                      await message.channel.send("https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140")
+                  if number == 5:
+                      await message.channel.send("https://tenor.com/view/hi-husky-hello-cute-gif-15361405")
        
         if client.user.mentioned_in(message):
             await message.add_reaction("👋")
@@ -207,7 +213,7 @@ async def on_message(message):
                     file_object.write("\n")
                     file_object.write("----------------------------------------")
                     msg = message
-                    channel = client.get_channel(833599876721803274)
+                    channel = client.get_channel(847777027885236235)
                     embed=discord.Embed(title=f"{message.content}")
                     embed.set_author(name=f"User: {str(message.author)} | {str(message.author.mention)}", icon_url=f"{message.author.avatar_url}")
                     embed.set_thumbnail(url=f"{message.guild.icon_url}")
@@ -264,7 +270,7 @@ async def on_slash_command(ctx):
                     file_object.write("\n")
                     file_object.write("----------------------------------------")
                     msg = ctx
-                    channel = client.get_channel(833599876721803274)
+                    channel = client.get_channel(847777027885236235)
                     embed=discord.Embed(title=f"/{ctx.command} {ctx.args}")
                     embed.set_author(name=f"User: {str(ctx.author)} | {str(ctx.author.mention)}", icon_url=f"{ctx.author.avatar_url}")
                     embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
@@ -313,7 +319,7 @@ async def kick(ctx, member : discord.Member, *, reason: str = None):
     embed=discord.Embed(title=f"Kicking {member}")
     embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await ctx.send(embed=embed)
-    channel = client.get_channel(833599876721803274)
+    channel = client.get_channel(847777027885236235)
     embed=discord.Embed(title=f"Kicking {member} on {ctx.guild.name}")
     embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await channel.send(embed=embed)
@@ -341,7 +347,7 @@ async def ban(ctx, member : discord.Member, *, reason: str = None):
     embed=discord.Embed(title=f"Banning {member}")
     embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await ctx.send(embed=embed)
-    channel = client.get_channel(833599876721803274)
+    channel = client.get_channel(847777027885236235)
     embed=discord.Embed(title=f"Banning {member} on {ctx.guild.name}")
     embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await channel.send(embed=embed)
@@ -535,7 +541,7 @@ async def unban(ctx, *, member):
             embed=discord.Embed(title=f"Unbanning {member}")
             embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
             await ctx.send(embed=embed)
-            channel = client.get_channel(833599876721803274)
+            channel = client.get_channel(847777027885236235)
             embed=discord.Embed(title=f"Unbanning {member} on {ctx.guild.name}")
             embed.set_image(url="https://cdn.tixte.com/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
             await channel.send(embed=embed)
@@ -755,12 +761,13 @@ async def rickroll(ctx, member : discord.Member):
 
 
 @client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRole):
-        await ctx.channel.purge(limit=1)
-        msg = await ctx.send('You don\'t have the role to perform this command! You should create the `Giveaways`-Role!')
-        await asyncio.sleep(20)
-        await msg.delete()
+async def on_slash_command_error(ctx, ex):
+  embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
+  await ctx.send(embed=embed)
+  channelembed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
+  channel = client.get_channel(847777027885236235)
+  await channel.send(embed=channelembed)
+
 
 @slash.slash(name="spam",
              description="you wanna spam?",
@@ -944,7 +951,7 @@ async def stats(ctx):
     embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
     embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)
     embed.add_field(name="📁Servers", value=f"`{len(client.guilds)}`", inline=True)
-    embed.add_field(name="📄 Commands", value=f"`{len(client.commands)}`", inline=True)
+    embed.add_field(name="📄 Commands", value=f"`{len(slash.commands)}`", inline=True)
     with open('tokens/stats/cpu.txt','r') as file:
         cpu = file.read()
     with open('tokens/stats/cpucores.txt','r') as file:
@@ -1055,6 +1062,60 @@ async def whois(ctx, name):
     embed.set_author(name="Who is:", icon_url=f'https://crafatar.com/renders/head/{uuid}')
     embed.set_thumbnail(url=image)
     await ctx.send(embed=embed)
+
+
+# Made possible by Evergene
+# https://evergene.io
+
+@slash.slash(name="image",
+             description="Image :D",
+             options=[
+               create_option(
+                 name="type",
+                 description="just pick one",
+                 option_type=3,
+                 required=True,
+                 choices=[
+                  create_choice(
+                    name="hug",
+                    value="hug"
+                  ),
+                  create_choice(
+                    name="aww so cute",
+                    value="aww"
+                  ),
+                  create_choice(
+                    name="cat",
+                    value="floof"
+                  )
+                 ]
+               )])
+async def image(ctx, type : str):
+  # Define {"requesturl"}
+  requesturl = f"https://evergene.io/api/{type}"
+
+  # Request:
+  response = requests.get(requesturl)
+  json_response = response.json()
+  imageurl = json_response['url']
+
+  # Message
+  embed=discord.Embed(title="Here you go:")
+  embed.set_image(url=imageurl)
+  await ctx.send(embed=embed)
+
+@slash.slash(name="meme",
+             description="Meme :D")
+async def meme(ctx):
+  # Request:
+  response = requests.get('https://evergene.io/api/memes/')
+  json_response = response.json()
+  imageurl = json_response['url']
+
+  # Message
+  embed=discord.Embed(title="Here you go:")
+  embed.set_image(url=imageurl)
+  await ctx.send(embed=embed)
 
 # Token-File located in /root/Bots/ZeroBot/tokens/token.txt
 with open('tokens/token.txt','r') as file:
