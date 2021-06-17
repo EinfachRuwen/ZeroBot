@@ -30,7 +30,7 @@ async def check_bot():
     filetodelete = "/www/index.html"
     if os.path.exists(filetodelete):
       os.remove(filetodelete) # one file at a time
-    with open(f"/www/index.html", "a+", encoding='utf-8') as file:
+    with open("/www/index.html", "a+", encoding='utf-8') as file:
       file.write("ZeroBot is running smoothly :D")
      
 

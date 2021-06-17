@@ -194,8 +194,8 @@ async def on_message(message):
                     embed=discord.Embed(title=f"{message.content}")
                     embed.set_author(name=f"User: {str(message.author)} | {str(message.author.mention)}", icon_url=f"{message.author.avatar_url}")
                     embed.set_thumbnail(url=f"{message.guild.icon_url}")
-                    embed.add_field(name=f"Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
-                    embed.add_field(name=f"Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
+                    embed.add_field(name="Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
+                    embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by `byZero#4840`")
                     await channel.send(embed=embed)
 
@@ -660,7 +660,7 @@ async def rps(ctx, what):
             if number == 3:
                 a = 'Paper'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png' 
-            embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+            embed=discord.Embed(title="Rock paper scissors", description="Just a funny game!")
             embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
             embed.set_thumbnail(url=b)
             embed.add_field(name=a, value="lol", inline=True)

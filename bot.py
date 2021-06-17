@@ -90,7 +90,7 @@ async def on_guild_join(guild):
     embed=discord.Embed(title="I joined a new Server!", description=f"Name: '{guild}'")
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="What happended?", value="I JOINED A NEW SERVER YEAHHHHHHHHHHHHHHH", inline=False)
-    embed.add_field(name=f"Information about the Server", value=f"{guild.name} - {guild.id} | Owner: {guild.owner.mention} | Region: {guild.region} | Member-Count: {guild.member_count}", inline=True)
+    embed.add_field(name="Information about the Server", value=f"{guild.name} - {guild.id} | Owner: {guild.owner.mention} | Region: {guild.region} | Member-Count: {guild.member_count}", inline=True)
     embed.set_footer(text="This is an automatic execution, should I join a new Server!")
     await channel.send(embed=embed)
 
@@ -217,8 +217,8 @@ async def on_message(message):
                     embed=discord.Embed(title=f"{message.content}")
                     embed.set_author(name=f"User: {str(message.author)} | {str(message.author.mention)}", icon_url=f"{message.author.avatar_url}")
                     embed.set_thumbnail(url=f"{message.guild.icon_url}")
-                    embed.add_field(name=f"Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
-                    embed.add_field(name=f"Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
+                    embed.add_field(name="Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
+                    embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
                     await channel.send(embed=embed)
 
@@ -274,8 +274,8 @@ async def on_slash_command(ctx):
                     embed=discord.Embed(title=f"/{ctx.command} {ctx.args}")
                     embed.set_author(name=f"User: {str(ctx.author)} | {str(ctx.author.mention)}", icon_url=f"{ctx.author.avatar_url}")
                     embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
-                    embed.add_field(name=f"Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
-                    embed.add_field(name=f"Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
+                    embed.add_field(name="Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
+                    embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
                     await channel.send(embed=embed)
 
@@ -886,7 +886,7 @@ async def rps(ctx, what):
             if number == 1:
                 a = 'rock'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rock-paper-scissors_%28rock%29.png/600px-Rock-paper-scissors_%28rock%29.png'
-                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed=discord.Embed(title="Rock paper scissors", description="Just a funny game!")
                 embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
                 embed.set_thumbnail(url=b)
                 embed.add_field(name=a, value="lol", inline=True)
@@ -894,7 +894,7 @@ async def rps(ctx, what):
             if number == 2:
                 a = 'scissors'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rock-paper-scissors_%28scissors%29.png/600px-Rock-paper-scissors_%28scissors%29.png'
-                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed=discord.Embed(title="Rock paper scissors", description="Just a funny game!")
                 embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
                 embed.set_thumbnail(url=b)
                 embed.add_field(name=a, value="lol", inline=True)
@@ -902,7 +902,7 @@ async def rps(ctx, what):
             if number == 3:
                 a = 'paper'
                 b = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Rock-paper-scissors_%28paper%29.png/600px-Rock-paper-scissors_%28paper%29.png'
-                embed=discord.Embed(title="Rock paper scissors", description=f"Just a funny game!")
+                embed=discord.Embed(title="Rock paper scissors", description="Just a funny game!")
                 embed.set_author(name=str(ctx.author), url=ctx.author.avatar_url)
                 embed.set_thumbnail(url=b)
                 embed.add_field(name=a, value="lol", inline=True)
