@@ -1,0 +1,381 @@
+[33mcommit 23179faa3e0761e6ee2d44fb8453953486b7a3fa[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue Jun 15 21:15:57 2021 +0200
+
+    Create CNAME
+
+[33mcommit 1ce2ad9d1551698f4ab0eea30f493e7c7ed26027[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue Jun 15 21:13:30 2021 +0200
+
+    Update index.html
+
+[33mcommit 7d71819ba8ea6ea2ecd7a44374b8add234a158fc[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue Jun 15 21:12:40 2021 +0200
+
+    Set theme jekyll-theme-cayman
+
+[33mcommit c2962b347f0102bc73025dc37c7a2513144c7fdf[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue Jun 15 21:12:15 2021 +0200
+
+    rename
+
+[33mcommit da80aede4359934e237af3e13efcef7cc83debde[m[33m ([m[1;31morigin/Website[m[33m)[m
+Author: byZeroOfficial <byzero@zer0network.xyz>
+Date:   Sat Jun 5 18:43:13 2021 +0200
+
+    added website
+
+[33mcommit dfcece228df159bd2b98d52eafaccc4427de3528[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Mon May 31 19:53:31 2021 +0200
+
+    Update README.md
+
+[33mcommit bbb9d91da205b0a03015c64488f4f18bc10f9d19[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu May 27 20:38:09 2021 +0200
+
+    Support for Slash Commands :D
+    
+    The ZeroBot now supports slash commands, so you don't need a help menu anymore, and everything is a lot easier.
+
+[33mcommit 046391ae191df6e647cc09e2b3d8a21a0b09e5bf[m[33m ([m[1;33mtag: 2.1.2[m[33m)[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:21:57 2021 +0200
+
+    Update status.py
+
+[33mcommit 3be3ea0d05b352ee460120d869c5c8b5519691a7[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:19:00 2021 +0200
+
+    :o
+
+[33mcommit 6385b462d4f1aac8f66b26c41f5df20f8d54552f[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:14:35 2021 +0200
+
+    pp
+
+[33mcommit 4c105c3f9e8cfad7e0faa1cd03d28442ee0fcfdd[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:11:45 2021 +0200
+
+    Revert "tt"
+    
+    This reverts commit 971740e36f0e932c82ea393b622af0558cd5f52c.
+
+[33mcommit 7f246a187e28f64e9f996a5c70f8fa0e9bbbc95d[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:11:34 2021 +0200
+
+    Revert "Revert "made sftp and folder sorting easier""
+    
+    This reverts commit 761ab71acb9cf07697190511504ca5e034e4e640.
+
+[33mcommit 971740e36f0e932c82ea393b622af0558cd5f52c[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:10:01 2021 +0200
+
+    tt
+
+[33mcommit a4574f86af3bfd8de18b5db12f78861f5501327a[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 14:07:55 2021 +0200
+
+    Delete logs directory
+
+[33mcommit 88deb72becf60418dd2ac69de52ea17ce6ccc0a0[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:53:50 2021 +0200
+
+    Revert "Delete logs directory"
+    
+    This reverts commit a8343cd0f7e0fb7a648cbc9da5058923358cc33e.
+
+[33mcommit 761ab71acb9cf07697190511504ca5e034e4e640[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:51:27 2021 +0200
+
+    Revert "made sftp and folder sorting easier"
+    
+    This reverts commit b81490d8f03c7be3bcd9f83825d41b90d59d7481.
+
+[33mcommit 06319997fe034d6cdf93f3f97d370efac7053eb0[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:48:15 2021 +0200
+
+    Update .gitignore
+
+[33mcommit e2b8bea1ff217b217bc6adcdb8f61779f84ef150[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:45:11 2021 +0200
+
+    Update .gitignore
+
+[33mcommit a8343cd0f7e0fb7a648cbc9da5058923358cc33e[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:44:02 2021 +0200
+
+    Delete logs directory
+
+[33mcommit 424816ad2600102eef88049936c26e938199c45f[m
+Merge: b81490d 485cdda
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:42:56 2021 +0200
+
+    Merge branch 'main' of https://github.com/byZeroOfficial/ZeroBot into main
+
+[33mcommit b81490d8f03c7be3bcd9f83825d41b90d59d7481[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:42:31 2021 +0200
+
+    made sftp and folder sorting easier
+
+[33mcommit 485cddaf2d1f50da94f4676dbda6095c331ace5b[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:27:23 2021 +0200
+
+    Update .gitignore
+
+[33mcommit d3eb4e8eaf94600a8f70ace246ef47ae45e4a6e8[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:16:35 2021 +0200
+
+    just fixed a few mistakes and made more mistakes xD
+
+[33mcommit 8a4780fce2344a8fc97a6ce0b8842b832a60b26f[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:07:59 2021 +0200
+
+    Delete Versions/1.0 (Release) directory
+
+[33mcommit 1725156d8cb8b3c926eb13f7e248f28ade0f9fba[m
+Author: zerobot-issues <80175118+zerobot-issues@users.noreply.github.com>
+Date:   Tue May 18 13:05:41 2021 +0200
+
+    Add files via upload
+
+[33mcommit 4ce33e5193ad7a01c231dff187d37d299f85a24c[m
+Merge: df204b3 696349f
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Tue May 18 13:01:23 2021 +0200
+
+    Merge pull request #21 from joseywoermann/main
+    
+    Fixed spelling- / grammar mistakes and optimized the code.
+
+[33mcommit 696349f3f8151caa2ff3bbfa6b9de5c721d75b83[m
+Author: Josey C. Wörmann <jcw05@gmx.de>
+Date:   Tue May 18 11:22:28 2021 +0200
+
+    fixed typo
+
+[33mcommit f04fbc5f4272f3671a1259d70f648012be110cef[m
+Author: Josey C. Wörmann <jcw05@gmx.de>
+Date:   Tue May 18 11:11:19 2021 +0200
+
+    removed duplicate code
+
+[33mcommit cb35ad04bd87d359fcf2d6e486750873336b57f7[m
+Author: Josey C. Wörmann <jcw05@gmx.de>
+Date:   Tue May 18 11:03:17 2021 +0200
+
+    optimized the "hello"-feature
+    
+    made it more efficient
+
+[33mcommit 6c3393c56065d33889bfd9746bfb161f919737eb[m
+Author: Josey C. Wörmann <jcw05@gmx.de>
+Date:   Tue May 18 10:59:41 2021 +0200
+
+    fixed more spelling mistakes & grammar
+
+[33mcommit 838ef2e58caaea6dda83f94365d2d9902c2190b7[m
+Author: Josey C. Wörmann <jcw05@gmx.de>
+Date:   Tue May 18 10:52:32 2021 +0200
+
+    fixed spelling mistakes and grammar until line 250
+
+[33mcommit df204b30a2b53af5ce6c95b916167554f71c26ae[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 20:21:34 2021 +0200
+
+    Update README.md
+
+[33mcommit 5f58c8352b993cd97fbcda52ba39f11753cf9925[m[33m ([m[1;33mtag: 2.0[m[33m)[m
+Merge: c80b862 b808925
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 20:15:44 2021 +0200
+
+    Merge branch 'main' of https://github.com/byZeroOfficial/ZeroBot into main
+
+[33mcommit c80b862a8422a8e02369d838716a769d76740084[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 20:15:32 2021 +0200
+
+    I made the bot public :D
+    
+    YEAHHHHHHHHHH FINALLY
+
+[33mcommit b8089256011b91a3a6c8d4dc92692824cda98252[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 20:11:40 2021 +0200
+
+    Update README.md
+
+[33mcommit d62bf42c733f904f25e2f64317e1bc3af2fe232a[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 19:58:18 2021 +0200
+
+    just a few changes
+
+[33mcommit 06902f0b8803616c42cfe341872bed3aa796772c[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 19:56:39 2021 +0200
+
+    Create version.txt
+
+[33mcommit 35eb1c5b1e467e506d547d91370728053b6d2cf0[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 19:55:12 2021 +0200
+
+    Changed the Folder-Sort-Thing xD
+
+[33mcommit bbaa3fd4039b618575acbdd817d261f2c6b372c6[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Fri May 14 17:59:00 2021 +0200
+
+    Update README.md
+
+[33mcommit a9133c4716e49ae8fa909ba5f77b0012fcc5a117[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Apr 14 15:20:56 2021 +0200
+
+    Create sd.py
+
+[33mcommit a8a374e0363fa493fd20f6b9780daf0a1ca1b207[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 14:12:10 2021 +0100
+
+    Create codeql-analysis.yml
+
+[33mcommit b31e9a9335db901e50e53f46edd9dbd7218e28d7[m
+Merge: 1f30203 a85ff6c
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:04:03 2021 +0100
+
+    Merge pull request #11 from byZeroOfficial/add-license-1
+    
+    Create LICENSE
+
+[33mcommit a85ff6ccd6cf91481e2d29b86f771a05bd339a35[m[33m ([m[1;31morigin/add-license-1[m[33m)[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:03:41 2021 +0100
+
+    Create LICENSE
+
+[33mcommit 1f30203f29dca8e2ba4b337d8876c094428bef19[m[33m ([m[1;33mtag: 1[m[33m)[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:02:35 2021 +0100
+
+    Add files via upload
+
+[33mcommit 1e1be83aa0e6a5bc650d08e3142162d99e96a942[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:00:32 2021 +0100
+
+    Delete bot.txt
+
+[33mcommit 4bc8bb296b6875446e3fcbd502a10cb1d3d00314[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:00:18 2021 +0100
+
+    Delete requirements.txt
+
+[33mcommit fa1b2e06a47ac53482e9afec426eb1bdc9dc4725[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 12:00:10 2021 +0100
+
+    Delete bot.py
+
+[33mcommit 5ead9d5e256879951859acc89dd852011fdd763c[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 11:59:54 2021 +0100
+
+    Delete tokens directory
+
+[33mcommit 9667688819a30b9a544386e93cf936928a5a8738[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 11:59:21 2021 +0100
+
+    Add files via upload
+
+[33mcommit 247206af35f8a902e497b7e69cf2bad87f8f0030[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 11:57:23 2021 +0100
+
+    Create .gitignore
+
+[33mcommit d60f40f736959119af61135b3f9238cfb83625db[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Thu Mar 11 11:53:33 2021 +0100
+
+    Create FUNDING.yml
+
+[33mcommit 90389ce2f67b1a95cddc26144da610ec5f6ad834[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:58:02 2021 +0100
+
+    Create admin.md
+
+[33mcommit 9da3bca3c54ace3026f289c1ac60ebd1aef0fb5a[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:54:01 2021 +0100
+
+    Update fun.md
+
+[33mcommit 0691d722617679c2425e93e4eb1bb1125abcfd4c[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:51:37 2021 +0100
+
+    Update moderator.md
+
+[33mcommit cc6cf92fe332a23430c0b2fb2db0170b9f0e32b1[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:48:26 2021 +0100
+
+    Update general.md
+
+[33mcommit 5be36de34642ac391effabdac1cfaee5bee5c19f[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:40:55 2021 +0100
+
+    Update general.md
+
+[33mcommit 93406edceb9ab65a0d2db34757fa2c9707b61c22[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Wed Mar 10 16:14:36 2021 +0100
+
+    Added a help command
+
+[33mcommit b9f8a6c6de0f8feedc5e4615ebd1ce11768029fd[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Sat Mar 6 20:26:28 2021 +0100
+
+    Update issue templates
+
+[33mcommit 76543a4ce08641bcb2d27bfc4b66d1a7707db39e[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Sat Mar 6 20:21:42 2021 +0100
+
+    Update README.md
+
+[33mcommit 26da31e1d82d102c2ef36cfcbd055128f5a26b61[m
+Author: byZeroOfficial <76685126+byZeroOfficial@users.noreply.github.com>
+Date:   Sat Mar 6 20:19:55 2021 +0100
+
+    Initial commit

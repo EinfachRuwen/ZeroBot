@@ -714,7 +714,7 @@ async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str):
     users.pop(users.index(client.user))
     for i in range(winners):
         member = random.choice(users)
-        users.pop(member)
+        users.pop(users.index(member))
         await channel.send(member.mention)
         embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
         embed.set_thumbnail(url="https://byzero.is-inside.me/a8XarhZG.gif")
