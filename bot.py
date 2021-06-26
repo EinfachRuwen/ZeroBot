@@ -685,22 +685,6 @@ async def commandclear(ctx):
                  required=True
                 ),
                 create_option(
-                name="same winner",
-                description="can someone win twice?",
-                option_type=3,
-                required=True,
-                 choices=[
-                  create_choice(
-                    name="nope",
-                    value=False
-                  ),
-                  create_choice(
-                    name="yesss, ofc",
-                    value=True
-                  )
-                 ]
-                ),
-                create_option(
                  name="winners",
                  description="Possible Winners",
                  option_type=4,
@@ -708,7 +692,7 @@ async def commandclear(ctx):
                 )
              ])
 @commands.has_role('Giveaways')
-async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str, multiplewinners):
+async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str):
     await ctx.send('Giveaway is starting...')
     await asyncio.sleep(1)
     await ctx.channel.purge(limit=1)
@@ -730,12 +714,8 @@ async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str, mu
     users.pop(users.index(client.user))
     for i in range(winners):
         member = random.choice(users)
-
-        # Allow and Disallow Multiple Winners
-        if multiplewinners == False:
-          users.pop(users.index(member))
+        users.pop(users.index(member))
         await channel.send(member.mention)
-        
         embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
         embed.set_thumbnail(url="https://byzero.is-inside.me/a8XarhZG.gif")
         embed.add_field(name="Winner:", value=member.mention + f"You have won {prize}!", inline=True)
