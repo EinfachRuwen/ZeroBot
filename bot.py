@@ -221,6 +221,7 @@ async def on_message(message):
                     embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
                     await channel.send(embed=embed)
+                    print(f"{str(message.author)} used \"{message.content}\"")
 
                     
                 with open('tokens/prefix.txt','r') as file:
@@ -278,6 +279,7 @@ async def on_slash_command(ctx):
                     embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Region: {msg.guild.region} | Member-Count: {msg.guild.member_count}", inline=True)
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
                     await channel.send(embed=embed)
+                    print(f"{str(ctx.author)} used \"/{ctx.command}\"")
 
 @slash.slash(name="clear",
              description="Deletes messages from a channel",
