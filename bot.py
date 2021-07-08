@@ -718,7 +718,7 @@ async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str):
         await channel.send(member.mention)
         embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
         embed.set_thumbnail(url="https://byzero.is-inside.me/a8XarhZG.gif")
-        embed.add_field(name="Winner:", value=member.mention + f"You have won {prize}!", inline=True)
+        embed.add_field(name="Winner:", value=member.mention + f" You have won {prize}!", inline=True)
         embed.set_footer(text="Coded by byZero")
         await channel.send(embed=embed)
 
