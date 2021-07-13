@@ -773,7 +773,7 @@ async def on_slash_command_error(ctx, ex):
   elif exstr == "list index out of range":
     embed=discord.Embed(title="There is no winner")
     embed.set_thumbnail(url="http://static.skaip.org/img/emoticons/180x180/f6fcff/cry.gif")
-    embed.add_field(name="It looks like nobody entered the giveaway.", inline=True)
+    embed.add_field(name="It looks like nobody entered the giveaway.", value=":(", inline=True)
     embed.set_footer(text="Coded by byZero")
     await ctx.send(embed=embed)
   else:
