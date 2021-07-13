@@ -765,11 +765,21 @@ async def rickroll(ctx, member : discord.Member):
 
 @client.event
 async def on_slash_command_error(ctx, ex):
-  embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
-  await ctx.send(embed=embed)
-  channelembed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
-  channel = client.get_channel(847777027885236235)
-  await channel.send(embed=channelembed)
+  if ex == "Role 'Giveaways' is required to run this command.":
+    error = 'This error can occur for 2 reasons:\n1. You need to create a role called "Giveaways" and give it to everyone who is allowed to create giveaways.\n2. You are not allowed to create giveaways because you do not have the "Giveaways" role.'
+    embed = discord.Embed(title = "Error", description = f"```\n{error}```", color = discord.Color.red())
+  elif ex == "list index out of range":
+    embed=discord.Embed(title="There is no winner")
+    embed.set_thumbnail(url="http://static.skaip.org/img/emoticons/180x180/f6fcff/cry.gif")
+    embed.add_field(name="It looks like nobody entered the giveaway.", inline=True)
+    embed.set_footer(text="Coded by byZero")
+    await ctx.send(embed=embed)
+  else:
+    embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.red())
+    await ctx.send(embed=embed)
+    channelembed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
+    channel = client.get_channel(847777027885236235)
+    await channel.send(embed=channelembed)
 
 
 @slash.slash(name="spam",
