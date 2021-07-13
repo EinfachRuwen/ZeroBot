@@ -769,6 +769,7 @@ async def on_slash_command_error(ctx, ex):
   if exstr == "Role 'Giveaways' is required to run this command.":
     error = 'This error can occur for 2 reasons:\n1. You need to create a role called "Giveaways" and give it to everyone who is allowed to create giveaways.\n2. You are not allowed to create giveaways because you do not have the "Giveaways" role.'
     embed = discord.Embed(title = "Error", description = f"```\n{error}```", color = discord.Color.red())
+    await ctx.send(embed=embed)
   elif exstr == "list index out of range":
     embed=discord.Embed(title="There is no winner")
     embed.set_thumbnail(url="http://static.skaip.org/img/emoticons/180x180/f6fcff/cry.gif")
