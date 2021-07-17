@@ -34,6 +34,7 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_option, create_choice
 from requests.api import options
 import statcord
+import asteval
 
 intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
 with open('tokens/prefix.txt','r') as file:
@@ -1181,36 +1182,6 @@ async def weather(ctx, location):
   # Made by GitHub Copilot with so much luv <3
   # This Text above is also written by Github Copilot, lol
   # https://copilot.github.com
-
-# Calculator Command
-@slash.slash(name="calc",
-             description="A Simple Calculator :D",
-             options=[
-               create_option(
-                 name="expression",
-                 description="Example: 2+2",
-                 option_type=3,
-                 required=True
-               )])
-async def calculator(ctx, expression):
-    # Parse the expression to be able to use it in the eval function
-  expression = expression.replace(" ", "")
-  expression = expression.replace("+", " + ")
-  expression = expression.replace("-", " - ")
-  expression = expression.replace("*", " * ")
-  expression = expression.replace("/", " / ")
-  expression = expression.replace("^", " ** ")
-  expression = expression.replace("(", " ( ")
-  expression = expression.replace(")", " ) ")
-
-  # Evaluate the expression to get the result
-  result = eval(expression)
-
-  # Message
-  embed=discord.Embed(title=f"Result: {result}", color=0x3f3f3f)
-  embed.add_field(name="Expression", value=f"{expression}", inline=True)
-  embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
-  await ctx.send(embed=embed)
 
 
 # Token-File located in /root/Bots/ZeroBot/tokens/token.txt
