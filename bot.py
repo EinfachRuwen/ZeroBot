@@ -776,6 +776,12 @@ async def on_slash_command_error(ctx, ex):
     embed.add_field(name="It looks like nobody entered the giveaway.", value=":(", inline=True)
     embed.set_footer(text="Coded by byZero")
     await ctx.send(embed=embed)
+  elif exstr == "division by zero":
+    embed=discord.Embed(title=f"Result: Error", color=0x3f3f3f)
+    embed.add_field(name="Error:", value=f"I THINK I GOT BRAIN DAMAGE", inline=False)
+    embed.add_field(name="sowwy", value="i am so sowwyyyyyyyyyyyyyyyyyyyyy", inline=False)
+    embed.set_thumbnail(url="https://pbs.twimg.com/media/EO8FFOpX0AAyt1W.jpg")
+    await ctx.send(embed=embed)
   else:
     embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.red())
     await ctx.send(embed=embed)
@@ -1131,6 +1137,81 @@ async def meme(ctx):
   embed=discord.Embed(title="Here you go:")
   embed.set_image(url=imageurl)
   await ctx.send(embed=embed)
+
+# Command that sends the Weather for a specific location
+@slash.slash(name="weather",
+             description="Weather for a specific location",
+             options=[
+               create_option(
+                 name="location",
+                 description="example: London",
+                 option_type=3,
+                 required=True
+               )
+             ])
+async def weather(ctx, location):
+  # Request:
+  # Open the file ./tokens/weather.txt and read the token and set it as weather_api_key
+  with open('./tokens/weather.txt', 'r') as file:
+    weather_api_key = file.read()
+  response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={location}&appid={weather_api_key}')
+  json_response = response.json()
+  temp = json_response['main']['temp']
+  temp = round(temp - 273.15)
+  weather = json_response['weather'][0]['main']
+  icon = json_response['weather'][0]['icon']
+  wind = json_response['wind']['speed']
+  humidity = json_response['main']['humidity']
+  pressure = json_response['main']['pressure']
+  cloud_cover = json_response['clouds']['all']
+  city = json_response['name']
+  country = json_response['sys']['country']
+
+  # Message
+  embed=discord.Embed(title=f"Weather in {city}, {country}", color=0x3f3f3f)
+  embed.set_thumbnail(url=f"http://openweathermap.org/img/wn/{icon}@4x.png")
+  embed.add_field(name="Temperature", value=f"{temp}°C", inline=True)
+  embed.add_field(name="Weather", value=f"{weather}", inline=True)
+  embed.add_field(name="Wind", value=f"{wind}m/s", inline=True)
+  embed.add_field(name="Humidity", value=f"{humidity}%", inline=True)
+  embed.add_field(name="Pressure", value=f"{pressure}hPa", inline=True)
+  embed.add_field(name="Cloud Cover", value=f"{cloud_cover}%", inline=True)
+  embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
+  await ctx.send(embed=embed)
+  # Made by GitHub Copilot with so much luv <3
+  # This Text above is also written by Github Copilot, lol
+  # https://copilot.github.com
+
+# Calculator Command
+@slash.slash(name="calc",
+             description="A Simple Calculator :D",
+             options=[
+               create_option(
+                 name="expression",
+                 description="Example: 2+2",
+                 option_type=3,
+                 required=True
+               )])
+async def calculator(ctx, expression):
+    # Parse the expression to be able to use it in the eval function
+  expression = expression.replace(" ", "")
+  expression = expression.replace("+", " + ")
+  expression = expression.replace("-", " - ")
+  expression = expression.replace("*", " * ")
+  expression = expression.replace("/", " / ")
+  expression = expression.replace("^", " ** ")
+  expression = expression.replace("(", " ( ")
+  expression = expression.replace(")", " ) ")
+
+  # Evaluate the expression to get the result
+  result = eval(expression)
+
+  # Message
+  embed=discord.Embed(title=f"Result: {result}", color=0x3f3f3f)
+  embed.add_field(name="Expression", value=f"{expression}", inline=True)
+  embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
+  await ctx.send(embed=embed)
+
 
 # Token-File located in /root/Bots/ZeroBot/tokens/token.txt
 with open('tokens/token.txt','r') as file:
