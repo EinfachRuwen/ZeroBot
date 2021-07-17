@@ -34,7 +34,6 @@ from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_option, create_choice
 from requests.api import options
 import statcord
-import asteval
 
 intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
 with open('tokens/prefix.txt','r') as file:
