@@ -94,6 +94,17 @@ async def on_guild_join(guild):
     embed.set_footer(text="This is an automatic execution, should I join a new Server!")
     await channel.send(embed=embed)
 
+# Make an Event for on_guild_leave and send the same Message as on on_guild_join but make some changes to the embed
+@client.event
+async def on_guild_remove(guild):
+    channel = client.get_channel(847777027885236235)
+    embed=discord.Embed(title="I left a Server!", description=f"Name: '{guild}'")
+    embed.set_thumbnail(url=f"{guild.icon_url}")
+    embed.add_field(name="What happended?", value="I LEFT A SERVER NOOOOOOOOOOOOOOOOOOO", inline=False)
+    embed.add_field(name="Information about the Server", value=f"{guild.name} - {guild.id} | Owner: {guild.owner.mention} | Region: {guild.region} | Member-Count: {guild.member_count}", inline=True)
+    embed.set_footer(text="This is an automatic execution, should I leave a Server!")
+    await channel.send(embed=embed)
+
 @slash.slash(name="invite",
              description="Shows the invite link!")
 async def invite(ctx):
