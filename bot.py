@@ -603,25 +603,6 @@ async def pickrandom(ctx, number):
         embed=discord.Embed(title="I picked: " + (str(dice_result)))
         await ctx.send(embed=embed)
 
-@slash.slash(name="crash",
-             description="404! No information found.")
-async def crash(ctx):
-    crash_message = random.randint(1, 5)
-    if crash_message == 1:
-        await ctx.send('Crash yourself')
-
-    if crash_message == 2:
-        await ctx.send('I am not an old MS-DOS, I won\'t crash if you click a button. Look at yourself, maybe you can find an accordance between you and MS-DOS.')
-
-    if crash_message == 3:
-        await ctx.send('Error 176: This API-Request could not be send. Please try again later.')
-
-    if crash_message == 4:
-        await ctx.send('Crash yourself - TRASH yourself! I got a recycle bin on my desktop.')
-
-    if crash_message == 5:
-        await ctx.send('Why do you want me to crash? I won\'t do that until you tell me a reason for this.')
-
 
 # Create Issue-Feature by jcw05
 # https://github.com/joseywoermann
