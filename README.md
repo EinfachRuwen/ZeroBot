@@ -18,7 +18,7 @@
 Visit https://zerobot.ml/invite and invite the bot to your server.
 
 ## Support
-https://zerobot.ml/support
+Visit: https://zerobot.ml/support
 
 ## Author
 
