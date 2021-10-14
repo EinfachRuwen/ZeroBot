@@ -64,7 +64,7 @@ async def on_ready():
     print (firstprint)
     print (secondprint)
     change_status.start()
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
     embed.set_author(name="Restart", icon_url="https://web.zerobot.ml/data/restart/restart.gif")
     embed.set_thumbnail(url="https://web.zerobot.ml/data/ZeroBot.png")
@@ -86,7 +86,7 @@ async def change_status():
 # On Server Join
 @client.event
 async def on_guild_join(guild):
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title="I joined a new Server!", description=f"Name: '{guild}'")
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="What happended?", value="I JOINED A NEW SERVER YEAHHHHHHHHHHHHHHH", inline=False)
@@ -97,7 +97,7 @@ async def on_guild_join(guild):
 # Make an Event for on_guild_leave and send the same Message as on on_guild_join but make some changes to the embed
 @client.event
 async def on_guild_remove(guild):
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title="I left a Server!", description=f"Name: '{guild}'")
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="What happended?", value="I LEFT A SERVER NOOOOOOOOOOOOOOOOOOO", inline=False)
@@ -224,7 +224,7 @@ async def on_message(message):
                     file_object.write("\n")
                     file_object.write("----------------------------------------")
                     msg = message
-                    channel = client.get_channel(847777027885236235)
+                    channel = client.get_channel(879054620838748192)
                     embed=discord.Embed(title=f"{message.content}")
                     embed.set_author(name=f"User: {str(message.author)} | {str(message.author.mention)}", icon_url=f"{message.author.avatar_url}")
                     embed.set_thumbnail(url=f"{message.guild.icon_url}")
@@ -282,7 +282,7 @@ async def on_slash_command(ctx):
                     file_object.write("\n")
                     file_object.write("----------------------------------------")
                     msg = ctx
-                    channel = client.get_channel(847777027885236235)
+                    channel = client.get_channel(879054620838748192)
                     embed=discord.Embed(title=f"/{ctx.command} {ctx.args}")
                     embed.set_author(name=f"User: {str(ctx.author)} | {str(ctx.author.mention)}", icon_url=f"{ctx.author.avatar_url}")
                     embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
@@ -332,7 +332,7 @@ async def kick(ctx, member : discord.Member, *, reason: str = None):
     embed=discord.Embed(title=f"Kicking {member}")
     embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await ctx.send(embed=embed)
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Kicking {member} on {ctx.guild.name}")
     embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
     await channel.send(embed=embed)
@@ -360,7 +360,7 @@ async def ban(ctx, member : discord.Member, *, reason: str = None):
     embed=discord.Embed(title=f"Banning {member}")
     embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await ctx.send(embed=embed)
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Banning {member} on {ctx.guild.name}")
     embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koota42pn9a.gif")
     await channel.send(embed=embed)
@@ -554,7 +554,7 @@ async def unban(ctx, *, member):
             embed=discord.Embed(title=f"Unbanning {member}")
             embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
             await ctx.send(embed=embed)
-            channel = client.get_channel(847777027885236235)
+            channel = client.get_channel(879054620838748192)
             embed=discord.Embed(title=f"Unbanning {member} on {ctx.guild.name}")
             embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
             await channel.send(embed=embed)
@@ -778,7 +778,7 @@ async def on_slash_command_error(ctx, ex):
     embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.red())
     await ctx.send(embed=embed)
     channelembed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.green())
-    channel = client.get_channel(847777027885236235)
+    channel = client.get_channel(879054620838748192)
     await channel.send(embed=channelembed)
 
 
