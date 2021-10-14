@@ -66,8 +66,8 @@ async def on_ready():
     change_status.start()
     channel = client.get_channel(847777027885236235)
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
-    embed.set_author(name="Restart", icon_url="https://cloud.0network.de/Discord/ZeroBot/restart/restart.gif")
-    embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
+    embed.set_author(name="Restart", icon_url="https://web.zerobot.ml/data/restart/restart.gif")
+    embed.set_thumbnail(url="https://web.zerobot.ml/data/ZeroBot.png")
     embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me.", inline=False)
     embed.set_footer(text="This is an automatic execution, should the bot ever restart.")
     await channel.send(embed=embed)
@@ -566,7 +566,7 @@ async def dice(ctx):
         dice_result = random.randint(1, 6)
                                      
         embed=discord.Embed(title="The dice whispered to me:")
-        embed.set_thumbnail(url=f"https://cloud.0network.de/Discord/ZeroBot/Dice/{dice_result}.png")
+        embed.set_thumbnail(url=f"https://web.zerobot.ml/data/Dice/{dice_result}.png")
                                      
         if dice_result == 1:
             embed.add_field(name="1", value="That's not much :O", inline=False)
@@ -959,7 +959,7 @@ async def short(ctx, long_url):
 async def stats(ctx):
     appinfo = await client.application_info() 
     embed=discord.Embed(title="Bot-Information", color=0xff0582)
-    embed.set_thumbnail(url="https://cloud.0network.de/Discord/ZeroBot/ZeroBot.png")
+    embed.set_thumbnail(url="https://web.zerobot.ml/data/ZeroBot.png")
     embed.add_field(name="📄 Name", value="ZeroBot", inline=True)
     embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
     embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)
