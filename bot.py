@@ -289,7 +289,7 @@ async def on_slash_command(ctx):
                     embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
                     embed.add_field(name="Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
                     embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Member-Count: {msg.guild.member_count}", inline=True)
-                    embed.add_field(name="Message", value=f"URL to message: `{msg.jump_url}` ({msg.jump_url})")
+                    embed.add_field(name="Message", value=f"URL to message: `{ctx.jump_url}` ({ctx.jump_url})")
                     embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
                     await channel.send(embed=embed)
                     print(f"{str(ctx.author)} used \"/{ctx.command}\"")
