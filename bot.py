@@ -153,7 +153,7 @@ async def ping(ctx):
 @client.command(aliases=['hilfe'])
 async def help(ctx):
     embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on. The gif explains how to use a slash command.")
-    embed.set_image(url='https://us.tixte.net/uploads/zerobot.sucks-at.life/kp7xiel4w9a.gif')
+    embed.set_image(url='https://web.zerobot.ml/data/kp7xiel4w9a.gif')
     await ctx.send(embed=embed)
 
 # Hilfe-Command
@@ -332,11 +332,11 @@ async def kick(ctx, member : discord.Member, *, reason: str = None):
     await member.kick(reason=reason)
     print (f'Yea, so I just kicked {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Kicking {member}")
-    embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
+    embed.set_image(url="https://web.zerobot.ml/data/kootf9omu9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Kicking {member} on {ctx.guild.name}")
-    embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/kootf9omu9a.gif")
+    embed.set_image(url="https://web.zerobot.ml/data/kootf9omu9a.gif")
     await channel.send(embed=embed)
 
 @slash.slash(name="ban",
@@ -360,11 +360,11 @@ async def ban(ctx, member : discord.Member, *, reason: str = None):
     await member.ban(reason=reason)
     print (f'Yea, so I just banned {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Banning {member}")
-    embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koota42pn9a.gif")
+    embed.set_image(url="https://web.zerobot.ml/data/koota42pn9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Banning {member} on {ctx.guild.name}")
-    embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koota42pn9a.gif")
+    embed.set_image(url="https://web.zerobot.ml/data/koota42pn9a.gif")
     await channel.send(embed=embed)
 
 # IN BEARBEITUNG
@@ -554,11 +554,11 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             print (f'Yea, so I just unbanned {member} if that\'s okay :)')
             embed=discord.Embed(title=f"Unbanning {member}")
-            embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
+            embed.set_image(url="https://web.zerobot.ml/data/koypb4e0r9a.gif")
             await ctx.send(embed=embed)
             channel = client.get_channel(879054620838748192)
             embed=discord.Embed(title=f"Unbanning {member} on {ctx.guild.name}")
-            embed.set_image(url="https://us.tixte.net/uploads/byzero.steals-code.tk/koypb4e0r9a.gif")
+            embed.set_image(url="https://web.zerobot.ml/data/koypb4e0r9a.gif")
             await channel.send(embed=embed)
             return
 
