@@ -51,7 +51,7 @@ api.start_loop()
 async def on_command(ctx):
     api.command_run(ctx)
 
-statusmessages = ['Invite again >> Slash-Commands | https://zerobot.ml/invite', 'zerobot.ml', '/help', 'Invite again >> Slash-Commands | https://zerobot.ml/invite', '/stats', 'byZero', 'Invite again >> Slash-Commands | https://zerobot.ml/invite']
+statusmessages = ['Invite again >> Slash-Commands | https://zero.byzero.dev/invite', 'zero.byzero.dev', '/help', 'Invite again >> Slash-Commands | https://zero.byzero.dev/invite', '/stats', 'byZero', 'Invite again >> Slash-Commands | https://zero.byzero.dev/invite']
 statusmsg = cycle(statusmessages)
 
 # Message for Starting the Bot
@@ -66,8 +66,8 @@ async def on_ready():
     change_status.start()
     channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title="I am back 👋", description="I just restarted!")
-    embed.set_author(name="Restart", icon_url="https://web.zerobot.ml/data/restart/restart.gif")
-    embed.set_thumbnail(url="https://web.zerobot.ml/data/ZeroBot.png")
+    embed.set_author(name="Restart", icon_url="https://zerobot.byzero.dev/data/restart/restart.gif")
+    embed.set_thumbnail(url="https://zerobot.byzero.dev/data/ZeroBot.png")
     embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me.", inline=False)
     embed.set_footer(text="This is an automatic execution, should the bot ever restart.")
     await channel.send(embed=embed)
@@ -110,7 +110,7 @@ async def on_guild_remove(guild):
 async def invite(ctx):
     embed = discord.Embed(
         title = "Lade den Bot auf deinen Server ein!",
-        url = "https://zerobot.ml/invite"
+        url = "https://zero.byzero.dev/invite"
     )
     await ctx.send(embed = embed)
 
@@ -153,7 +153,7 @@ async def ping(ctx):
 @client.command(aliases=['hilfe'])
 async def help(ctx):
     embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on. The gif explains how to use a slash command.")
-    embed.set_image(url='https://web.zerobot.ml/data/kp7xiel4w9a.gif')
+    embed.set_image(url='https://zerobot.byzero.dev/data/kp7xiel4w9a.gif')
     await ctx.send(embed=embed)
 
 # Hilfe-Command
@@ -332,11 +332,11 @@ async def kick(ctx, member : discord.Member, *, reason: str = None):
     await member.kick(reason=reason)
     print (f'Yea, so I just kicked {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Kicking {member}")
-    embed.set_image(url="https://web.zerobot.ml/data/kootf9omu9a.gif")
+    embed.set_image(url="https://zerobot.byzero.dev/data/kootf9omu9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Kicking {member} on {ctx.guild.name}")
-    embed.set_image(url="https://web.zerobot.ml/data/kootf9omu9a.gif")
+    embed.set_image(url="https://zerobot.byzero.dev/data/kootf9omu9a.gif")
     await channel.send(embed=embed)
 
 @slash.slash(name="ban",
@@ -360,11 +360,11 @@ async def ban(ctx, member : discord.Member, *, reason: str = None):
     await member.ban(reason=reason)
     print (f'Yea, so I just banned {member} if that\'s okay :)')
     embed=discord.Embed(title=f"Banning {member}")
-    embed.set_image(url="https://web.zerobot.ml/data/koota42pn9a.gif")
+    embed.set_image(url="https://zerobot.byzero.dev/data/koota42pn9a.gif")
     await ctx.send(embed=embed)
     channel = client.get_channel(879054620838748192)
     embed=discord.Embed(title=f"Banning {member} on {ctx.guild.name}")
-    embed.set_image(url="https://web.zerobot.ml/data/koota42pn9a.gif")
+    embed.set_image(url="https://zerobot.byzero.dev/data/koota42pn9a.gif")
     await channel.send(embed=embed)
 
 # IN BEARBEITUNG
@@ -476,7 +476,7 @@ async def ban(ctx, member : discord.Member, *, reason: str = None):
                 )
              ])
 @commands.is_owner()
-async def presence(ctx, type : int, presence: str = "Chilling with byZero", url : str = "https://zerobot.ml/404"):
+async def presence(ctx, type : int, presence: str = "Chilling with byZero", url : str = "https://zero.byzero.dev/404"):
   await ctx.channel.purge(limit=1)
   if type == 2:
     change_status.cancel()
@@ -518,7 +518,7 @@ async def avatar(ctx, member : discord.Member):
         shortio_token = file.read()
 
     r = requests.post('https://api.short.io/links/public', {
-          'domain': 'zerobot.ml',
+          'domain': 'zero.byzero.dev',
           'originalURL': str(member.avatar_url),
     }, headers = {
           'authorization': shortio_token
@@ -554,11 +554,11 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             print (f'Yea, so I just unbanned {member} if that\'s okay :)')
             embed=discord.Embed(title=f"Unbanning {member}")
-            embed.set_image(url="https://web.zerobot.ml/data/koypb4e0r9a.gif")
+            embed.set_image(url="https://zerobot.byzero.dev/data/koypb4e0r9a.gif")
             await ctx.send(embed=embed)
             channel = client.get_channel(879054620838748192)
             embed=discord.Embed(title=f"Unbanning {member} on {ctx.guild.name}")
-            embed.set_image(url="https://web.zerobot.ml/data/koypb4e0r9a.gif")
+            embed.set_image(url="https://zerobot.byzero.dev/data/koypb4e0r9a.gif")
             await channel.send(embed=embed)
             return
 
@@ -568,7 +568,7 @@ async def dice(ctx):
         dice_result = random.randint(1, 6)
                                      
         embed=discord.Embed(title="The dice whispered to me:")
-        embed.set_thumbnail(url=f"https://web.zerobot.ml/data/Dice/{dice_result}.png")
+        embed.set_thumbnail(url=f"https://zerobot.byzero.dev/data/Dice/{dice_result}.png")
                                      
         if dice_result == 1:
             embed.add_field(name="1", value="That's not much :O", inline=False)
@@ -927,11 +927,11 @@ async def rps(ctx, what):
 # Short-Url-Feature by jcw05
 # https://github.com/joseywoermann
 @slash.slash(name="short",
-             description="Makes an URL shorter with zerobot.ml",
+             description="Makes an URL shorter with zero.byzero.dev",
              options=[
                create_option(
                  name="long_url",
-                 description="example: https://zerobot.ml",
+                 description="example: https://zero.byzero.dev",
                  option_type=3,
                  required=True
                )
@@ -941,7 +941,7 @@ async def short(ctx, long_url):
         shortio_token = file.read()
 
     r = requests.post('https://api.short.io/links/public', {
-          'domain': 'zerobot.ml',
+          'domain': 'zero.byzero.dev',
           'originalURL': long_url,
     }, headers = {
           'authorization': shortio_token
@@ -961,7 +961,7 @@ async def short(ctx, long_url):
 async def stats(ctx):
     appinfo = await client.application_info() 
     embed=discord.Embed(title="Bot-Information", color=0xff0582)
-    embed.set_thumbnail(url="https://web.zerobot.ml/data/ZeroBot.png")
+    embed.set_thumbnail(url="https://zerobot.byzero.dev/data/ZeroBot.png")
     embed.add_field(name="📄 Name", value="ZeroBot", inline=True)
     embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
     embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)

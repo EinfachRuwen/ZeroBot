@@ -30,7 +30,7 @@ with open('tokens/prefix.txt','r') as file:
 client = commands.Bot(command_prefix = PREFIXFORCOMMANDS, intents = intents)
 client.remove_command('help')
 
-statusmessages = ['zerobot.ml', '_help', '_stats', 'byZero']
+statusmessages = ['zero.byzero.dev', '_help', '_stats', 'byZero']
 statusmsg = cycle(statusmessages)
 
 # Message for Starting the Bot

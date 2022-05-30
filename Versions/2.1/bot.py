@@ -30,7 +30,7 @@ with open('tokens/prefix.txt','r') as file:
 client = commands.Bot(command_prefix = PREFIXFORCOMMANDS, intents = intents)
 client.remove_command('help')
 
-statusmessages = ['zerobot.ml', '_help', '_stats', 'byZero']
+statusmessages = ['zero.byzero.dev', '_help', '_stats', 'byZero']
 statusmsg = cycle(statusmessages)
 
 # Message for Starting the Bot
@@ -76,7 +76,7 @@ async def on_guild_join(guild):
 async def invite(ctx):
     embed = discord.Embed(
         title = "Lade den Bot auf deinen Server ein!",
-        url = "https://zerobot.ml/invite"
+        url = "https://zero.byzero.dev/invite"
     )
     await ctx.send(embed = embed)
 
@@ -675,7 +675,7 @@ async def short(ctx, long_url):
         shortio_token = file.read()
 
     r = requests.post('https://api.short.io/links/public', {
-          'domain': 'zerobot.ml',
+          'domain': 'zero.byzero.dev',
           'originalURL': long_url,
     }, headers = {
           'authorization': shortio_token

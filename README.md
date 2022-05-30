@@ -11,14 +11,14 @@
 
 > Meet ZeroBot, the best bot for your server! With the bot you can create giveaways, play &#34;Rock, Paper, Scissors&#34; and much more. With the many commands, from fun, moderation and general, you can do an incredible amount. Thanks to an highly efficient server, the ZeroBot is almost always online.
 
-### 🏠 [Homepage](https://zerobot.ml)
+### 🏠 [Homepage](https://zero.byzero.dev)
 
 ## Adding the Bot to your Server
 
-Visit https://zerobot.ml/invite and invite the bot to your server.
+Visit https://zero.byzero.dev/invite and invite the bot to your server.
 
 ## Support
-Visit: https://zerobot.ml/support
+Visit: https://zero.byzero.dev/support
 
 ## Author
 
