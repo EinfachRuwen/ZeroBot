@@ -13,32 +13,15 @@
 
 ### 🏠 [Homepage](https://zero.byzero.dev)
 
-## Adding the Bot to your Server
+## ZeroBot is now archived!
+The ZeroBot, which has been offline for quite some time now, will now have to come to an end.
+I hereby announce that I will no longer host / maintain it.
+Whoever wants to, is welcome to take care of it, the repository will remain online.
 
-Visit https://zero.byzero.dev/invite and invite the bot to your server.
+Thanks to all!
+Thanks for letting the ZeroBot be one of my biggest and longest projects.
 
-## Support
-Visit: https://zero.byzero.dev/support
-
-## Author
-
-👤 **byZero**
-
-* Website: https://byzero.xyz
-* Twitter: [@byZeroOfficial](https://twitter.com/byZeroOfficial)
-* Github: [@byZeroOfficial](https://github.com/byZeroOfficial)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/byZeroOfficial/ZeroBot/issues). 
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-<a href="https://www.patreon.com/byZero">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
+~byZero
 
 ## 📝 License
 
