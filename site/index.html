@@ -1,0 +1,1759 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="ZeroBot">
+<meta property="og:description" content="Ein Discord-Bot von 2021, wieder angeschaltet. Alle Befehle zum Ausprobieren, direkt im Browser.">
+<meta name="theme-color" content="#1f4a5b">
+<title>ZeroBot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="ZeroBot, ein Discord-Bot von 2021, wieder angeschaltet: alle Slash-Commands zum Ausprobieren, im Browser.">
+<link rel="icon" href="assets/zerobot-avatar.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Gaegu:wght@700&family=JetBrains+Mono:wght@400;600&family=Rethink+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: der Donut als Poster links, der Kanal als Sticker rechts, darunter die Zeitkapsel als hängende Glasur-Tropfen.
+   Eine Welt, ein Look: die Petrol-Glasur aus byZeros Zeichnung, dicke Tusche-Konturen, Streusel als einzige Akzente. */
+:root{
+  --drip-1:#5f9db3; --drip-2:#457f95; --drip-3:#30657a; --drip-4:#1f4a5b;
+  --ink:#131517; --paper:#fdf6f8; --paper-2:#f6e6ec; --text:#1d2327; --muted:#5b666c;
+  --glaze:#f59fc2; --glaze-deep:#c9577f; --dough:#f1ab45;
+  --sp-blue:#6fd2f0; --sp-yellow:#f6d55a; --sp-coral:#f27b67;
+  --ok:#3fa564; --err:#e74c3c;
+  --f-display:"Bagel Fat One", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --f-body:"Rethink Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --f-hand:"Gaegu", "Comic Sans MS", "Chalkboard SE", cursive;
+  --line:3px; --shadow:6px 6px 0 var(--ink); --r:20px;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--drip-4)}
+body{margin:0;font-family:var(--f-body);font-size:15px;line-height:1.5;color:var(--text);
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));overflow-x:hidden}
+#glaze{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.page{position:relative;z-index:1;max-width:1260px;margin:0 auto;padding-block:36px 64px;display:grid;gap:72px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sp-yellow);outline-offset:3px;border-radius:6px}
+button{font:inherit;cursor:pointer}
+
+/* ---------- Poster ---------- */
+.stage{display:grid;grid-template-columns:minmax(0,0.92fr) minmax(0,1.3fr);gap:40px;align-items:start}
+.poster{position:sticky;top:calc(24px + env(safe-area-inset-top, 0px));display:grid;gap:22px;min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);
+  display:flex;flex-wrap:wrap;gap:8px}
+.eyebrow span{background:var(--ink);padding:4px 9px;border-radius:999px}
+.wordmark{font-family:var(--f-display);font-weight:400;font-size:clamp(64px,9vw,128px);line-height:.86;margin:0;
+  color:var(--glaze);-webkit-text-stroke:var(--line) var(--ink);paint-order:stroke fill;
+  text-shadow:0 7px 0 var(--ink);letter-spacing:-.01em}
+.wordmark .o{display:inline-block;color:var(--dough)}
+.donut-wrap{position:relative;display:grid;place-items:center;min-height:240px}
+.donut{width:min(100%,400px);aspect-ratio:1;border:0;padding:0;background:none;position:relative;filter:drop-shadow(0 18px 0 rgba(19,21,23,.28));
+  animation:bob 5s ease-in-out infinite}
+.donut img{width:100%;height:100%;display:block;transition:transform .18s cubic-bezier(.3,1.6,.5,1)}
+.donut:active img,.donut.squish img{transform:scale(1.07,.9) rotate(-3deg)}
+@keyframes bob{50%{transform:translateY(-10px) rotate(1.5deg)}}
+.pet-card{position:absolute;right:2%;bottom:6%;display:grid;justify-items:center;gap:2px;background:var(--paper);border:var(--line) solid var(--ink);
+  border-radius:16px;padding:6px 10px 8px;box-shadow:4px 4px 0 var(--ink);transform:rotate(4deg);font-family:var(--f-hand);font-size:17px;line-height:1}
+.pet-card img{width:72px;height:72px;image-rendering:auto}
+.pet-card[hidden]{display:none!important}
+.spr{position:absolute;width:6px;height:20px;border-radius:4px;pointer-events:none;border:2px solid var(--ink)}
+.tagline{font-family:var(--f-display);font-size:clamp(20px,2.2vw,26px);line-height:1.15;color:var(--paper);margin:0;
+  -webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill;text-shadow:0 3px 0 var(--ink);text-wrap:balance}
+.card{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:hidden}
+.facts div{padding:12px 12px 10px;border-right:2px dashed var(--paper-2);min-width:0}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1;color:var(--glaze-deep);font-variant-numeric:tabular-nums}
+.facts span{font-size:12px;color:var(--muted);line-height:1.2;display:block;margin-top:4px}
+.members{padding:14px 16px;display:grid;gap:10px}
+.members h2,.console h2{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin:0;color:var(--muted);font-weight:600}
+.mlist{display:flex;flex-wrap:wrap;gap:8px}
+.member{display:flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;padding:3px 10px 3px 3px;background:#fff;font-size:13px;font-weight:500;color:var(--text);transition:transform .3s,opacity .3s}
+.member img,.member .ph{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);object-fit:cover}
+.member .ph{display:grid;place-items:center;font-size:10px;font-weight:700;background:var(--sp-yellow)}
+.member.gone{opacity:.35;text-decoration:line-through}
+.member .crown{font-size:11px;color:var(--glaze-deep);font-weight:700}
+.console{background:var(--ink);color:#d7e6ea;border-radius:16px;padding:12px 14px;border:var(--line) solid var(--ink);box-shadow:var(--shadow)}
+.console h2{color:#8fb3bf;margin-bottom:6px}
+.console pre{margin:0;font-family:var(--f-mono);font-size:12px;line-height:1.55;max-height:150px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.console .dim{color:#7f9aa3}.console .er{color:#ff9d8e}
+
+/* ---------- Kanal ---------- */
+.channel{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.ch-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:var(--line) solid var(--ink);background:var(--glaze);flex-wrap:wrap}
+.ch-head>div:not(.status){min-width:0}
+.ch-head .hash{font-family:var(--f-display);font-size:26px;line-height:1}
+.ch-head h2{margin:0;font-size:17px;font-weight:700}
+.ch-head .server{font-size:13px;color:#4a2433}
+.status{margin-left:auto;flex:0 1 auto;max-width:min(100%,380px);display:flex;align-items:center;gap:8px;font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 8px;min-width:0}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--ink);flex:none}
+.status span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed{height:clamp(440px,68vh,780px);overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;background:
+  radial-gradient(circle at 1px 1px, var(--paper-2) 1.2px, transparent 1.3px) 0 0/18px 18px, var(--paper)}
+.divider{display:flex;align-items:center;gap:10px;font-family:var(--f-hand);font-size:20px;color:var(--glaze-deep);line-height:1}
+.divider::before,.divider::after{content:"";flex:1;height:0;border-top:3px dotted var(--glaze)}
+.sys{font-size:13px;color:var(--muted);padding-left:52px;display:flex;gap:6px;align-items:center}
+.sys b{color:var(--text)}
+.msg{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;animation:pop .28s cubic-bezier(.3,1.5,.5,1)}
+.msg.out{animation:poof .35s forwards}
+@keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}}
+@keyframes poof{to{transform:scale(.9);opacity:0}}
+.av{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;background:var(--dough);display:grid;place-items:center;font-weight:700;font-size:13px}
+.av.you{background:var(--sp-yellow)}.av.zero{background:var(--glaze)}
+.mb{min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+.mh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.mh .name{font-weight:700}
+.mh .bot{font-family:var(--f-mono);font-size:10px;font-weight:600;background:var(--ink);color:var(--paper);border-radius:5px;padding:1px 5px;align-self:center}
+.mh time{font-size:12px;color:var(--muted)}
+.via{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.via code{font-family:var(--f-mono);font-size:12px;color:var(--glaze-deep);font-weight:600}
+.content{overflow-wrap:anywhere}
+.content code,.embed code{font-family:var(--f-mono);font-size:.88em;background:var(--paper-2);border-radius:5px;padding:1px 5px}
+.mention{background:#fde0ea;color:#8f2f55;border-radius:5px;padding:0 3px;font-weight:600}
+.reactions{display:flex;gap:6px}
+.react{border:2px solid var(--ink);border-radius:999px;background:#fff;padding:1px 9px;font-size:13px;display:inline-flex;gap:5px;align-items:center;color:var(--text)}
+.react.on{background:#fde0ea}
+.react b{font-variant-numeric:tabular-nums}
+
+/* Embed: die Embed-Farbe tropft von oben rein */
+.embed-wrap{perspective:900px;max-width:520px}
+.embed{position:relative;background:#fff;border:var(--line) solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);overflow:hidden;transition:transform .16s ease-in}
+.embed.flip{transform:rotateY(90deg)}
+.embed .drip,.month .drip{position:absolute;top:0;left:0;height:44px;width:800px;max-width:none;pointer-events:none;color:var(--ec,var(--glaze))}
+.e-in{padding:34px 16px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;position:relative}
+.e-main{display:grid;gap:6px;min-width:0;grid-column:1;grid-row:1}
+.e-author{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600}
+.e-author img{width:22px;height:22px;border-radius:50%}
+.e-title{font-weight:700;font-size:16px;line-height:1.3;margin:0;overflow-wrap:anywhere}
+.e-title a{color:#1f6f8b}
+.e-desc{font-size:14px;overflow-wrap:anywhere}
+.e-desc pre,.code-face pre{margin:0;font-family:var(--f-mono);font-size:12.5px;background:var(--ink);color:#f3d7e1;border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.e-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 14px;grid-column:1/-1}
+.e-field{min-width:0}
+.e-field.full{grid-column:1/-1}
+.e-field h4{margin:0;font-size:13px;font-weight:700}
+.e-field div{font-size:13.5px;overflow-wrap:anywhere}
+.e-thumb{width:76px;height:76px;object-fit:contain;grid-column:2;grid-row:1}
+.e-thumb.round{border-radius:50%;border:2px solid var(--ink);object-fit:cover}
+.e-image{grid-column:1/-1;margin-top:6px;max-width:100%;border-radius:10px;border:2px solid var(--ink)}
+.e-foot{grid-column:1/-1;font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-top:4px}
+.flipbtn{position:absolute;top:4px;right:8px;z-index:2;font-family:var(--f-mono);font-size:11px;font-weight:600;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:2px 9px;color:var(--text)}
+.flipbtn:hover{background:var(--sp-yellow)}
+.code-face{padding:34px 14px 14px;display:grid;gap:8px}
+.code-face p{margin:0;font-size:12.5px;color:var(--muted)}
+.code-face pre{max-height:320px;overflow:auto;white-space:pre;word-break:normal;color:#e9f2f4}
+.code-face .kw{color:var(--glaze)}.code-face .st{color:var(--sp-yellow)}.code-face .cm{color:#86a3ad;font-style:italic}.code-face .dc{color:var(--sp-blue)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1;margin-top:6px}
+.ebtn{border:2px solid var(--ink);border-radius:10px;background:var(--paper);padding:5px 12px;font-weight:600;font-size:13px;color:var(--text);box-shadow:2px 2px 0 var(--ink)}
+.ebtn:hover{background:var(--sp-yellow)}
+.ebtn:active{transform:translate(2px,2px);box-shadow:none}
+.ebtn:disabled{opacity:.5;cursor:default}
+
+.note{font-family:var(--f-hand);font-size:18px;line-height:1.15;color:#5a3d00;background:var(--sp-yellow);border:2px solid var(--ink);border-radius:4px 14px 4px 14px;
+  padding:6px 11px 7px;max-width:470px;transform:rotate(-.6deg);box-shadow:3px 3px 0 var(--ink)}
+.note::before{content:"Notiz 2026 · ";font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;font-weight:600;color:#7a5700}
+.note code{font-family:var(--f-mono);font-size:13px}
+.note .ebtn{margin-top:6px;font-family:var(--f-body)}
+
+.dice{width:76px;height:76px}
+.yeet{display:grid;place-items:center;height:120px;background:var(--paper-2);border-radius:10px;border:2px solid var(--ink);overflow:hidden;grid-column:1/-1;margin-top:6px}
+.yeet img,.yeet .ph{width:64px;height:64px;border-radius:50%;border:3px solid var(--ink);animation:yeet 1.6s cubic-bezier(.5,-0.4,.7,1) .3s forwards}
+.yeet.ban img,.yeet.ban .ph{animation:banned .9s .3s forwards}
+.yeet.back img,.yeet.back .ph{animation:pop .5s cubic-bezier(.3,1.5,.5,1)}
+.yeet .ph{display:grid;place-items:center;font-weight:700;background:var(--sp-yellow)}
+@keyframes yeet{to{transform:translate(340px,-140px) rotate(540deg) scale(.4)}}
+@keyframes banned{30%{transform:scale(1.15)}100%{transform:scale(.9);filter:grayscale(1);opacity:.45}}
+.gif{display:flex;gap:12px;align-items:center;border:2px solid var(--ink);border-radius:14px;background:var(--paper-2);padding:10px 14px;max-width:360px}
+.gif img{width:56px;height:56px;animation:wave 1s ease-in-out infinite;transform-origin:70% 80%}
+.gif a{font-family:var(--f-mono);font-size:12px;color:#1f6f8b;overflow-wrap:anywhere}
+.gif small{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+@keyframes wave{50%{transform:rotate(-14deg)}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:2px solid var(--ink);background:var(--paper);border-radius:999px;padding:2px 12px;font-weight:700;font-size:14px;color:var(--text);display:inline-flex;gap:6px;align-items:center}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab .badge{background:var(--sp-coral);color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;font-size:11px;padding:0 6px;font-variant-numeric:tabular-nums}
+.tab .badge:empty{display:none}
+.owner-btn{justify-self:start;border:2px solid var(--ink);border-radius:999px;background:#fff;padding:3px 12px;font-size:13px;font-weight:600;color:var(--text)}
+.owner-btn[aria-pressed="true"]{background:var(--ink);color:var(--sp-yellow)}
+.tenor{display:grid;gap:4px;max-width:320px}
+.tenor iframe{width:100%;height:260px;border:2px solid var(--ink);border-radius:12px;background:var(--paper-2)}
+.tenor a{font-family:var(--f-mono);font-size:11.5px;color:#1f6f8b;overflow-wrap:anywhere}
+.typing{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);padding:2px 18px 6px;min-height:26px}
+.typing i{width:5px;height:14px;border-radius:3px;border:1.5px solid var(--ink);animation:hop .9s infinite}
+.typing i:nth-child(1){background:var(--sp-blue)}.typing i:nth-child(2){background:var(--sp-yellow);animation-delay:.15s}.typing i:nth-child(3){background:var(--sp-coral);animation-delay:.3s}
+@keyframes hop{50%{transform:translateY(-5px) rotate(20deg)}}
+
+/* Composer */
+.composer{border-top:var(--line) solid var(--ink);background:var(--paper);padding:12px 14px 14px;display:grid;gap:10px;position:relative}
+.inrow{display:flex;gap:8px;align-items:center;background:#fff;border:var(--line) solid var(--ink);border-radius:14px;padding:4px 4px 4px 14px}
+.inrow:focus-within{box-shadow:0 0 0 3px var(--sp-yellow)}
+#cmd{flex:1;min-width:0;border:0;outline:0;background:transparent;font:500 15px/1.4 var(--f-mono);color:var(--text);padding:9px 0}
+#cmd::placeholder{color:#8a959b;font-family:var(--f-body)}
+.send{border:2px solid var(--ink);background:var(--glaze);border-radius:10px;padding:8px 14px;font-weight:700;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.send:active{transform:translate(2px,2px);box-shadow:none}
+.hint{font-size:13px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-height:20px}
+.hint code{font-family:var(--f-mono);font-size:12px;color:var(--text)}
+.hint .opt{font-family:var(--f-mono);font-size:12px;border:1.5px dashed var(--muted);border-radius:6px;padding:0 5px}
+.hint .opt.cur{border-style:solid;border-color:var(--ink);background:var(--sp-yellow);color:var(--ink)}
+.hint .err{color:#b03a2e;font-weight:600}
+.chip{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:2px 10px;font-family:var(--f-mono);font-size:12px;color:var(--text)}
+.chip:hover{background:var(--sp-blue)}
+.quick{display:flex;gap:6px;flex-wrap:wrap}
+.menu{position:absolute;left:14px;right:14px;bottom:calc(100% - 2px);background:#fff;border:var(--line) solid var(--ink);border-radius:16px;box-shadow:var(--shadow);
+  max-height:min(360px,52vh);overflow:auto;padding:6px;z-index:5}
+.menu h3{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:6px 8px;font-weight:600}
+.opt-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 10px;border-radius:10px;cursor:pointer}
+.opt-item[aria-selected="true"]{background:#fde0ea}
+.opt-item b{font-family:var(--f-mono);font-size:13.5px}
+.opt-item span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt-item em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:5px;padding:0 5px}
+.opt-item em.own{background:var(--ink);color:var(--paper)}.opt-item em.rip{background:var(--sp-coral)}.opt-item em.net{background:var(--sp-blue)}
+
+/* Overlay */
+.overlay{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:rgba(19,21,23,.72);padding:20px}
+.overlay .card{max-width:420px;padding:24px;text-align:center;display:grid;gap:12px;justify-items:center}
+.overlay h2{font-family:var(--f-display);font-weight:400;font-size:34px;margin:0;color:var(--glaze-deep);line-height:1}
+.toast{position:fixed;right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:25;max-width:320px;padding:12px 14px;display:grid;gap:4px;animation:pop .3s}
+.toast small{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* ---------- Zeitkapsel ---------- */
+.capsule{display:grid;gap:26px}
+.cap-head{display:grid;gap:18px;max-width:680px;justify-items:start}
+.cap-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6vw,72px);line-height:.9;margin:0;color:var(--dough);-webkit-text-stroke:var(--line) var(--ink);paint-order:stroke fill;text-shadow:0 6px 0 var(--ink)}
+.cap-head p{margin:0;color:var(--paper);font-size:16px;max-width:62ch;background:var(--ink);border-radius:16px;padding:12px 16px}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;align-items:start}
+.month{overflow:hidden;position:relative;--ec:var(--glaze)}
+.month:nth-child(3n+2){--ec:var(--dough)}.month:nth-child(3n){--ec:var(--sp-blue)}
+.month-in{padding:40px 16px 16px;display:grid;gap:10px}
+.month h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1}
+.month h3 small{font-family:var(--f-mono);font-size:11px;color:var(--muted);letter-spacing:.06em;margin-left:6px}
+.commit{display:grid;gap:1px;padding-top:8px;border-top:2px dashed var(--paper-2)}
+.commit:first-of-type{border-top:0;padding-top:0}
+.commit q{font-family:var(--f-mono);font-size:13px;quotes:none;overflow-wrap:anywhere}
+.commit.big q{font-family:var(--f-display);font-size:21px;line-height:1.1;color:var(--glaze-deep)}
+.commit span{font-size:11.5px;color:var(--muted)}
+.commit span b{font-weight:600;color:var(--text)}
+.farewell{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px}
+.letter{padding:22px 24px;display:grid;gap:10px}
+.letter h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1}
+.letter p{margin:0;max-width:62ch}
+.letter .sig{font-family:var(--f-hand);font-size:24px;color:var(--glaze-deep)}
+.letter.now{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.letter.now h3{color:var(--glaze)}
+.letter.now .sig{color:var(--sp-yellow)}
+.letter small{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.foot{color:var(--paper);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;opacity:.85}
+.foot a{color:var(--paper)}
+
+@media (max-width:980px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .poster{position:static}
+  .donut{width:min(70%,300px)}
+  .poster-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+  .farewell{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:620px){
+  .poster-grid{grid-template-columns:minmax(0,1fr)}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts div:nth-child(2){border-right:0}
+  .facts div:nth-child(-n+2){border-bottom:2px dashed var(--paper-2)}
+  .e-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feed{padding:14px 12px 8px;height:clamp(420px,72vh,700px)}
+  .msg{grid-template-columns:34px minmax(0,1fr);gap:9px}
+  .av{width:34px;height:34px}
+  .sys{padding-left:43px}
+  .status{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .feed{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<canvas id="glaze" aria-hidden="true"></canvas>
+
+<main class="page">
+  <section class="stage" aria-label="ZeroBot">
+    <div class="poster">
+      <div class="eyebrow"><span>Discord-Bot</span><span>2021 – 2022</span><span>Python · discord.py</span></div>
+      <h1 class="wordmark">Zer<span class="o">o</span><br>Bot</h1>
+      <div class="donut-wrap">
+        <button class="donut" id="donut" type="button" aria-label="ZeroBot streicheln">
+          <img src="assets/zerobot.webp" alt="ZeroBot: ein schief gezeichneter Donut mit rosa Glasur und bunten Streuseln" width="640" height="640">
+        </button>
+        <div class="pet-card" id="petcard" hidden><img src="assets/pet-zerobot.gif" alt="" width="112" height="112"><span id="petcount">1× gestreichelt</span></div>
+      </div>
+      <p class="tagline">„Meet ZeroBot, the best bot for your server!“</p>
+      <div class="poster-grid" style="display:grid;gap:22px">
+        <div class="card facts" aria-label="Zahlen aus dem Repository">
+          <div><b>28</b><span>Slash-Commands</span></div>
+          <div><b>1183</b><span>Zeilen bot.py</span></div>
+          <div><b>102</b><span>Commits</span></div>
+          <div><b id="daysoff">–</b><span>Tage offline</span></div>
+        </div>
+        <div class="card members">
+          <h2>Auf dem Server ZeroNetwork</h2>
+          <div class="mlist" id="mlist"></div>
+          <button type="button" class="owner-btn" id="ownerbtn" aria-pressed="false">Owner-Modus: aus</button>
+        </div>
+        <div class="console" aria-live="off">
+          <h2>Konsole · print()</h2>
+          <pre id="console"><span class="dim">$ python3 bot.py</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="card channel">
+      <div class="ch-head">
+        <div class="tabs" role="tablist" aria-label="Kanäle">
+          <button type="button" class="tab" role="tab" id="tab-general" aria-selected="true" aria-controls="feed"># general</button>
+          <button type="button" class="tab" role="tab" id="tab-logs" aria-selected="false" aria-controls="logs"># logs <span class="badge" id="logbadge"></span></button>
+        </div>
+        <div class="server">ZeroNetwork · 728308958682415175</div>
+        <div class="status" title="change_status(): wechselt die Rich Presence"><i></i><span id="presence">Listening to /help</span></div>
+      </div>
+      <div class="feed" id="feed" role="log" aria-live="polite" aria-label="Nachrichten in #general"></div>
+      <div class="feed" id="logs" role="log" aria-label="Nachrichten in #logs" hidden></div>
+      <div class="typing" id="typing" aria-hidden="true"></div>
+      <form class="composer" id="composer" autocomplete="off">
+        <div class="menu" id="menu" role="listbox" aria-label="Slash-Commands" hidden></div>
+        <div class="inrow">
+          <input id="cmd" type="text" role="combobox" aria-controls="menu" aria-expanded="false" aria-autocomplete="list"
+            placeholder="Tippe / für alle Befehle, oder schreib einfach „hallo“" maxlength="300" spellcheck="false">
+          <button class="send" type="submit">Senden</button>
+        </div>
+        <div class="hint" id="hint"></div>
+        <div class="quick" id="quick" aria-label="Schnellstart"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="capsule" aria-labelledby="cap-title">
+    <div class="cap-head">
+      <h2 id="cap-title">Zeitkapsel</h2>
+      <p>Die Commit-Messages von byZero, so wie sie im Repo stehen. Von „Initial commit“ im März 2021 bis zum letzten „compress“. Dazwischen liegen Slash-Commands, ein öffentlicher Launch und ein Taschenrechner, der am selben Tag wieder rausflog.</p>
+    </div>
+    <div class="months" id="months"></div>
+    <div class="farewell">
+      <article class="card letter">
+        <small>README.md · 2022</small>
+        <h3>ZeroBot is now archived!</h3>
+        <p>The ZeroBot, which has been offline for quite some time now, will now have to come to an end. I hereby announce that I will no longer host / maintain it. Whoever wants to, is welcome to take care of it, the repository will remain online.</p>
+        <p>Thanks to all! Thanks for letting the ZeroBot be one of my biggest and longest projects.</p>
+        <span class="sig">~byZero</span>
+      </article>
+      <article class="card letter now">
+        <small>Dieser Ort · 2026</small>
+        <h3>Wieder an.</h3>
+        <p>Kein Server, kein Token, kein Verwaltungsaufwand. ZeroBot läuft jetzt komplett im Browser: dieselben Befehle, dieselben Antworten, dieselben Bugs. Was ohne die alten APIs nicht mehr geht, sagt er dir ehrlich.</p>
+        <p>Jede Antwort lässt sich umdrehen. Auf der Rückseite steht der Python-Code, den ein Dreizehnjähriger dafür geschrieben hat, ohne Hilfe.</p>
+        <span class="sig">„I am back 👋“</span>
+      </article>
+    </div>
+    <div class="foot">
+      <span>Code &amp; Zeichnungen: byZero, 2021 · GPL-3.0</span>
+      <a href="https://github.com/EinfachRuwen/ZeroBot" target="_blank" rel="noopener">github.com/EinfachRuwen/ZeroBot</a>
+    </div>
+  </section>
+</main>
+
+<!-- Originalcode aus bot.py (gekürzt, sonst unverändert) -->
+<script type="text/plain" id="src-ping">@slash.slash(name="ping",
+             description="Shows you the bot's ping (latency)")
+async def ping(ctx):
+    await ctx.send(f'🏓 Pong! - The Bot has a latency of {round(client.latency * 1000)} ms!')</script>
+<script type="text/plain" id="src-help">@slash.slash(name="help",
+             description="Why do you even want to try?")
+async def help(ctx):
+    await ctx.send("Seriously? You want to see all commands? There is a menu for that if you do `/`. Shut up. GET OUTTA HERE")</script>
+<script type="text/plain" id="src-restart">@client.event
+async def on_ready():
+    change_status.start()
+    channel = client.get_channel(879054620838748192)
+    embed=discord.Embed(title="I am back 👋", description="I just restarted!")
+    embed.set_author(name="Restart", icon_url="https://zerobot.byzero.dev/data/restart/restart.gif")
+    embed.set_thumbnail(url="https://zerobot.byzero.dev/data/ZeroBot.png")
+    embed.add_field(name="What happended?", value="I don't know :o Maybe someone unplugged me.", inline=False)
+    embed.set_footer(text="This is an automatic execution, should the bot ever restart.")
+    await channel.send(embed=embed)</script>
+<script type="text/plain" id="src-dice">async def dice(ctx):
+        dice_result = random.randint(1, 6)
+        embed=discord.Embed(title="The dice whispered to me:")
+        embed.set_thumbnail(url=f"https://zerobot.byzero.dev/data/Dice/{dice_result}.png")
+        if dice_result == 1:
+            embed.add_field(name="1", value="That's not much :O", inline=False)
+        if dice_result == 2:
+            embed.add_field(name="2", value="That's not better than 1, 1 + 1 is 2", inline=False)
+        if dice_result == 3:
+            embed.add_field(name="3", value="Did you know that 3 is the middle?", inline=False)
+        if dice_result == 4:
+            embed.add_field(name="4", value="The holy **4**!", inline=False)
+        if dice_result == 5:
+            embed.add_field(name="5", value="Why didn't you get a 6?", inline=False)
+        if dice_result == 6:
+            embed.add_field(name="6", value="You may roll the dice again :3", inline=False)
+        await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-pickrandom">async def pickrandom(ctx, number):
+        dice_result = random.randint(1, int(number))
+        embed=discord.Embed(title="I picked: " + (str(dice_result)))
+        await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-howgay"># How Gay-Command like Dank Memer
+async def howgay(ctx):
+    howgayareyourightnow = random.randint(1, 100)
+    embed=discord.Embed(title="gay r8 machine", description="u are " + f'{howgayareyourightnow}' + "% gay 🏳️‍🌈", color=0x8000a3)
+    embed.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-rps">async def rps(ctx, what):
+    if what == 'help':
+        embed=discord.Embed(title="Rock paper scissors", description="Rock paper scissors (also known by ...")
+        await ctx.send(embed=embed)
+    number = random.randint(0, 3)
+    whats = ["rock", "paper", "scissors"]
+    for word in whats:
+        if word == what:
+            if number == 1:
+                a = 'rock'
+                ...
+                embed.add_field(name=a, value="lol", inline=True)
+                await ctx.send(embed=embed)
+            if number == 2:
+                a = 'scissors'
+                ...
+            if number == 3:
+                a = 'paper'
+                ...
+            # number == 0? Da passiert ... nichts.</script>
+<script type="text/plain" id="src-clear">@commands.has_permissions(manage_messages=True)
+async def clear (ctx, amount: int):
+    await ctx.channel.purge(limit=amount + 1)
+    msg = await ctx.send(f'I deleted {amount} messages.')
+    await asyncio.sleep(10)
+    await msg.delete()</script>
+<script type="text/plain" id="src-commandclear">async def commandclear(ctx):
+    def is_me(m):
+      return m.author == client.user
+    deleted = await ctx.channel.purge(limit=100, check=is_me)
+    await ctx.send('Deleted {} message(s)'.format(len(deleted)))</script>
+<script type="text/plain" id="src-kick">@commands.has_permissions(kick_members=True)
+async def kick(ctx, member : discord.Member, *, reason: str = None):
+    await member.kick(reason=reason)
+    print (f'Yea, so I just kicked {member} if that\'s okay :)')
+    embed=discord.Embed(title=f"Kicking {member}")
+    embed.set_image(url="https://zerobot.byzero.dev/data/kootf9omu9a.gif")
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-ban">@commands.has_permissions(ban_members=True)
+async def ban(ctx, member : discord.Member, *, reason: str = None):
+    await member.ban(reason=reason)
+    print (f'Yea, so I just banned {member} if that\'s okay :)')
+    embed=discord.Embed(title=f"Banning {member}")
+    embed.set_image(url="https://zerobot.byzero.dev/data/koota42pn9a.gif")
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-unban">async def unban(ctx, *, member):
+    banned_users = await ctx.guild.bans ()
+    member_name, member_discriminator = member.split('#')
+    for ban_entry in banned_users:
+        user = ban_entry.user
+        if (user.name, user.discriminator) == (member_name, member_discriminator):
+            await ctx.guild.unban(user)
+            print (f'Yea, so I just unbanned {member} if that\'s okay :)')
+            embed=discord.Embed(title=f"Unbanning {member}")
+            await ctx.send(embed=embed)
+            return</script>
+<script type="text/plain" id="src-giveaway">@commands.has_role('Giveaways')
+async def giveaway(ctx, channel, time : int, winners: int = 1, *, prize: str):
+    await ctx.send('Giveaway is starting...')
+    await asyncio.sleep(1)
+    await ctx.channel.purge(limit=1)
+    embed=discord.Embed(title="<a:tadaaa:840305140502495272> GIVEAWAY!!!", description=prize, color=0xee1153)
+    embed.set_footer(text=f"Winners = {str(winners)}")
+    end = datetime.datetime.utcnow() + datetime.timedelta(seconds = time*60)
+    embed.add_field(name="How to:", value="React to the message with the <a:tadaaa:840305140502495272>-Emoji so you can enter the giveaway.", inline=True)
+    sent_message = await channel.send(embed=embed)
+    await sent_message.add_reaction("<a:tadaaa:840305140502495272>")
+    await asyncio.sleep(time*60)
+    new_message = await channel.fetch_message(sent_message.id)
+    users = await new_message.reactions[0].users().flatten()
+    users.pop(users.index(client.user))
+    for i in range(winners):
+        member = random.choice(users)
+        users.pop(users.index(member))
+        await channel.send(member.mention)
+        embed=discord.Embed(title="<a:tadaaa:840305140502495272> Congratulations!")
+        embed.add_field(name="Winner:", value=member.mention + f" You have won {prize}!", inline=True)
+        embed.set_footer(text="Coded by byZero")
+        await channel.send(embed=embed)</script>
+<script type="text/plain" id="src-error">@client.event
+async def on_slash_command_error(ctx, ex):
+  exstr = str(ex)
+  if exstr == "Role 'Giveaways' is required to run this command.":
+    error = 'This error can occur for 2 reasons:\n1. You need to create a role called "Giveaways" ...'
+    embed = discord.Embed(title = "Error", description = f"```\n{error}```", color = discord.Color.red())
+    await ctx.send(embed=embed)
+  elif exstr == "list index out of range":
+    embed=discord.Embed(title="There is no winner")
+    embed.add_field(name="It looks like nobody entered the giveaway.", value=":(", inline=True)
+    await ctx.send(embed=embed)
+  elif exstr == "division by zero":
+    embed=discord.Embed(title=f"Result: Error", color=0x3f3f3f)
+    embed.add_field(name="Error:", value=f"I THINK I GOT BRAIN DAMAGE", inline=False)
+    embed.add_field(name="sowwy", value="i am so sowwyyyyyyyyyyyyyyyyyyyyy", inline=False)
+    await ctx.send(embed=embed)
+  else:
+    embed = discord.Embed(title = "Error", description = f"```\n{ex}```", color = discord.Color.red())
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-calc"># entfernt am 17.07.2021: "Remove calc cause of Security"
+async def calculator(ctx, expression):
+    # Parse the expression to be able to use it in the eval function
+  expression = expression.replace(" ", "")
+  expression = expression.replace("+", " + ")
+  expression = expression.replace("-", " - ")
+  expression = expression.replace("*", " * ")
+  expression = expression.replace("/", " / ")
+  expression = expression.replace("^", " ** ")
+  expression = expression.replace("(", " ( ")
+  expression = expression.replace(")", " ) ")
+
+  # Evaluate the expression to get the result
+  result = eval(expression)
+
+  embed=discord.Embed(title=f"Result: {result}", color=0x3f3f3f)
+  embed.add_field(name="Expression", value=f"{expression}", inline=True)</script>
+<script type="text/plain" id="src-developer">async def developer(ctx):
+    embed=discord.Embed(title="byZero", url="https://byzer0.ml")
+    embed.add_field(name="👋 Hello! I am byZero.", value="I am byZero, a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. I recently created my own Discord-Bot.", inline=False)
+    embed.add_field(name="Read more about me:", value="You can find more informations about me here: https://byzer0.ml/github-info", inline=True)
+    embed.set_footer(text="This Bot was coded by byZero!")
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-credits">async def credits(ctx):
+    embed=discord.Embed(title="Credits", description="Here are all my sources for code and information listed.", color=0x75e3ff)
+    embed.set_author(name="byZero")
+    embed.add_field(name="Users", value="[jcw05#1331](https://github.com/joseywoermann)", inline=True)
+    embed.add_field(name="Websites", value="[StackOverflow](https://stackoverflow.com/), [YouTube](https://youtube.com/), [GitHub](https://github.com/), [Pixabay](https://pixabay.com), [FreePix](https://freepix.com/)", inline=True)
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-stats">async def stats(ctx):
+    appinfo = await client.application_info()
+    embed=discord.Embed(title="Bot-Information", color=0xff0582)
+    embed.add_field(name="📄 Name", value="ZeroBot", inline=True)
+    embed.add_field(name="👑 Bot Owner", value=f"{appinfo.owner.mention}", inline=True)
+    embed.add_field(name="👩‍🤝‍🧑🏽 Users", value=f"`{len(client.users)}`", inline=True)
+    embed.add_field(name="📁Servers", value=f"`{len(client.guilds)}`", inline=True)
+    embed.add_field(name="📄 Commands", value=f"`{len(slash.commands)}`", inline=True)
+    with open('tokens/stats/cpu.txt','r') as file:
+        cpu = file.read()
+    ...
+    embed.set_footer(text="Made by byZero")
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-whereami">async def whereami(ctx):
+    embed=discord.Embed(title="Where am I?")
+    embed.add_field(name="Name", value=f"{ctx.guild.name}", inline=False)
+    embed.add_field(name="ID", value=f"{ctx.guild.id}", inline=True)
+    embed.add_field(name="Owner", value=f"{ctx.guild.owner}", inline=True)
+    embed.add_field(name="Region", value=f"{ctx.guild.region}", inline=True)
+    embed.add_field(name="Member-Count", value=f"{ctx.guild.member_count}", inline=True)
+    embed.add_field(name="Channel", value=f"{ctx.channel}", inline=True)
+    embed.add_field(name="Author", value=f"{str(ctx.author)}", inline=True)
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-invite">async def invite(ctx):
+    embed = discord.Embed(
+        title = "Lade den Bot auf deinen Server ein!",
+        url = "https://zero.byzero.dev/invite"
+    )
+    await ctx.send(embed = embed)</script>
+<script type="text/plain" id="src-rickroll">async def rickroll(ctx, member : discord.Member):
+  with open('tokens/rickrollurl.txt','r') as file:
+    RICKROLLURL = file.read()
+  await ctx.channel.purge(limit=1)
+  await member.send(RICKROLLURL)
+  await ctx.send('So, now you rickrolled ' + f'{member}' + '!' + f" - {ctx.author.mention}")
+  await asyncio.sleep(5)
+  await ctx.channel.purge(limit=1)</script>
+<script type="text/plain" id="src-define"># define-Feature by jcw05
+async def define(ctx, *, search_term):
+    URL = "https://www.urbandictionary.com/define.php?term=" + str(search_term)
+    page = requests.get(URL)
+    fetched_page = BeautifulSoup(page.content, 'html.parser')
+    searched_word = fetched_page.find('a', attrs={'class': 'word'})
+    meaning = fetched_page.find('div', attrs={'class': 'meaning'})
+    if searched_word:
+        name_output = str(searched_word.text)
+    else:
+        name_output = "No results."</script>
+<script type="text/plain" id="src-image"># Made possible by Evergene
+async def image(ctx, type : str):
+  requesturl = f"https://evergene.io/api/{type}"
+  response = requests.get(requesturl)
+  json_response = response.json()
+  imageurl = json_response['url']
+  embed=discord.Embed(title="Here you go:")
+  embed.set_image(url=imageurl)
+  await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-short"># Short-Url-Feature by jcw05
+async def short(ctx, long_url):
+    with open('tokens/shortio.txt','r') as file:
+        shortio_token = file.read()
+    r = requests.post('https://api.short.io/links/public', {
+          'domain': 'zero.byzero.dev',
+          'originalURL': long_url,
+    }, headers = {
+          'authorization': shortio_token
+    }, json=True)
+    r.raise_for_status()</script>
+<script type="text/plain" id="src-whois">async def whois(ctx, name):
+    response = requests.get(f'https://api.mojang.com/users/profiles/minecraft/{name}')
+    json_response = response.json()
+    uuid = json_response['id']
+    image = f"https://crafatar.com/avatars/{uuid}"
+    embed=discord.Embed(title=name, url="https://namemc.com/search?q={name}", description=f'UUID: {uuid} - Name-Changes: https://namemc.com/search?q={name}', color=0x3f3f3f)</script>
+<script type="text/plain" id="src-weather">async def weather(ctx, location):
+  with open('./tokens/weather.txt', 'r') as file:
+    weather_api_key = file.read()
+  response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={location}&appid={weather_api_key}')
+  json_response = response.json()
+  temp = json_response['main']['temp']
+  temp = round(temp - 273.15)
+  ...
+  embed=discord.Embed(title=f"Weather in {city}, {country}", color=0x3f3f3f)
+  embed.add_field(name="Temperature", value=f"{temp}°C", inline=True)
+  embed.add_field(name="Weather", value=f"{weather}", inline=True)
+  embed.add_field(name="Wind", value=f"{wind}m/s", inline=True)
+  embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
+  await ctx.send(embed=embed)
+  # Made by GitHub Copilot with so much luv <3
+  # This Text above is also written by Github Copilot, lol</script>
+<script type="text/plain" id="src-hello">        # optimized "hello"-feature
+        hello_words = ["hallo", "moin", "servus", "hi"]
+        if message.guild.id == 728308958682415175:
+          for word in hello_words:
+              if message.content.lower() == word:
+                  number = random.randint(0, 5)
+                  if number == 1:
+                      await message.channel.send("https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730")
+                  if number == 2:
+                      await message.channel.send("https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162")
+                  ...</script>
+<script type="text/plain" id="src-guess">                if message.content.startswith(f"{PREFIXFORCOMMANDS}start"): #command to start quessing game
+                    channel = message.channel
+                    await channel.send(f"Guess the number from 0-35 by writing numbers in this channel! {message.author.mention}") #message that tells about the start of the game
+                    number1 = random.randint(1,35) #picking random number from 1 - 35 and printing it
+                    print(f'The solution for the "Guess The Number"-Game is: {number1}')
+                    zahl = 0
+                    def check(m):
+                        return m.content == str(number1) and m.channel == channel #checking answers
+                        zahl += 1
+                    msg = await client.wait_for('message', check=check)
+                    await channel.send(f"Correct answer, {message.author.mention}!".format(msg)) #tells who got the correct answer</script>
+<script type="text/plain" id="src-prefixhelp"># Hilfe-Command
+@client.command(aliases=['hilfe'])
+async def help(ctx):
+    embed=discord.Embed(title="Slash Commands are here!", description="Support for the regular commands has been dropped, please use Slash Commands from now on. The gif explains how to use a slash command.")
+    embed.set_image(url='https://zerobot.byzero.dev/data/kp7xiel4w9a.gif')
+    await ctx.send(embed=embed)</script>
+<script type="text/plain" id="src-mention">        with open('tokens/mention.txt','r') as file:
+            MENTION = file.read()
+        if message.content.lower() == MENTION:
+                await message.channel.send("The Prefix is: `/`")
+        if client.user.mentioned_in(message):
+            await message.add_reaction("👋")</script>
+
+<script type="text/plain" id="src-presence">@commands.is_owner()
+async def presence(ctx, type : int, presence: str = "Chilling with byZero", url : str = "https://zero.byzero.dev/404"):
+  await ctx.channel.purge(limit=1)
+  if type == 2:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `playing {presence}`')
+  elif type == 1:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `watching {presence}`')
+  elif type == 0:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=presence))
+    await ctx.send(f'The new Presence should be: ZeroBot is `listening to {presence}`')
+  elif type == 4:
+    change_status.start()
+  elif type == 3:
+    change_status.cancel()
+    await client.change_presence(activity=discord.Streaming(name=presence, url=url))
+    await ctx.send(f'The new Presence should be: ZeroBot is `streaming {presence}`')</script>
+<script type="text/plain" id="src-sendmsg">@commands.is_owner()
+async def sendmsg(ctx, who, id, *, message):
+    if who == 'owner':
+        guild = client.get_guild(int(id))
+        await guild.owner.send(message)
+    if who == 'channel':
+        channel = client.get_channel(int(id))
+        await channel.send(message)
+    if who == 'everyone':
+        activeservers = client.guilds
+        for guild in activeservers:
+            await guild.owner.send(message)
+    await ctx.send("done")</script>
+<script type="text/plain" id="src-logcmd">@client.event
+async def on_slash_command(ctx):
+    # Open the file in append & read mode ('a+')
+                with open("logs/commandlogs.txt", "a+", encoding='utf-8') as file_object:
+                # Move read cursor to the start of file.
+                    file_object.seek(0)
+                # If file is not empty then append '\n'
+                    data = file_object.read(100)
+                    if len(data) > 0 :
+                        file_object.write("\n")
+                # Append text at the end of file
+                    timeGermany = pytz.timezone('Europe/Berlin')
+                    rn_tG = datetime.datetime.now(timeGermany)
+                    file_object.write("\n")
+                    file_object.write("----------------------------------------")
+                    file_object.write("\n")
+                    file_object.write(f"User: [{str(ctx.author)}] | {str(ctx.author.mention)} | Icon: [{ctx.author.avatar_url}]")
+                    file_object.write("\n")
+                    file_object.write(f"Command: [/{ctx.command} {ctx.args}]")
+                    file_object.write("\n")
+                    file_object.write(f"Channel: [{ctx.channel}] | {ctx.channel.mention}")
+                    file_object.write("\n")
+                    file_object.write(f"Time: [{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))}] - Server: {ctx.guild.name} ID: {ctx.guild.id} - Owner: {ctx.guild.owner} - Member-Count: [{ctx.guild.member_count}] - Icon-URL: [{ctx.guild.icon_url}]")
+                    file_object.write("\n")
+                    file_object.write("----------------------------------------")
+                    msg = ctx
+                    channel = client.get_channel(879054620838748192)
+                    embed=discord.Embed(title=f"/{ctx.command} {ctx.args}")
+                    embed.set_author(name=f"User: {str(ctx.author)} | {str(ctx.author.mention)}", icon_url=f"{ctx.author.avatar_url}")
+                    embed.set_thumbnail(url=f"{ctx.guild.icon_url}")
+                    embed.add_field(name="Channel", value=f"{msg.channel} - {msg.channel.mention}", inline=True)
+                    embed.add_field(name="Server", value=f"{msg.guild.name} - {msg.guild.id} | Owner: {msg.guild.owner.mention} | Member-Count: {msg.guild.member_count}", inline=True)
+                    embed.add_field(name="Message", value=f"URL to message: `{ctx.jump_url}` ({ctx.jump_url})")
+                    embed.set_footer(text=f"{str(rn_tG.strftime('%d.%m.%y at %H:%M:%S'))} | Made by byZero")
+                    await channel.send(embed=embed)
+                    print(f"{str(ctx.author)} used \"/{ctx.command}\"")</script>
+<script type="text/plain" id="src-status">@slash.slash(name="status",
+             description="Shows the status of the ZeroBot")
+async def status(ctx):
+  server = client.get_guild(728308958682415175) # ZeroNetwork-Server
+  bot = server.get_member(817092531874693131)
+  if str(bot.status) == str("online"):
+    await ctx.send('ZeroBot is online, everything is working fine!')
+  if str(bot.status) == str("offline"):
+    await ctx.send('<@390965278470569985> ZeroBot is offline :o')
+    await ctx.send('PLEASE contact <@390965278470569985> so he can fix that!')</script>
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1)); // wie random.randint
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch {} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+/* ---------------- Glasur-Hintergrund ---------------- */
+function seeded(seed){ return () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+function makeDrips(W, seed, o){
+  const r = seeded(seed), out = [];
+  let x = -r() * 40;
+  while (x < W + 40){
+    const w = o.minW + r() * (o.maxW - o.minW);
+    const L = o.minL + r() * (o.maxL - o.minL);
+    out.push({ x, w, L, ph: r() * Math.PI * 2, sp: .25 + r() * .35 });
+    x += w * 1.9 + o.gapMin + r() * o.gap;
+  }
+  return out;
+}
+function dripPath(W, base, drips, t = 0, amp = 0){
+  let d = `M0 0 L0 ${base}`;
+  for (const p of drips){
+    const f = p.w * .42, L = Math.max(f + 2, p.L * (1 + amp * Math.sin(t * p.sp + p.ph)));
+    const a = p.x, b = a + f, c = b + p.w, e = c + f;
+    d += ` L${a} ${base} Q${b} ${base} ${b} ${base + f} L${b} ${base + L} A${p.w/2} ${p.w/2} 0 0 0 ${c} ${base + L} L${c} ${base + f} Q${c} ${base} ${e} ${base}`;
+  }
+  return d + ` L${W} ${base} L${W} 0 Z`;
+}
+const cv = $("#glaze"), cx = cv.getContext("2d");
+const css = getComputedStyle(document.documentElement);
+const tone = n => css.getPropertyValue(n).trim();
+let layers = [], vw = 0, vh = 0;
+function setupGlaze(){
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  vw = innerWidth; vh = innerHeight;
+  cv.width = vw * dpr; cv.height = vh * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const s = Math.max(.7, Math.min(1.2, vw / 1200));
+  layers = [
+    { c: tone("--drip-3"), b: vh * .66, d: makeDrips(vw, 11, { minW: 46*s, maxW: 92*s, minL: 40*s, maxL: 190*s, gapMin: 16*s, gap: 70*s }) },
+    { c: tone("--drip-2"), b: vh * .38, d: makeDrips(vw, 29, { minW: 40*s, maxW: 84*s, minL: 34*s, maxL: 170*s, gapMin: 14*s, gap: 64*s }) },
+    { c: tone("--drip-1"), b: vh * .12, d: makeDrips(vw, 47, { minW: 34*s, maxW: 72*s, minL: 30*s, maxL: 140*s, gapMin: 12*s, gap: 60*s }) }
+  ];
+}
+function drawGlaze(t){
+  cx.fillStyle = tone("--drip-4"); cx.fillRect(0, 0, vw, vh);
+  for (const l of layers){ cx.fillStyle = l.c; cx.fill(new Path2D(dripPath(vw, l.b, l.d, t, reduce ? 0 : .14))); }
+}
+let last = 0;
+function loop(ms){
+  if (ms - last > 40){ drawGlaze(ms / 1000); last = ms; }
+  requestAnimationFrame(loop);
+}
+setupGlaze(); drawGlaze(0);
+if (!reduce) requestAnimationFrame(loop);
+addEventListener("resize", () => { setupGlaze(); drawGlaze(performance.now() / 1000); });
+
+/* Tropfkante für Karten (SVG, feste Pixelbreite, wird vom Container beschnitten) */
+let dripSeed = 101;
+function dripSVG(){
+  const drips = makeDrips(800, dripSeed += 17, { minW: 9, maxW: 17, minL: 8, maxL: 24, gapMin: 10, gap: 46 });
+  return `<svg class="drip" viewBox="0 0 800 44" aria-hidden="true"><path fill="currentColor" d="${dripPath(800, 8, drips)}"/></svg>`;
+}
+
+/* ---------------- Poster ---------------- */
+const lastCommit = new Date("2022-07-22T12:00:00+02:00");
+$("#daysoff").textContent = Math.floor((Date.now() - lastCommit) / 864e5).toLocaleString("de-DE");
+
+let pets = +(store.get("zb-pets") || 0);
+const donut = $("#donut");
+const sprColors = ["--sp-blue","--sp-yellow","--sp-coral","--glaze"];
+donut.addEventListener("click", ev => {
+  pets++; store.set("zb-pets", pets);
+  $("#petcard").hidden = false;
+  $("#petcount").textContent = `${pets.toLocaleString("de-DE")}× gestreichelt`;
+  donut.classList.add("squish"); setTimeout(() => donut.classList.remove("squish"), 180);
+  if (reduce) return;
+  const wrap = $(".donut-wrap"), rect = wrap.getBoundingClientRect();
+  const ox = (ev.clientX || rect.left + rect.width/2) - rect.left, oy = (ev.clientY || rect.top + rect.height/2) - rect.top;
+  for (let i = 0; i < 9; i++){
+    const s = document.createElement("i"); s.className = "spr";
+    s.style.background = tone(sprColors[i % 4]); s.style.left = ox + "px"; s.style.top = oy + "px";
+    wrap.appendChild(s);
+    const ang = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 80;
+    s.animate([{ transform: `translate(-50%,-50%) rotate(${Math.random()*180}deg)`, opacity: 1 },
+               { transform: `translate(calc(-50% + ${Math.cos(ang)*dist}px), calc(-50% + ${Math.sin(ang)*dist + 40}px)) rotate(${Math.random()*720}deg)`, opacity: 0 }],
+               { duration: 800 + Math.random() * 300, easing: "cubic-bezier(.2,.7,.4,1)" }).onfinish = () => s.remove();
+  }
+});
+if (pets){ $("#petcard").hidden = false; $("#petcount").textContent = `${pets.toLocaleString("de-DE")}× gestreichelt`; }
+
+const statusmessages = ["Invite again >> Slash-Commands | https://zero.byzero.dev/invite", "zero.byzero.dev", "/help", "Invite again >> Slash-Commands | https://zero.byzero.dev/invite", "/stats", "byZero", "Invite again >> Slash-Commands | https://zero.byzero.dev/invite"];
+let si = 0;
+const presenceEl = $("#presence");
+let cycleTimer = null;
+const cycle = () => { presenceEl.textContent = "Listening to " + statusmessages[si++ % statusmessages.length]; };
+function startCycle(){ stopCycle(); cycle(); cycleTimer = setInterval(cycle, 8000); }
+function stopCycle(){ if (cycleTimer) clearInterval(cycleTimer); cycleTimer = null; }
+startCycle();
+
+const con = $("#console");
+function print(line, cls){
+  const s = document.createElement("span"); if (cls) s.className = cls;
+  s.textContent = "\n" + line; con.appendChild(s);
+  while (con.childNodes.length > 60) con.removeChild(con.firstChild);
+  con.scrollTop = con.scrollHeight;
+}
+
+/* ---------------- Mitglieder ---------------- */
+const M = {
+  zerobot: { name: "ZeroBot", tag: "", av: "assets/zerobot-avatar.webp", bot: true, state: "here" },
+  testbot: { name: "Testbot", tag: "0002", av: "assets/testbot-avatar.webp", bot: true, state: "here", pet: "assets/pet-testbot.gif" },
+  byzero:  { name: "byZero", tag: "0001", ph: "bZ", owner: true, state: "here" },
+  jcw05:   { name: "jcw05", tag: "1331", ph: "jc", state: "here" },
+  statusbot: { name: "StatusBot", tag: "", ph: "SB", bot: true, state: "here" },
+  du:      { name: "Du", tag: "0000", ph: "Du", state: "here", you: true }
+};
+let isOwner = false;
+const str = id => M[id].tag ? `${M[id].name}#${M[id].tag}` : M[id].name; // wie str(member)
+function renderMembers(){
+  const box = $("#mlist"); box.innerHTML = "";
+  for (const [id, m] of Object.entries(M)){
+    const el = document.createElement("span");
+    el.className = "member" + (m.state !== "here" ? " gone" : "");
+    el.innerHTML = (m.av ? `<img src="${m.av}" alt="">` : `<span class="ph">${m.ph}</span>`) + esc(m.name) +
+      (m.bot ? ` <span class="crown">BOT</span>` : "") + (m.owner ? ` <span class="crown">Owner</span>` : "") +
+      (m.state === "banned" ? ` <span class="crown">gebannt</span>` : "") + (m.you && isOwner ? ` <span class="crown">Owner</span>` : "");
+    box.appendChild(el);
+  }
+}
+renderMembers();
+let hasGiveawayRole = false;
+$("#ownerbtn").addEventListener("click", e => {
+  isOwner = !isOwner;
+  e.currentTarget.setAttribute("aria-pressed", String(isOwner));
+  e.currentTarget.textContent = isOwner ? "Owner-Modus: an" : "Owner-Modus: aus";
+  renderMembers();
+  sys(isOwner ? "<b>Du</b> bist jetzt Owner. <code>/presence</code>, <code>/spam</code>, <code>/sendmsg</code> und <code>_s</code> funktionieren." : "<b>Du</b> bist wieder normales Mitglied.");
+});
+
+/* ---------------- Formatierung ---------------- */
+function md(s){
+  let h = esc(s);
+  h = h.replace(/```\n?([\s\S]*?)```/g, (_, c) => `<pre>${c}</pre>`);
+  h = h.replace(/``([^`]+)``/g, "<code>$1</code>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  h = h.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+  h = h.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  h = h.replace(/&lt;@(\w+)&gt;/g, (_, id) => `<span class="mention">@${esc(M[id] ? M[id].name : id)}</span>`);
+  return h.replace(/\n/g, "<br>");
+}
+const PY_KW = /\b(async|await|def|if|elif|else|for|in|return|with|as|open|import|from|print|str|int|round|len|range)\b/g;
+function pyHighlight(src){
+  return src.split("\n").map(line => {
+    const ci = line.indexOf("#");
+    let code = line, comment = "";
+    if (ci >= 0 && !/["'][^"']*#/.test(line.slice(0, ci + 1))){ code = line.slice(0, ci); comment = line.slice(ci); }
+    let h = esc(code);
+    h = h.replace(/(@[\w.]+)/g, '<span class="dc">$1</span>');
+    h = h.replace(/(f?(&quot;|&#39;)(?:(?!\2).)*\2)/g, '<span class="st">$1</span>');
+    h = h.replace(PY_KW, '<span class="kw">$1</span>');
+    return h + (comment ? `<span class="cm">${esc(comment)}</span>` : "");
+  }).join("\n");
+}
+
+/* ---------------- Feed ---------------- */
+const feed = $("#feed"), logsEl = $("#logs");
+let unread = 0;
+function showChannel(name){
+  const logs = name === "logs";
+  feed.hidden = logs; logsEl.hidden = !logs;
+  $("#tab-general").setAttribute("aria-selected", String(!logs));
+  $("#tab-logs").setAttribute("aria-selected", String(logs));
+  $("#composer").hidden = logs;
+  if (logs){ unread = 0; $("#logbadge").textContent = ""; logsEl.scrollTop = logsEl.scrollHeight; } else scrollDown();
+}
+$("#tab-general").addEventListener("click", () => showChannel("general"));
+$("#tab-logs").addEventListener("click", () => showChannel("logs"));
+const stamp = () => { const d = new Date(), z = n => String(n).padStart(2, "0"); return `${z(d.getDate())}.${z(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)} at ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`; };
+const hereCount = () => Object.values(M).filter(m => m.state === "here").length;
+// on_slash_command / on_message: jeder Befehl landet als Embed im Log-Kanal
+function logCommand(title){
+  post({ ch: "logs", code: "logcmd", embed: { title, author: { name: `User: ${str("du")} | @${M.du.name}` }, thumb: "assets/zerobot-avatar.webp", thumbRound: true,
+    fields: [{ name: "Channel", value: "general - #general" }, { name: "Server", value: `ZeroNetwork - 728308958682415175 | Owner: <@byzero> | Member-Count: ${hereCount()}` }],
+    footer: `${stamp()} | Made by byZero` } });
+}
+const nowTime = () => new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+let msgs = []; // {el, author}
+function scrollDown(){ feed.scrollTop = feed.scrollHeight; }
+
+const DICE_PIPS = { 1:[[50,50]], 2:[[28,28],[72,72]], 3:[[26,26],[50,50],[74,74]], 4:[[28,28],[72,28],[28,72],[72,72]], 5:[[26,26],[74,26],[50,50],[26,74],[74,74]], 6:[[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]] };
+function diceSVG(n){
+  return `<svg class="dice" viewBox="0 0 100 100" role="img" aria-label="Würfel zeigt ${n}"><rect x="6" y="8" width="88" height="88" rx="20" fill="#131517"/><rect x="4" y="4" width="86" height="86" rx="20" fill="#fff" stroke="#131517" stroke-width="5"/>` +
+    DICE_PIPS[n].map(([x,y]) => `<circle cx="${x-3}" cy="${y-3}" r="8.5" fill="${n === 4 ? "#c9577f" : "#131517"}"/>`).join("") + `</svg>`;
+}
+
+function embedHTML(e){
+  const color = e.color != null ? "#" + e.color.toString(16).padStart(6, "0") : null;
+  let main = "";
+  if (e.author) main += `<div class="e-author">${e.author.icon ? `<img src="${e.author.icon}" alt="">` : ""}${esc(e.author.name)}</div>`;
+  if (e.title) main += `<h3 class="e-title">${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${md(e.title)}</a>` : md(e.title)}</h3>`;
+  if (e.desc) main += `<div class="e-desc">${md(e.desc)}</div>`;
+  let out = `<div class="e-main">${main}</div>`;
+  if (e.thumbHTML) out += e.thumbHTML;
+  else if (e.thumb) out += `<img class="e-thumb${e.thumbRound ? " round" : ""}" src="${e.thumb}" alt="">`;
+  if (e.fields && e.fields.length) out += `<div class="e-fields">` + e.fields.map(f => `<div class="e-field${f.inline === false ? " full" : ""}"><h4>${md(f.name)}</h4><div>${md(f.value)}</div></div>`).join("") + `</div>`;
+  if (e.imageHTML) out += e.imageHTML;
+  else if (e.image) out += `<img class="e-image" src="${e.image}" alt="${esc(e.imageAlt || "")}">`;
+  if (e.buttons) out += `<div class="btnrow">${e.buttons}</div>`;
+  if (e.footer || e.timestamp) out += `<div class="e-foot">${e.footer ? esc(e.footer) : ""}${e.footer && e.timestamp ? " · " : ""}${e.timestamp ? esc(e.timestamp) : ""}</div>`;
+  return { html: `<div class="embed"${color ? ` style="--ec:${color}"` : ""}>${dripSVG()}<div class="e-in">${out}</div></div>`, color };
+}
+
+function post({ author = "zerobot", content, embed, via, code, note, react, time, ch = "general" }){
+  const m = M[author];
+  const el = document.createElement("article");
+  el.className = "msg";
+  const avatar = m.av ? `<img class="av zero" src="${m.av}" alt="">` : `<span class="av${m.you ? " you" : ""}" aria-hidden="true">${m.ph}</span>`;
+  let body = `<div class="mh"><span class="name">${esc(m.name)}</span>${m.bot ? '<span class="bot">BOT</span>' : ""}<time>${esc(time || "Heute um " + nowTime())}</time></div>`;
+  if (via) body += `<div class="via">↳ ${esc(M.du.name)} benutzte <code>${esc(via)}</code></div>`;
+  if (content != null) body += `<div class="content">${md(content)}</div>`;
+  let em = null;
+  if (embed){ em = embedHTML(embed); body += `<div class="embed-wrap">${em.html}</div>`; }
+  if (note) body += `<div class="note">${note}</div>`;
+  body += `<div class="reactions"></div>`;
+  el.innerHTML = avatar + `<div class="mb">${body}</div>`;
+  if (embed && code) addFlip(el.querySelector(".embed"), code);
+  else if (code && !embed) el.dataset.code = code;
+  if (react) addReaction(el, react.emoji, react.count || 1, react.mine);
+  const rec = { el, author };
+  if (ch === "logs"){
+    logsEl.appendChild(el); logsEl.scrollTop = logsEl.scrollHeight;
+    if (logsEl.hidden){ unread++; $("#logbadge").textContent = unread; }
+    return rec;
+  }
+  feed.appendChild(el);
+  msgs.push(rec);
+  scrollDown();
+  return rec;
+}
+function addReaction(el, emoji, count = 1, mine = false, onClick){
+  const box = el.querySelector(".reactions");
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "react" + (mine ? " on" : "");
+  b.innerHTML = `<span>${emoji}</span><b>${count}</b>`;
+  b.setAttribute("aria-label", `Reaktion ${emoji}, ${count}`);
+  box.appendChild(b);
+  if (onClick) b.addEventListener("click", () => onClick(b));
+  return b;
+}
+function addFlip(embedEl, key){
+  const src = document.getElementById("src-" + key);
+  if (!src) return;
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "flipbtn"; btn.textContent = "</> Code";
+  btn.setAttribute("aria-label", "Originalcode von 2021 zeigen");
+  const front = embedEl.querySelector(".e-in");
+  const back = document.createElement("div");
+  back.className = "code-face"; back.hidden = true;
+  back.innerHTML = `<p>bot.py, so wie byZero es 2021 geschrieben hat</p><pre>${pyHighlight(src.textContent)}</pre>`;
+  embedEl.append(btn, back);
+  btn.addEventListener("click", () => {
+    const toBack = back.hidden;
+    const swap = () => { front.hidden = toBack; back.hidden = !toBack; btn.textContent = toBack ? "↺ Antwort" : "</> Code"; embedEl.classList.remove("flip"); };
+    if (reduce) return swap();
+    embedEl.classList.add("flip");
+    setTimeout(swap, 160);
+  });
+}
+function sys(html){
+  const el = document.createElement("div"); el.className = "sys"; el.innerHTML = html;
+  feed.appendChild(el); scrollDown(); return el;
+}
+function remove(rec){
+  msgs = msgs.filter(r => r !== rec);
+  if (reduce) return rec.el.remove();
+  rec.el.classList.add("out"); setTimeout(() => rec.el.remove(), 340);
+}
+function purge(limit, check){
+  const victims = [];
+  for (let i = msgs.length - 1; i >= 0 && victims.length < limit; i--){
+    if (!check || check(msgs[i])) victims.push(msgs[i]);
+  }
+  victims.forEach(remove);
+  return victims.length;
+}
+
+/* Tipp-Indikator + Warteschlange, damit Antworten nacheinander kommen */
+const typing = $("#typing");
+let queue = Promise.resolve();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function botSays(fn, delay = rnd(380, 720)){
+  queue = queue.then(async () => {
+    typing.innerHTML = `<i></i><i></i><i></i> ZeroBot tippt …`;
+    await sleep(reduce ? 120 : delay);
+    typing.innerHTML = "";
+    await fn();
+  }).catch(e => { typing.innerHTML = ""; console.error(e); });
+  return queue;
+}
+const errEmbed = text => ({ title: "Error", desc: "```\n" + text + "```", color: 0xe74c3c });
+const failed = () => sys(`<span aria-hidden="true">⚠</span> Die Interaktion ist fehlgeschlagen.`);
+
+/* ---------------- Befehle ---------------- */
+// type: int | str | member | choice ; rest: letzter String nimmt den Rest
+const C = {
+  help:        { d: "Why do you even want to try?" },
+  ping:        { d: "Shows you the bot's ping (latency)" },
+  dice:        { d: "Roll's the dice for ya' :D" },
+  rps:         { d: "Rock Paper Scissors on Discord", o: [{ n: "what", t: "choice", c: ["rock","paper","scissors","help"], r: 1 }] },
+  howgay:      { d: "Show's you how gay u are rn." },
+  pickrandom:  { d: "Picks a number between 1 and your specified number.", o: [{ n: "number", t: "int", r: 1 }] },
+  giveaway:    { d: "Creates a giveaway. Only works if the bot is always online. Required: Giveaways Role", o: [{ n: "time", t: "int", r: 1, h: "Sekunden statt Minuten" }, { n: "winners", t: "int" }, { n: "prize", t: "str", r: 1 }] },
+  calc:        { d: "A Simple Calculator :D", rip: "entfernt 17.07.21", o: [{ n: "expression", t: "str", r: 1 }] },
+  clear:       { d: "Deletes messages from a channel", o: [{ n: "amount", t: "int", r: 1 }] },
+  commandclear:{ d: "Deletes messages sent by the bot." },
+  kick:        { d: "Kicks someone from the server.", o: [{ n: "member", t: "member", r: 1 }, { n: "reason", t: "str" }] },
+  ban:         { d: "Bans someone from the server.", o: [{ n: "member", t: "member", r: 1 }, { n: "reason", t: "str" }] },
+  unban:       { d: "Unban's someone.", o: [{ n: "member", t: "str", r: 1, h: "example: byZero#0001" }] },
+  rickroll:    { d: "Rickroll someone :D", o: [{ n: "member", t: "member", r: 1 }] },
+  avatar:      { d: "Sends you a member's avatar URL!", net: 1, o: [{ n: "member", t: "member", r: 1 }] },
+  stats:       { d: "Shows you some bot information" },
+  whereami:    { d: "Shows you some information about your location" },
+  developer:   { d: "Shows you some information about my father // my developer" },
+  credits:     { d: "Shows you the sources of my code and help sources and websites I used for help." },
+  invite:      { d: "Shows the invite link!" },
+  weather:     { d: "Weather for a specific location", net: 1, o: [{ n: "location", t: "str", r: 1, h: "example: London" }] },
+  define:      { d: "Defines a word! Just kiddin'", net: 1, o: [{ n: "search_term", t: "str", r: 1 }] },
+  whois:       { d: "Shows Information about Minecraft-Player", net: 1, o: [{ n: "name", t: "str", r: 1, h: "example: byZero" }] },
+  meme:        { d: "Meme :D", net: 1 },
+  image:       { d: "Image :D", net: 1, o: [{ n: "type", t: "choice", c: ["hug","aww","floof"], r: 1 }] },
+  short:       { d: "Makes an URL shorter with zero.byzero.dev", net: 1, o: [{ n: "long_url", t: "str", r: 1 }] },
+  presence:    { d: "Changes the rich presence of the bot (watching, playing ...)", own: 1, o: [{ n: "type", t: "choice", c: ["listening","watching","playing","streaming","auto"], r: 1 }, { n: "presence", t: "str" }] },
+  spam:        { d: "you wanna spam?", own: 1, o: [{ n: "yon", t: "choice", c: ["-y","-n"], r: 1 }, { n: "amount", t: "int", r: 1 }, { n: "message", t: "str", r: 1 }] },
+  sendmsg:     { d: "Send a message", own: 1, o: [{ n: "who", t: "choice", c: ["owner","channel","everyone"], r: 1 }, { n: "id", t: "str" }, { n: "message", t: "str" }] },
+  status:      { d: "Shows the status of the ZeroBot", sb: 1 }
+};
+const NAMES = Object.keys(C);
+
+function memberByToken(tok){
+  const t = tok.replace(/^@/, "").toLowerCase();
+  return Object.keys(M).find(id => M[id].name.toLowerCase() === t || str(id).toLowerCase() === t || id === t);
+}
+function tokenize(s){
+  const out = []; const re = /"([^"]*)"|(\S+)/g; let m;
+  while ((m = re.exec(s))) out.push({ v: m[1] != null ? m[1] : m[2], i: m.index, end: re.lastIndex });
+  return out;
+}
+// gibt {args, err, cur} zurück; cur = Index der Option, die als nächstes dran ist
+function parse(name, rest, raw = rest){
+  const spec = C[name].o || [];
+  const toks = tokenize(rest); const args = {}; let ti = 0; let cur = -1;
+  for (let k = 0; k < spec.length; k++){
+    const o = spec[k];
+    const strOpts = spec.slice(k + 1).filter(x => x.t === "str");
+    if (ti >= toks.length){ if (cur < 0) cur = k; if (o.r) return { args, err: `Option „${o.n}“ fehlt.`, cur }; continue; }
+    const tok = toks[ti].v;
+    if (o.t === "int"){
+      if (/^-?\d+$/.test(tok)){ args[o.n] = parseInt(tok, 10); ti++; }
+      else if (o.r) return { args, err: `„${o.n}“ muss eine ganze Zahl sein.`, cur: k };
+    } else if (o.t === "choice"){
+      if (!o.c.includes(tok.toLowerCase())) return { args, err: `„${o.n}“: wähle ${o.c.join(", ")}.`, cur: k };
+      args[o.n] = tok.toLowerCase(); ti++;
+    } else if (o.t === "member"){
+      const id = memberByToken(tok);
+      if (!id) return { args, err: `„${tok}“ ist kein Mitglied. Wähle ${Object.values(M).map(m => m.name).join(", ")}.`, cur: k };
+      args[o.n] = id; ti++;
+    } else {
+      if (!strOpts.length){ args[o.n] = rest.slice(toks[ti].i).trim().replace(/^"(.*)"$/, "$1"); ti = toks.length; }
+      else { args[o.n] = tok; ti++; }
+    }
+  }
+  return { args, err: null, cur: ti >= toks.length && !/\s$/.test(raw) ? -1 : cur };
+}
+
+function logSlash(name, args){
+  const a = Object.values(args).map(v => typeof v === "number" ? String(v) : `'${M[v] ? str(v) : v}'`);
+  print(`${str("du")} used "/${name}"`);
+  logCommand(`/${name} [${a.join(", ")}]`);
+}
+const errorLog = text => post({ ch: "logs", embed: { title: "Error", desc: "```\n" + text + "```", color: 0x2ecc71 } });
+
+const HANDLERS = {
+  help(){ botSays(() => post({ content: "Seriously? You want to see all commands? There is a menu for that if you do `/`. Shut up. GET OUTTA HERE", via: "/help",
+    note: "Der Hilfe-Text ist original. Das Menü gibt es hier auch: einfach <code>/</code> tippen." })); },
+  ping(){
+    const t0 = performance.now();
+    botSays(() => {
+      const ms = Math.max(1, Math.round(performance.now() - t0 - 380 + rnd(18, 64)));
+      post({ content: `🏓 Pong! - The Bot has a latency of ${ms} ms!`, via: "/ping" });
+    });
+  },
+  dice(){
+    const n = rnd(1, 6);
+    const lines = { 1: "That's not much :O", 2: "That's not better than 1, 1 + 1 is 2", 3: "Did you know that 3 is the middle?", 4: "The holy **4**!", 5: "Why didn't you get a 6?", 6: "You may roll the dice again :3" };
+    botSays(() => post({ via: "/dice", code: "dice", embed: { title: "The dice whispered to me:", thumbHTML: diceSVG(n), fields: [{ name: String(n), value: lines[n], inline: false }] } }));
+  },
+  rps({ what }){
+    if (what === "help"){
+      botSays(() => post({ via: "/rps what:help", code: "rps", embed: { author: { name: str("du") }, title: "Rock paper scissors",
+        desc: "Rock paper scissors (also known by other orderings of the three items, with rock sometimes being called stone, or as roshambo or ro-sham-bo)[1][2][3] is a hand game usually played between two people, in which each player simultaneously forms one of three shapes with an outstretched hand." } }));
+      return;
+    }
+    const number = rnd(0, 3);
+    const pick = { 1: ["rock", "✊"], 2: ["scissors", "✌️"], 3: ["paper", "✋"] }[number];
+    if (!pick){
+      botSays(() => { failed(); post({ author: "zerobot", content: null, via: `/rps what:${what}`,
+        note: "<code>random.randint(0, 3)</code> kann auch 0 würfeln, und für 0 gibt es keinen Fall. Dann schweigt ZeroBot. Der Bug ist von 2021 und bleibt drin." }); });
+      return;
+    }
+    botSays(() => post({ via: `/rps what:${what}`, code: "rps", embed: { author: { name: str("du") }, title: "Rock paper scissors", desc: "Just a funny game!",
+      thumbHTML: `<div class="e-thumb" style="font-size:54px;line-height:76px;text-align:center" role="img" aria-label="${pick[0]}">${pick[1]}</div>`,
+      fields: [{ name: pick[0], value: "lol" }] } }));
+  },
+  howgay(){
+    const n = rnd(1, 100);
+    botSays(() => post({ via: "/howgay", code: "howgay", embed: { color: 0x8000a3, author: { name: str("du") }, title: "gay r8 machine", desc: `u are ${n}% gay 🏳️‍🌈` } }));
+  },
+  pickrandom({ number }){
+    if (number < 1){
+      botSays(() => post({ via: `/pickrandom number:${number}`, code: "error", embed: errEmbed(`empty range for randrange() (1, ${number + 1}, ${number})`) }));
+      return;
+    }
+    botSays(() => post({ via: `/pickrandom number:${number}`, code: "pickrandom", embed: { title: "I picked: " + rnd(1, number) } }));
+  },
+  calc({ expression }){
+    let shown = expression.replace(/ /g, "");
+    for (const op of ["+","-","*","/"]) shown = shown.split(op).join(` ${op} `);
+    shown = shown.replace(/\^/g, " ** ").replace(/\(/g, " ( ").replace(/\)/g, " ) ");
+    let res;
+    try { res = pyEval(expression.replace(/\s/g, "")); }
+    catch (e){
+      if (e.message === "division by zero"){
+        botSays(() => post({ via: `/calc expression:${expression}`, code: "error", embed: { title: "Result: Error", color: 0x3f3f3f, thumb: "assets/testbot-avatar.webp", thumbRound: true,
+          fields: [{ name: "Error:", value: "I THINK I GOT BRAIN DAMAGE", inline: false }, { name: "sowwy", value: "i am so sowwyyyyyyyyyyyyyyyyyyyyy", inline: false }] } }));
+      } else botSays(() => post({ via: `/calc expression:${expression}`, code: "error", embed: errEmbed("invalid syntax (<string>, line 1)") }));
+      return;
+    }
+    botSays(() => post({ via: `/calc expression:${expression}`, code: "calc", embed: { title: `Result: ${res}`, color: 0x3f3f3f, fields: [{ name: "Expression", value: shown }] },
+      note: "Am 17.07.2021 gebaut und am selben Tag wieder gelöscht: <code>eval()</code> hätte jeden beliebigen Python-Code ausgeführt. Hier rechnet ein sicherer Parser." }));
+  },
+  clear({ amount }){
+    if (amount < 0){ botSays(() => post({ via: `/clear amount:${amount}`, code: "error", embed: errEmbed("Command raised an exception: ValueError: limit must be a positive integer") })); return; }
+    botSays(() => {
+      const n = purge(amount + 1);
+      const rec = post({ content: `I deleted ${amount} messages.`, via: `/clear amount:${amount}`,
+        note: n > amount ? `Gelöscht wurden ${n}, nicht ${amount}. Das <code>amount + 1</code> stammt aus der Zeit vor Slash-Commands, als der Befehl selbst noch eine Nachricht war. Diese Antwort verschwindet nach 10 Sekunden.` : "Diese Antwort verschwindet nach 10 Sekunden." });
+      setTimeout(() => remove(rec), 10000);
+    });
+  },
+  commandclear(){
+    botSays(() => {
+      const n = purge(100, r => r.author === "zerobot");
+      post({ content: `Deleted ${n} message(s)`, via: "/commandclear" });
+    });
+  },
+  kick({ member }){ modAction("kick", member); },
+  ban({ member }){ modAction("ban", member); },
+  unban({ member }){
+    const parts = member.split("#");
+    if (parts.length !== 2){
+      const msg = parts.length < 2 ? "not enough values to unpack (expected 2, got 1)" : "too many values to unpack (expected 2)";
+      botSays(() => post({ via: `/unban member:${member}`, code: "error", embed: errEmbed(msg), note: "<code>member.split('#')</code> will genau ein #. Probier <code>Testbot#0002</code>, falls du ihn gebannt hast." }));
+      return;
+    }
+    const id = Object.keys(M).find(k => M[k].state === "banned" && M[k].name === parts[0] && M[k].tag === parts[1]);
+    if (!id){ botSays(() => failed()); return; }
+    M[id].state = "here"; renderMembers();
+    print(`Yea, so I just unbanned ${member} if that's okay :)`);
+    botSays(() => { post({ via: `/unban member:${member}`, code: "unban", embed: { title: `Unbanning ${member}`, imageHTML: yeetHTML(id, "back") } }); post({ ch: "logs", embed: { title: `Unbanning ${member} on ZeroNetwork`, imageHTML: yeetHTML(id, "back") } }); });
+  },
+  rickroll({ member }){
+    botSays(() => {
+      purge(1);
+      const rec = post({ content: `So, now you rickrolled ${str(member)}! - <@du>`, via: `/rickroll member:${M[member].name}`, code: "rickroll" });
+      if (member === "du") toast("Direktnachricht von ZeroBot", `<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener">youtube.com/watch?v=dQw4w9WgXcQ</a>`);
+      setTimeout(() => purge(1), 5000);
+    });
+  },
+  avatar({ member }){
+    const m = M[member];
+    botSays(async () => {
+      const url = m.av ? absURL(m.av) : null;
+      if (!url){ post({ via: `/avatar member:${m.name}`, code: "short", embed: errEmbed("'NoneType' object has no attribute 'avatar_url'"), note: `${esc(m.name)} hat kein eigenes Profilbild, nur die Initialen.` }); return; }
+      let shorted = url, note = "Gekürzt wird jetzt mit is.gd statt short.io, ein Token ist dafür nicht nötig.";
+      try { shorted = await shorten(url); } catch { note = "is.gd konnte die Adresse nicht kürzen (lokal oder in der Vorschau normal), deshalb der volle Link."; }
+      post({ via: `/avatar member:${m.name}`, code: "short", embed: { title: `${str(member)}'s Avatar-URL`, url: shorted, desc: "`" + shorted + "`", image: m.av, imageAlt: `Avatar von ${m.name}` }, note });
+    });
+  },
+  short({ long_url }){
+    botSays(async () => {
+      if (!/^https?:\/\/\S+\.\S+/.test(long_url)){ post({ via: `/short long_url:${long_url}`, code: "short", embed: errEmbed("400 Client Error: Bad Request for url: https://api.short.io/links/public"), note: "Die Adresse muss mit http:// oder https:// anfangen." }); return; }
+      try {
+        const u = await shorten(long_url);
+        post({ via: `/short long_url:${long_url}`, code: "short", embed: { title: "Your short URL:", desc: u, color: 0x000000 }, note: "Kürzt jetzt über is.gd. Die eigene Domain zero.byzero.dev gibt es nicht mehr." });
+      } catch (e){ apiFail(`/short long_url:${long_url}`, "short", e); }
+    });
+  },
+  stats(){
+    const cores = navigator.hardwareConcurrency || "?";
+    const ram = navigator.deviceMemory ? `${navigator.deviceMemory} GB (ca.)` : "verrät dein Browser nicht";
+    const here = Object.values(M).filter(m => m.state === "here").length;
+    botSays(() => post({ via: "/stats", code: "stats", embed: { title: "Bot-Information", color: 0xff0582, thumb: "assets/zerobot-avatar.webp", thumbRound: true, fields: [
+      { name: "📄 Name", value: "ZeroBot" }, { name: "👑 Bot Owner", value: "<@byzero>" }, { name: "👩‍🤝‍🧑🏽 Users", value: "`" + here + "`" },
+      { name: "📁Servers", value: "`1`" }, { name: "📄 Commands", value: "`" + (NAMES.length - 2) + "`" }, { name: "🖥 CPU", value: "dein Browser" },
+      { name: "🖥 CPU-Cores", value: String(cores) }, { name: "🖥 RAM", value: ram }, { name: "🖥 Hoster", value: location.hostname || "lokal" } ], footer: "Made by byZero" },
+      note: "Früher standen hier die Daten vom Server aus <code>tokens/stats/*.txt</code>. Jetzt ist dein Gerät der Server." }));
+  },
+  whereami(){
+    const here = Object.values(M).filter(m => m.state === "here").length;
+    botSays(() => post({ via: "/whereami", code: "whereami", embed: { title: "Where am I?", author: { name: str("du") }, fields: [
+      { name: "Name", value: "ZeroNetwork", inline: false }, { name: "ID", value: "728308958682415175" }, { name: "Owner", value: str("byzero") },
+      { name: "Region", value: "europe" }, { name: "Member-Count", value: String(here) }, { name: "Channel", value: "general" },
+      { name: "Channel-Mention", value: "#general" }, { name: "Author", value: str("du") }, { name: "Author-Mention", value: "<@du>" } ] } }));
+  },
+  developer(){
+    botSays(() => post({ via: "/developer", code: "developer", embed: { title: "byZero", url: "https://github.com/EinfachRuwen", fields: [
+      { name: "👋 Hello! I am byZero.", value: "I am byZero, a young developer and student. Currently I go to a secondary school near Bielefeld, Germany. I recently created my own Discord-Bot.", inline: false },
+      { name: "Read more about me:", value: "You can find more informations about me here: https://byzer0.ml/github-info" } ], footer: "This Bot was coded by byZero!" },
+      note: "byzer0.ml gibt es nicht mehr, .ml-Gratisdomains sind alle weg. Der Titel verlinkt deshalb aufs GitHub-Profil." }));
+  },
+  credits(){
+    botSays(() => post({ via: "/credits", code: "credits", embed: { title: "Credits", desc: "Here are all my sources for code and information listed.", color: 0x75e3ff, author: { name: "byZero" }, fields: [
+      { name: "Users", value: "[jcw05#1331](https://github.com/joseywoermann)" },
+      { name: "Websites", value: "[StackOverflow](https://stackoverflow.com/), [YouTube](https://youtube.com/), [GitHub](https://github.com/), [Pixabay](https://pixabay.com), [FreePix](https://freepix.com/)" } ] } }));
+  },
+  invite(){
+    botSays(() => post({ via: "/invite", code: "invite", embed: { title: "Lade den Bot auf deinen Server ein!", url: "https://github.com/EinfachRuwen/ZeroBot" },
+      note: "zero.byzero.dev/invite führt ins Leere. Einladen kann man ZeroBot jetzt nur noch hierher, also: Link teilen." }));
+  },
+  weather({ location }){
+    botSays(async () => {
+      const via = `/weather location:${location}`;
+      try {
+        const g = await getJSON(`https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&name=${encodeURIComponent(location)}`);
+        const p = g.results && g.results[0];
+        if (!p){ errorLog("'main'"); post({ via, code: "error", embed: errEmbed("'main'"), note: "Ort nicht gefunden. Die Original-Antwort darauf war genau dieser KeyError." }); return; }
+        const w = await getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${p.latitude}&longitude=${p.longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,surface_pressure,cloud_cover,is_day&wind_speed_unit=ms`);
+        const c = w.current;
+        if (!c || c.temperature_2m == null) throw new Error("no weather data");
+        const icon = { Clear: c.is_day ? "☀️" : "🌙", Clouds: "☁️", Mist: "🌫️", Drizzle: "🌦️", Rain: "🌧️", Snow: "🌨️", Thunderstorm: "⛈️" }[wmo(c.weather_code)];
+        post({ via, code: "weather", embed: { title: `Weather in ${p.name}, ${p.country_code}`, color: 0x3f3f3f,
+          thumbHTML: `<div class="e-thumb" style="font-size:54px;line-height:76px;text-align:center" role="img" aria-label="${wmo(c.weather_code)}">${icon}</div>`, fields: [
+          { name: "Temperature", value: `${Math.round(c.temperature_2m)}°C` }, { name: "Weather", value: wmo(c.weather_code) }, { name: "Wind", value: `${c.wind_speed_10m}m/s` },
+          { name: "Humidity", value: `${c.relative_humidity_2m}%` }, { name: "Pressure", value: `${Math.round(c.surface_pressure)}hPa` }, { name: "Cloud Cover", value: `${c.cloud_cover}%` } ],
+          footer: `Requested by ${M.du.name}` }, note: "Live-Daten von Open-Meteo statt OpenWeatherMap, ohne API-Key." });
+      } catch (e){ apiFail(via, "weather", e); }
+    });
+  },
+  define({ search_term }){
+    botSays(async () => {
+      const via = `/define search_term:${search_term}`;
+      try {
+        const d = await getJSON(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(search_term)}`);
+        const top = d.list && d.list[0];
+        const clean = t => t.replace(/\[([^\]]+)\]/g, "$1").replace(/\r/g, "").slice(0, 1200);
+        post({ via, code: "define", embed: { title: top ? top.word : "No results.", desc: top ? clean(top.definition) : "No results.", color: 0x1affbe, author: { name: str("du") } },
+          note: "Liest jetzt die offizielle Urban-Dictionary-API statt die Webseite zu scrapen. Inhalte kommen ungefiltert von dort, wie damals." });
+      } catch (e){ apiFail(via, "define", e); }
+    });
+  },
+  whois({ name }){
+    botSays(async () => {
+      const via = `/whois name:${name}`;
+      try {
+        const d = await getJSON(`https://playerdb.co/api/player/minecraft/${encodeURIComponent(name)}`);
+        const pl = d.data && d.data.player;
+        if (!pl){ errorLog("'id'"); post({ via, code: "whois", embed: errEmbed("'id'"), note: "Diesen Minecraft-Namen gibt es nicht. Damals kam an der Stelle genau dieser KeyError." }); return; }
+        const uuid = pl.raw_id || pl.id.replace(/-/g, "");
+        post({ via, code: "whois", embed: { title: pl.username, url: `https://namemc.com/search?q=${encodeURIComponent(pl.username)}`, color: 0x3f3f3f,
+          author: { name: "Who is:", icon: `https://crafatar.com/renders/head/${uuid}` }, desc: `UUID: ${uuid} - Name-Changes: https://namemc.com/search?q=${pl.username}`,
+          thumb: `https://crafatar.com/avatars/${uuid}` }, note: "Die UUID kommt jetzt über playerdb.co, weil Mojang selbst keine Anfragen von Webseiten annimmt. Die Bilder liefert Crafatar, wie damals." });
+      } catch (e){ apiFail(via, "whois", e); }
+    });
+  },
+  meme(){
+    botSays(async () => {
+      try {
+        let m; for (let k = 0; k < 4; k++){ m = await getJSON("https://meme-api.com/gimme"); if (!m.nsfw) break; }
+        if (m.nsfw) throw new Error("only nsfw memes returned");
+        post({ via: "/meme", code: "image", embed: { title: "Here you go:", image: m.url, imageAlt: m.title }, note: `Kommt jetzt von meme-api.com (r/${esc(m.subreddit)}) statt von evergene.io.` });
+      } catch (e){ apiFail("/meme", "image", e); }
+    });
+  },
+  image({ type }){
+    botSays(async () => {
+      const via = `/image type:${type}`;
+      try {
+        let url, src;
+        if (type === "floof"){ url = (await getJSON("https://api.thecatapi.com/v1/images/search"))[0].url; src = "thecatapi.com"; }
+        else if (type === "hug"){ url = (await getJSON("https://api.otakugifs.xyz/gif?reaction=hug")).url; src = "otakugifs.xyz"; }
+        else { let m; for (let k = 0; k < 4; k++){ m = await getJSON("https://meme-api.com/gimme/aww"); if (!m.nsfw) break; } url = m.url; src = "meme-api.com (r/aww)"; }
+        post({ via, code: "image", embed: { title: "Here you go:", image: url, imageAlt: type }, note: `Kommt jetzt von ${src} statt von evergene.io.` });
+      } catch (e){ apiFail(via, "image", e); }
+    });
+  },
+  presence({ type, presence: text = "Chilling with byZero" }){
+    if (!isOwner) return notOwner("/presence");
+    botSays(() => {
+      purge(1);
+      if (type === "auto"){ startCycle(); return; }
+      stopCycle();
+      const label = { listening: "Listening to", watching: "Watching", playing: "Playing", streaming: "Streaming" }[type];
+      presenceEl.textContent = `${label} ${text}`;
+      post({ content: `The new Presence should be: ZeroBot is \`${type === "listening" ? "listening to" : type} ${text}\``, via: `/presence type:${type}`, code: "presence" });
+    });
+  },
+  spam({ yon, amount, message }){
+    if (!isOwner) return notOwner("/spam");
+    if (yon !== "-y") return botSays(() => failed());
+    const n = Math.max(0, Math.min(amount, 25));
+    botSays(async () => {
+      purge(1);
+      for (let k = 0; k < n; k++){ post({ content: message }); await sleep(reduce ? 0 : 140); }
+      if (amount > 25) post({ note: `Original: ${amount}× ohne Limit. Hier ist bei 25 Schluss, damit dein Browser überlebt.` });
+    });
+  },
+  sendmsg({ who, id, message = "" }){
+    if (!isOwner) return notOwner("/sendmsg");
+    botSays(() => {
+      if (who === "channel") post({ content: message || "​" });
+      else toast(who === "owner" ? `DM an den Owner von Server ${id || "?"}` : "DM an alle Server-Owner (1)", esc(message || "(leer)"));
+      post({ content: "done", via: `/sendmsg who:${who}`, code: "sendmsg" });
+    });
+  },
+  status(){
+    botSays(() => post({ author: "statusbot", content: "ZeroBot is online, everything is working fine!", via: "/status", code: "status" }));
+  },
+  giveaway({ time, winners = 1, prize }){
+    if (!hasGiveawayRole){
+      botSays(() => {
+        const rec = post({ via: "/giveaway", code: "error", embed: { ...errEmbed('This error can occur for 2 reasons:\n1. You need to create a role called "Giveaways" and give it to everyone who is allowed to create giveaways.\n2. You are not allowed to create giveaways because you do not have the "Giveaways" role.'),
+          buttons: `<button type="button" class="ebtn" data-act="role">Rolle „Giveaways“ erstellen</button>` } });
+        const b = rec.el.querySelector('[data-act="role"]');
+        b.addEventListener("click", () => { hasGiveawayRole = true; b.disabled = true; b.textContent = "Rolle vergeben"; sys(`<b>Du</b> hast jetzt die Rolle <b>Giveaways</b>. Starte das Giveaway nochmal.`); });
+      });
+      return;
+    }
+    runGiveaway(Math.max(1, Math.min(time, 120)), Math.max(1, winners), prize);
+  }
+};
+class KeyError extends Error {}
+async function getJSON(url){
+  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 9000);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal });
+    if (!r.ok) throw new Error(`${r.status} ${r.statusText || "Error"} for url: ${url.split("?")[0]}`);
+    return await r.json();
+  } finally { clearTimeout(t); }
+}
+const BLOCKED = "Die Anfrage ist im Browser gescheitert. In der claude.ai-Vorschau sind fremde Server gesperrt; auf deiner eigenen Seite (Cloudflare Pages) klappt das.";
+function apiFail(via, code, e){
+  const msg = e && e.name === "AbortError" ? "Read timed out. (read timeout=9)" : (e && e.message) || "Connection error";
+  errorLog(msg);
+  post({ via, code, embed: errEmbed(msg), note: BLOCKED });
+}
+const absURL = path => { try { return new URL(path, location.href).href; } catch { return path; } };
+async function shorten(url){
+  const d = await getJSON(`https://is.gd/create.php?format=json&url=${encodeURIComponent(url)}`);
+  if (!d.shorturl) throw new Error(d.errormessage || "is.gd error");
+  return d.shorturl;
+}
+function wmo(c){
+  if (c === 0) return "Clear"; if (c <= 3) return "Clouds"; if (c <= 48) return "Mist"; if (c <= 57) return "Drizzle";
+  if (c <= 67 || (c >= 80 && c <= 82)) return "Rain"; if (c <= 77 || c === 85 || c === 86) return "Snow"; return "Thunderstorm";
+}
+function notOwner(via){
+  botSays(() => { errorLog("You do not own this bot."); post({ via, code: "error", embed: errEmbed("You do not own this bot."), note: "Nur für byZero. Links bei den Mitgliedern kannst du den Owner-Modus einschalten." }); });
+}
+function deadEvergene(via, path){
+  botSays(() => post({ via, code: "image", embed: errEmbed(`HTTPSConnectionPool(host='evergene.io', port=443): Max retries exceeded with url: /api/${path}`),
+    note: "evergene.io hat die Bilder und Memes geliefert. Die API ist weg, der Code steht noch." }));
+}
+function yeetHTML(id, kind){
+  const m = M[id];
+  return `<div class="yeet ${kind}">${m.av ? `<img src="${m.av}" alt="${esc(m.name)}">` : `<span class="ph">${m.ph}</span>`}</div>`;
+}
+function modAction(kind, id){
+  const m = M[id], verb = kind === "kick" ? "Kicking" : "Banning", past = kind === "kick" ? "kicked" : "banned";
+  if (m.state !== "here"){ botSays(() => post({ via: `/${kind}`, code: "error", embed: errEmbed("404 Not Found (error code: 10007): Unknown Member") })); return; }
+  if (id === "byzero" || id === "zerobot"){
+    botSays(() => post({ via: `/${kind} member:${m.name}`, code: kind, embed: errEmbed("403 Forbidden (error code: 50013): Missing Permissions"),
+      note: id === "byzero" ? "Den Server-Owner kann niemand kicken. Auch nicht sein eigener Bot." : "ZeroBot weigert sich, sich selbst rauszuwerfen." }));
+    return;
+  }
+  m.state = kind === "kick" ? "gone" : "banned"; renderMembers();
+  print(`Yea, so I just ${past} ${str(id)} if that's okay :)`);
+  botSays(() => {
+    const gif = kind === "kick" ? "assets/kick.webp" : "assets/ban.webp";
+    post({ via: `/${kind} member:${m.name}`, code: kind, embed: { title: `${verb} ${str(id)}`, image: gif, imageAlt: kind === "kick" ? "Original-Kick-GIF" : "Original-Ban-GIF" } });
+    post({ ch: "logs", embed: { title: `${verb} ${str(id)} on ZeroNetwork`, image: gif, imageAlt: "" } });
+    if (id === "du") setTimeout(() => showOverlay(kind), 1400);
+    else if (kind === "kick") setTimeout(() => { m.state = "here"; renderMembers(); sys(`<b>${esc(m.name)}</b> ist dem Server wieder beigetreten.`); print(`${str(id)} has joined the server.`, "dim"); }, 9000);
+    else sys(`Zurückholen mit <code>/unban ${esc(str(id))}</code>`);
+  });
+}
+
+/* sicherer Ersatz für eval(): + - * / ^ ( ) mit Python-Zahlenformat */
+function pyEval(s){
+  if (!/^[\d.+\-*/^()]+$/.test(s)) throw new Error("syntax");
+  let i = 0;
+  const peek = () => s[i];
+  function num(v, fl){ return { v, fl }; }
+  function primary(){
+    if (peek() === "("){ i++; const v = expr(); if (s[i++] !== ")") throw new Error("syntax"); return v; }
+    if (peek() === "-"){ i++; const v = power(); return num(-v.v, v.fl); }
+    if (peek() === "+"){ i++; return power(); }
+    const m = /^\d+(\.\d*)?|^\.\d+/.exec(s.slice(i)); if (!m) throw new Error("syntax");
+    i += m[0].length; return num(parseFloat(m[0]), m[0].includes("."));
+  }
+  function power(){
+    const b = primary();
+    if (peek() === "^"){ i++; const e = unary(); const fl = b.fl || e.fl || e.v < 0;
+      if (b.v === 0 && e.v < 0) throw new Error("division by zero"); return num(Math.pow(b.v, e.v), fl); }
+    return b;
+  }
+  function unary(){ return power(); }
+  function term(){
+    let a = unary();
+    while (peek() === "*" || peek() === "/"){
+      const op = s[i++], b = unary();
+      if (op === "*") a = num(a.v * b.v, a.fl || b.fl);
+      else { if (b.v === 0) throw new Error("division by zero"); a = num(a.v / b.v, true); }
+    }
+    return a;
+  }
+  function expr(){
+    let a = term();
+    while (peek() === "+" || peek() === "-"){ const op = s[i++], b = term(); a = num(op === "+" ? a.v + b.v : a.v - b.v, a.fl || b.fl); }
+    return a;
+  }
+  const r = expr(); if (i !== s.length) throw new Error("syntax");
+  if (!isFinite(r.v)) return r.v > 0 ? "inf" : "-inf";
+  return r.fl && Number.isInteger(r.v) ? r.v.toFixed(1) : String(+r.v.toPrecision(16));
+}
+
+/* Giveaway */
+function runGiveaway(secs, winners, prize){
+  let starting;
+  botSays(() => { starting = post({ content: "Giveaway is starting...", via: `/giveaway time:${secs} prize:${prize}` }); }, 300).then(async () => {
+    await sleep(1000); remove(starting); await sleep(600);
+    const end = new Date(Date.now() + secs * 1000);
+    const rec = post({ code: "giveaway", embed: { title: "🎉 GIVEAWAY!!!", desc: prize, color: 0xee1153, author: { name: M.du.name }, thumb: "assets/zerobot-avatar.webp", thumbRound: true,
+      fields: [{ name: "How to:", value: "React to the message with the 🎉-Emoji so you can enter the giveaway." }], footer: `Winners = ${winners}`, timestamp: `endet um ${end.toLocaleTimeString("de-DE")}` },
+      note: `Original: Laufzeit in Minuten. Hier sind es ${secs} Sekunden, damit du nicht ewig wartest.` });
+    const users = new Set(["zerobot"]);
+    const btn = addReaction(rec.el, "🎉", 1, false, b => {
+      if (users.has("du")) users.delete("du"); else users.add("du");
+      b.classList.toggle("on", users.has("du")); b.querySelector("b").textContent = users.size;
+    });
+    const guests = ["testbot", "jcw05"].filter(id => M[id].state === "here");
+    guests.forEach(id => { if (Math.random() < .6) setTimeout(() => { users.add(id); btn.querySelector("b").textContent = users.size; }, rnd(1500, secs * 800)); });
+    await sleep(secs * 1000);
+    btn.disabled = true;
+    const pool = [...users].filter(u => u !== "zerobot");
+    for (let k = 0; k < winners; k++){
+      if (!pool.length){
+        await sleep(300);
+        post({ code: "error", embed: { title: "There is no winner", thumb: "assets/testbot-avatar.webp", thumbRound: true, fields: [{ name: "It looks like nobody entered the giveaway.", value: ":(" }], footer: "Coded by byZero" } });
+        return;
+      }
+      const w = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+      await sleep(500);
+      post({ content: `<@${w}>` });
+      post({ code: "giveaway", embed: { title: "🎉 Congratulations!", thumb: M[w].av || "assets/zerobot-avatar.webp", thumbRound: true, fields: [{ name: "Winner:", value: `<@${w}> You have won ${prize}!` }], footer: "Coded by byZero" } });
+    }
+  });
+}
+
+/* Overlay + Toast */
+function showOverlay(kind){
+  const o = document.createElement("div"); o.className = "overlay"; o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true");
+  o.innerHTML = `<div class="card"><img src="assets/pet-zerobot.gif" alt="" width="112" height="112"><h2>${kind === "kick" ? "Gekickt." : "Gebannt."}</h2>
+    <p>Du hast dich gerade selbst von ZeroNetwork ${kind === "kick" ? "gekickt" : "gebannt"}. ZeroBot hat nur gemacht, was du gesagt hast.</p>
+    <button type="button" class="ebtn">Wieder beitreten</button></div>`;
+  document.body.appendChild(o);
+  const b = o.querySelector("button"); b.focus();
+  b.addEventListener("click", () => { M.du.state = "here"; renderMembers(); o.remove(); sys(`<b>Du</b> bist dem Server wieder beigetreten.`); print("Du#0000 has joined the server.", "dim"); $("#cmd").focus(); });
+}
+function toast(title, html){
+  const t = document.createElement("div"); t.className = "card toast"; t.setAttribute("role", "status");
+  t.innerHTML = `<small>${esc(title)}</small><div>${html}</div>`;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 7000);
+}
+
+/* ---------------- Eingabe ---------------- */
+let guess = null;
+// Prefix-Befehle aus v1.0 bis v2.1 (Versions/2.1/bot.py), in v3 durch Slash-Commands ersetzt
+const V21 = "Aus v2.1: Diesen Prefix-Befehl gab es vor den Slash-Commands.";
+const LEGACY = {
+  crash(){
+    const n = rnd(1, 6);
+    const t = { 1: "Crash yourself", 2: "I am not an old MS-DOS, I won't crash if you click a button. Look at yourself, maybe you can find an accordance between you and MS-DOS.",
+      3: "Error 176: This API-Request could not be send. Please try again later.", 4: "Crash yourself - TRASH yourself! I got a recycle bin on my desktop.",
+      5: "Why do you want me to crash? I won't do that until you tell me a reason for this." }[n];
+    if (!t) return; // randint(1, 6), aber nur 5 Antworten
+    botSays(() => post({ content: t, note: V21 }));
+  },
+  question(q){
+    if (!q){ print("discord.ext.commands.errors.MissingRequiredArgument: question is a required argument that is missing.", "er"); return; }
+    const a = ["Yes", "No", "Maybe", "Probably", "Probably not"][rnd(0, 4)];
+    botSays(() => post({ embed: { title: `Question: "${q}" Answer: ${a}`, color: 0x1affbe, author: { name: str("du") } }, note: V21 }));
+  },
+  google(q){
+    if (!q){ print("discord.ext.commands.errors.MissingRequiredArgument: search_term is a required argument that is missing.", "er"); return; }
+    botSays(() => post({ content: "https://google.com/search?q=" + q.split(" ").join("+"), note: V21 }));
+  },
+  feature(){ botSays(() => post({ content: "If you wanna make a Feature / Command-Request, look here: https://github.com/EinfachRuwen/ZeroBot/issues", note: V21 + " Der Link ging früher auf byzer0.ml/ejkqw." })); },
+  updates(){ botSays(() => post({ content: "``Added a few new commands!``", note: "Aus v1.0." })); },
+  makeissue(arg){
+    const t = tokenize(arg);
+    if (!t.length){ print("discord.ext.commands.errors.MissingRequiredArgument: pTitle is a required argument that is missing.", "er"); return; }
+    const title = t[0].v, body = (t[1] ? t[1].v + " " : "") + "(Issue created by Discord-user `" + str("du") + "`)";
+    const enc = v => encodeURIComponent(v).replace(/\(/g, "%28").replace(/\)/g, "%29");
+    const link = `https://github.com/EinfachRuwen/ZeroBot/issues/new?title=${enc(title)}&body=${enc(body)}`;
+    botSays(() => post({ embed: { title: "Bug report is ready!", desc: `[Open it on GitHub](${link})` },
+      note: V21 + " Früher hat der Bot das Issue mit einem GitHub-Token selbst angelegt. Jetzt öffnet der Link ein vorausgefülltes Issue, abschicken musst du selbst." }));
+  }
+};
+["bing"].forEach(a => LEGACY[a] = LEGACY.google);
+["createissue", "report", "bug", "bugreport"].forEach(a => LEGACY[a] = LEGACY.makeissue);
+["featurerequest", "requestfeature", "idea"].forEach(a => LEGACY[a] = LEGACY.feature);
+const HELLO = {
+  1: ["https://tenor.com/view/inside-out-joy-hi-hey-hello-gif-4763730", "inside-out-joy-hi-hey-hello"],
+  2: ["https://tenor.com/view/hi-hello-cute-baby-wave-gif-17882162", "hi-hello-cute-baby-wave"],
+  3: ["https://tenor.com/view/hey-girlfriend-bear-wave-hello-cute-gif-17675558", "hey-girlfriend-bear-wave-hello-cute"],
+  4: ["https://tenor.com/view/hello-hi-cute-adorable-angry-birds-gif-17101140", "hello-hi-cute-adorable-angry-birds"],
+  5: ["https://tenor.com/view/hi-husky-hello-cute-gif-15361405", "hi-husky-hello-cute"]
+};
+function handlePlain(text){
+  if (M.du.state !== "here") return;
+  const rec = post({ author: "du", content: text });
+  const low = text.trim().toLowerCase();
+  if (/@zerobot\b/i.test(text)){
+    setTimeout(() => addReaction(rec.el, "👋", 1), 500);
+    if (low === "@zerobot") botSays(() => post({ content: "The Prefix is: `/`", code: "mention" }));
+  }
+  if (["hallo","moin","servus","hi"].includes(low)){
+    const n = rnd(0, 5);
+    if (n === 0) return; // genau wie damals: bei 0 kommt nichts
+    const [url, slug] = HELLO[n];
+    botSays(() => {
+      const r = post({});
+      const tid = url.match(/(\d+)$/)[1];
+      if (tid === "15361405"){
+        r.el.querySelector(".mb").insertAdjacentHTML("beforeend", `<div class="content"><a href="${url}" target="_blank" rel="noopener">${url}</a></div><div class="note">Dieses Husky-GIF hat Tenor inzwischen gelöscht. Der Link läuft ins Leere, die anderen vier GIFs gibt es noch.</div>`);
+      } else r.el.querySelector(".mb").insertAdjacentHTML("beforeend", `<div class="tenor"><iframe src="https://tenor.com/embed/${tid}" title="GIF: ${slug}" loading="lazy" allowfullscreen></iframe><a href="${url}" target="_blank" rel="noopener">${url}</a></div>`);
+      scrollDown();
+    });
+    return;
+  }
+  if (low.startsWith("_")){
+    print(`${str("du")} used "${text}"`);
+    const cmd = low.slice(1).split(/\s+/)[0];
+    if (cmd.startsWith("start") || cmd === "help" || cmd === "hilfe") logCommand(text.trim());
+    if (cmd.startsWith("start")){
+      const n = rnd(1, 35); guess = n;
+      print(`The solution for the "Guess The Number"-Game is: ${n}`);
+      botSays(() => post({ content: `Guess the number from 0-35 by writing numbers in this channel! <@du>`,
+        note: "Bei falschen Zahlen sagt ZeroBot nichts, auch damals nicht. Die Lösung stand nur in der Konsole. Kleiner Tipp: links schauen." }));
+      return;
+    }
+    if (cmd === "help" || cmd === "hilfe"){
+      botSays(() => post({ code: "prefixhelp", embed: { title: "Slash Commands are here!", desc: "Support for the regular commands has been dropped, please use Slash Commands from now on. The gif explains how to use a slash command.", image: "assets/slash-howto.gif", imageAlt: "Animation: Slash-Commands in Discord benutzen" },
+        note: "Alte Prefix-Befehle aus v2.1 funktionieren hier trotzdem: <code>_crash</code>, <code>_question</code>, <code>_google</code>, <code>_makeissue</code>, <code>_feature</code>, <code>_updates</code>." }));
+      return;
+    }
+    const argText = text.trim().slice(cmd.length + 1).trim();
+    logCommand(text.trim());
+    if (cmd === "s" || cmd === "write" || cmd === "pr"){
+      if (!isOwner){ print("discord.ext.commands.errors.NotOwner: You do not own this bot.", "er"); return; }
+      if (cmd === "pr"){ botSays(() => { presenceEl.textContent = "Playing Chilling with byZero"; stopCycle(); toast("Direktnachricht von ZeroBot", "I updated the Presence :D"); }); return; }
+      if (!argText){ print("discord.ext.commands.errors.MissingRequiredArgument: text is a required argument that is missing.", "er"); return; }
+      botSays(() => { purge(1); post({ content: argText }); }, 200);
+      return;
+    }
+    const legacy = LEGACY[cmd];
+    if (legacy){ legacy(argText); return; }
+    print(`discord.ext.commands.errors.CommandNotFound: Command "${cmd}" is not found`, "er");
+    return;
+  }
+  if (guess !== null && low === String(guess)){
+    guess = null;
+    botSays(() => post({ content: "Correct answer, <@du>!", code: "guess" }));
+  }
+}
+
+const input = $("#cmd"), menu = $("#menu"), hint = $("#hint");
+let items = [], sel = 0;
+function menuFor(q){
+  const name = q.slice(1).toLowerCase();
+  return NAMES.filter(n => n.startsWith(name)).concat(NAMES.filter(n => !n.startsWith(name) && n.includes(name) && name));
+}
+function sig(n){ return (C[n].o || []).map(o => o.r ? o.n : o.n + "?").join(" "); }
+function renderMenu(){
+  const v = input.value;
+  const open = /^\/\S*$/.test(v);
+  if (!open){ menu.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
+  items = menuFor(v);
+  if (!items.length){ menu.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
+  sel = Math.min(sel, items.length - 1);
+  menu.innerHTML = `<h3>Befehle von ZeroBot · ${items.length}</h3>` + items.map((n, k) =>
+    `<div class="opt-item" role="option" id="opt-${n}" aria-selected="${k === sel}" data-n="${n}"><b>/${n}</b><span>${esc(C[n].d)}</span>${
+      C[n].own ? `<em class="own">${isOwner ? "Owner" : "nur byZero"}</em>` : C[n].rip ? `<em class="rip">${C[n].rip}</em>` : C[n].net ? '<em class="net">neue API</em>' : C[n].sb ? '<em class="net">StatusBot</em>' : "<span></span>"}</div>`).join("");
+  menu.hidden = false; input.setAttribute("aria-expanded", "true");
+  input.setAttribute("aria-activedescendant", "opt-" + items[sel]);
+  const s = menu.querySelector('[aria-selected="true"]'); if (s) s.scrollIntoView({ block: "nearest" });
+}
+function pick(n){ input.value = "/" + n + ((C[n].o || []).length ? " " : ""); sel = 0; renderMenu(); renderHint(); input.focus(); }
+menu.addEventListener("mousedown", e => { const it = e.target.closest(".opt-item"); if (it){ e.preventDefault(); pick(it.dataset.n); } });
+
+function renderHint(err){
+  const v = input.value;
+  const m = /^\/(\w+)(?:\s+(.*))?$/s.exec(v);
+  if (err){ hint.innerHTML = `<span class="err">${esc(err)}</span>`; return; }
+  if (!m || !C[m[1]] || !/\s/.test(v)){
+    hint.innerHTML = v ? "" : `Klick auf den Donut, er mag das. Oder schreib <code>_start</code> für ein verstecktes Spiel.`;
+    return;
+  }
+  const name = m[1], spec = C[name].o || [];
+  if (!spec.length){ hint.innerHTML = `<code>/${name}</code> braucht keine Optionen. Enter drücken.`; return; }
+  const p = parse(name, m[2] || "", v.slice(name.length + 2));
+  const cur = p.cur >= 0 ? p.cur : -1;
+  let h = spec.map((o, k) => `<span class="opt${k === cur ? " cur" : ""}">${o.n}${o.r ? "" : "?"}${o.h ? ": " + esc(o.h) : ""}</span>`).join("");
+  const o = spec[cur];
+  if (o && o.t === "choice") h += o.c.map(c => `<button type="button" class="chip" data-fill="${c}">${c}</button>`).join("");
+  if (o && o.t === "member") h += Object.keys(M).filter(id => M[id].state === "here").map(id => `<button type="button" class="chip" data-fill="${M[id].name}">@${esc(M[id].name)}</button>`).join("");
+  hint.innerHTML = h;
+}
+hint.addEventListener("click", e => {
+  const b = e.target.closest("[data-fill]"); if (!b) return;
+  input.value = input.value.replace(/\s*$/, " ") + b.dataset.fill + " ";
+  renderHint(); input.focus();
+});
+input.addEventListener("input", () => { sel = 0; renderMenu(); renderHint(); });
+input.addEventListener("keydown", e => {
+  if (!menu.hidden){
+    if (e.key === "ArrowDown"){ e.preventDefault(); sel = (sel + 1) % items.length; renderMenu(); return; }
+    if (e.key === "ArrowUp"){ e.preventDefault(); sel = (sel - 1 + items.length) % items.length; renderMenu(); return; }
+    if (e.key === "Tab" || (e.key === "Enter" && input.value.slice(1) !== items[sel])){ e.preventDefault(); pick(items[sel]); return; }
+    if (e.key === "Escape"){ menu.hidden = true; return; }
+  }
+});
+input.addEventListener("blur", () => setTimeout(() => { menu.hidden = true; input.setAttribute("aria-expanded", "false"); }, 120));
+input.addEventListener("focus", renderMenu);
+
+function run(text){
+  const t = text.trim(); if (!t) return;
+  if (M.du.state !== "here"){ showOverlay("kick"); return; }
+  if (t.startsWith("/")){
+    const m = /^\/(\w+)\s*(.*)$/s.exec(t);
+    const name = m && m[1].toLowerCase();
+    if (!name || !C[name]){ renderHint(`/${name || ""} gibt es nicht. Tippe / für die Liste.`); return false; }
+    const p = parse(name, m[2]);
+    if (p.err){ renderHint(p.err); return false; }
+    logSlash(name, p.args);
+    HANDLERS[name](p.args);
+    return true;
+  }
+  handlePlain(t);
+  return true;
+}
+$("#composer").addEventListener("submit", e => {
+  e.preventDefault();
+  if (run(input.value) !== false){ input.value = ""; menu.hidden = true; renderHint(); }
+});
+
+const QUICK = ["/dice", "/rps rock", "/meme", "/weather Bielefeld", "/giveaway 15 Donut", "/calc 2^10/0", "/kick Testbot", "hallo", "_start", "_crash"];
+$("#quick").innerHTML = QUICK.map(q => `<button type="button" class="chip" data-q="${esc(q)}">${esc(q)}</button>`).join("");
+$("#quick").addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (b){ run(b.dataset.q); input.focus(); } });
+
+/* ---------------- Startzustand ---------------- */
+post({ author: "byzero", time: "14.05.2021",
+  content: "Hallo liebe Community,\nendlich ist es so weit! Mein Discord-Bot geht endlich public und ihr könnt ihn zu euren Servern hinzufügen!\n\nSchaut doch mal auf seiner Website vorbei:\nhttps://zero.byzero.dev\n\nLG\nbyZero" });
+const div = document.createElement("div"); div.className = "divider";
+div.textContent = `${$("#daysoff").textContent} Tage später`;
+feed.appendChild(div);
+print("Logged in. change_status.start()", "dim");
+post({ time: "Heute um " + nowTime(), code: "restart", embed: { author: { name: "Restart", icon: "assets/restart.gif" }, title: "I am back 👋", desc: "I just restarted!", thumb: "assets/zerobot-avatar.webp", thumbRound: true,
+  fields: [{ name: "What happended?", value: "I don't know :o Maybe someone unplugged me.", inline: false }], footer: "This is an automatic execution, should the bot ever restart." } });
+post({ ch: "logs", code: "restart", embed: { author: { name: "Restart", icon: "assets/restart.gif" }, title: "I am back 👋", desc: "I just restarted!", thumb: "assets/zerobot-avatar.webp", thumbRound: true,
+  fields: [{ name: "What happended?", value: "I don't know :o Maybe someone unplugged me.", inline: false }], footer: "This is an automatic execution, should the bot ever restart." } });
+unread = 0; $("#logbadge").textContent = "";
+renderHint();
+
+/* ---------------- Zeitkapsel ---------------- */
+const COMMITS = [
+  ["2021-03-06","byZeroOfficial","Initial commit"],["2021-03-10","byZeroOfficial","Added a help command"],["2021-03-11","byZeroOfficial","Create LICENSE"],["2021-03-11","byZeroOfficial","Create codeql-analysis.yml"],
+  ["2021-04-14","byZeroOfficial","Create sd.py"],
+  ["2021-05-14","byZeroOfficial","Changed the Folder-Sort-Thing xD"],["2021-05-14","byZeroOfficial","I made the bot public :D\n\nYEAHHHHHHHHHH FINALLY",1],
+  ["2021-05-18","Josey C. Wörmann","fixed spelling mistakes and grammar until line 250"],["2021-05-18","Josey C. Wörmann","optimized the \"hello\"-feature"],["2021-05-18","byZeroOfficial","just fixed a few mistakes and made more mistakes xD",1],["2021-05-18","byZeroOfficial","tt"],["2021-05-18","byZeroOfficial","pp"],["2021-05-18","byZeroOfficial",":o"],
+  ["2021-05-27","byZeroOfficial","Support for Slash Commands :D",1],
+  ["2021-06-05","byZeroOfficial","added website"],["2021-06-16","byZeroOfficial","Some Stuff like /meme and /image"],["2021-06-16","byZeroOfficial","... lol"],["2021-06-17","deepsource-autofix[bot]","Remove unnecessary f-string"],["2021-06-23","byZeroOfficial","Multiple Giveaway Winners"],["2021-06-26","byZeroOfficial","Multiple Winners Fix"],
+  ["2021-07-08","byZeroOfficial","lul"],["2021-07-13","byZeroOfficial","More Error Reasons"],["2021-07-13","byZeroOfficial","Fix Exeption Bug"],["2021-07-17","byZeroOfficial","Weather + Calculator-Command"],["2021-07-17","byZeroOfficial","Remove calc cause of Security",1],["2021-07-21","byZeroOfficial","Status.py and on_guild_remove"],
+  ["2021-08-07","byZeroOfficial","Tixte URL Fix"],["2021-08-07","byZeroOfficial","Tixte URL Fix v2"],
+  ["2021-10-14","byZero","Removing cloud.0network.de from ZeroBot"],["2021-10-14","byZero","Fix Channel IDs"],
+  ["2022-02-14","byZeroOfficial","Message URL and Server Location Removal"],["2022-04-20","byZeroOfficial","tixte url fix"],["2022-05-30","byZeroOfficial","compress"],["2022-07-22","byZeroOfficial","Update README.md"]
+];
+const groups = new Map();
+for (const c of COMMITS){ const k = c[0].slice(0, 7); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); }
+const months = $("#months");
+for (const [k, list] of groups){
+  const d = new Date(k + "-01T12:00:00");
+  const label = d.toLocaleDateString("de-DE", { month: "long" });
+  const el = document.createElement("article"); el.className = "card month";
+  el.innerHTML = dripSVG() + `<div class="month-in"><h3>${label}<small>${k.slice(0,4)} · ${list.length}</small></h3>` +
+    list.map(([day, who, msg, big]) => `<div class="commit${big ? " big" : ""}"><q>${md(msg)}</q><span>${new Date(day + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "numeric" })}${who.startsWith("byZero") ? "" : ` · <b>${esc(who)}</b>`}</span></div>`).join("") + `</div>`;
+  months.appendChild(el);
+}
+})();
+</script>
+</body>
+</html>

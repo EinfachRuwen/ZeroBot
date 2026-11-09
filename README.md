@@ -13,6 +13,13 @@
 
 ### 🏠 [Homepage](https://zero.byzero.dev)
 
+## 🍩 ZeroBot is back (in your browser)
+ZeroBot runs again as a website, no Discord server and no tokens needed. All slash commands, the original texts and bugs, and the original Python code on the back of every answer.
+
+The site lives in [`site/`](site/) and is a plain static page (no build step).
+
+**Cloudflare Pages:** connect this repository, choose the branch `web`, framework preset *None*, leave the build command empty and set the build output directory to `site`.
+
 ## ZeroBot is now archived!
 The ZeroBot, which has been offline for quite some time now, will now have to come to an end.
 I hereby announce that I will no longer host / maintain it.
