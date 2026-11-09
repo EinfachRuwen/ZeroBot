@@ -6,24 +6,24 @@
 
 <p align="center">
   A Discord bot I wrote in 2021, at 13. Switched back on in 2026, now right in your browser.<br>
-  <a href="https://zerobot.by0.link"><b>▶ Play it at zerobot.by0.link</b></a>
+  <a href="https://zerobot.bf0.by0.link"><b>▶ Play it at zerobot.bf0.by0.link</b></a>
 </p>
 
 <p align="center">
-  <a href="https://zerobot.by0.link"><img alt="Revival: zerobot.by0.link" src="https://img.shields.io/badge/revival-zerobot.by0.link-f59fc2?style=flat-square&labelColor=131517"></a>
+  <a href="https://zerobot.bf0.by0.link"><img alt="Revival: zerobot.bf0.by0.link" src="https://img.shields.io/badge/revival-zerobot.bf0.by0.link-f59fc2?style=flat-square&labelColor=131517"></a>
   <img alt="Bot version 3.0" src="https://img.shields.io/badge/bot-v3.0-1f4a5b?style=flat-square&labelColor=131517">
   <a href="LICENSE"><img alt="License: GPL-3.0" src="https://img.shields.io/badge/license-GPL--3.0-f1ab45?style=flat-square&labelColor=131517"></a>
 </p>
 
-## ✨ Back from Zero
+## ✨ [Back from Zero](https://bf0.by0.link)
 
 Between 2021 and 2022, byZero built a lot of things, between 13 and 14 years old and mostly by trial and error. Some went offline, some were never finished. **Back from Zero** brings them back: the original look, the original quirks, and finally the features from the old idea lists.
 
 | | Project | Then | Now |
 | --- | --- | --- | --- |
-| 🍩 | **[ZeroBot](https://github.com/EinfachRuwen/ZeroBot)** | A Discord bot for one server | A playable time capsule at [zerobot.by0.link](https://zerobot.by0.link) |
-| 🧱 | **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | A Python script in the terminal | A generator in the browser |
-| 🔢 | **[Counter](https://github.com/EinfachRuwen/Counter)** | An Android app, clicked together in Sketchware | A web app |
+| 🍩 | **[ZeroBot](https://github.com/EinfachRuwen/ZeroBot)** | A Discord bot for one server | A playable time capsule at [zerobot.bf0.by0.link](https://zerobot.bf0.by0.link) |
+| 🧱 | **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | A Python script in the terminal | A [generator in the browser](https://websitegenerator.bf0.by0.link) |
+| 🔢 | **[Counter](https://github.com/EinfachRuwen/Counter)** | An Android app, clicked together in Sketchware | A [web app](https://counter.bf0.by0.link) |
 
 ## The Revival
 
