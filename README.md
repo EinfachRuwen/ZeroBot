@@ -23,7 +23,7 @@ ZeroBot is part of **Back from Zero**, my project to get old things from the *by
 | --- | --- |
 | **[Counter](https://github.com/EinfachRuwen/Counter)** | ✅ back, as a web app in the original design |
 | **[ZeroBot](https://github.com/EinfachRuwen/ZeroBot)** | ✅ back, playable in the browser |
-| **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | 🔧 in progress |
+| **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | ✅ back, as a web app |
 
 ## The Revival
 
