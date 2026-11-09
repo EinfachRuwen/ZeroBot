@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta property="og:title" content="ZeroBot">
 <meta property="og:description" content="Ein Discord-Bot von 2021, wieder angeschaltet. Alle Befehle zum Ausprobieren, direkt im Browser.">
+<meta property="og:url" content="https://zerobot.by0.link/">
 <meta name="theme-color" content="#1f4a5b">
 <title>ZeroBot</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -357,7 +358,7 @@ button{font:inherit;cursor:pointer}
     </div>
     <div class="foot">
       <span>Code &amp; Zeichnungen: byZero, 2021 · GPL-3.0</span>
-      <a href="https://github.com/EinfachRuwen/ZeroBot" target="_blank" rel="noopener">github.com/EinfachRuwen/ZeroBot</a>
+      <span><a href="https://zerobot.by0.link">zerobot.by0.link</a> · <a href="https://github.com/EinfachRuwen/ZeroBot" target="_blank" rel="noopener">github.com/EinfachRuwen/ZeroBot</a></span>
     </div>
   </section>
 </main>
@@ -1271,8 +1272,8 @@ const HANDLERS = {
       { name: "Websites", value: "[StackOverflow](https://stackoverflow.com/), [YouTube](https://youtube.com/), [GitHub](https://github.com/), [Pixabay](https://pixabay.com), [FreePix](https://freepix.com/)" } ] } }));
   },
   invite(){
-    botSays(() => post({ via: "/invite", code: "invite", embed: { title: "Lade den Bot auf deinen Server ein!", url: "https://github.com/EinfachRuwen/ZeroBot" },
-      note: "zero.byzero.dev/invite führt ins Leere. Einladen kann man ZeroBot jetzt nur noch hierher, also: Link teilen." }));
+    botSays(() => post({ via: "/invite", code: "invite", embed: { title: "Lade den Bot auf deinen Server ein!", url: "https://zerobot.by0.link" },
+      note: "zero.byzero.dev/invite führt ins Leere. ZeroBot wohnt jetzt unter <code>zerobot.by0.link</code>. Einladen heißt heute: diesen Link teilen." }));
   },
   weather({ location }){
     botSays(async () => {
