@@ -15,15 +15,15 @@
   <a href="LICENSE"><img alt="License: GPL-3.0" src="https://img.shields.io/badge/license-GPL--3.0-f1ab45?style=flat-square&labelColor=131517"></a>
 </p>
 
-## Back from Zero
+## ✨ Back from Zero
 
-ZeroBot is part of **Back from Zero**, my project to get old things from the *byZero* days running again: cleaning them up, fixing bugs, modernizing them, and finally finishing what got left behind back then.
+Between 2021 and 2022, byZero built a lot of things, between 13 and 14 years old and mostly by trial and error. Some went offline, some were never finished. **Back from Zero** brings them back: the original look, the original quirks, and finally the features from the old idea lists.
 
-| Project | Status |
-| --- | --- |
-| **[Counter](https://github.com/EinfachRuwen/Counter)** | ✅ back, as a web app in the original design |
-| **[ZeroBot](https://github.com/EinfachRuwen/ZeroBot)** | ✅ back, playable in the browser |
-| **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | 🔧 in progress |
+| | Project | Then | Now |
+| --- | --- | --- | --- |
+| 🍩 | **[ZeroBot](https://github.com/EinfachRuwen/ZeroBot)** | A Discord bot for one server | A playable time capsule at [zerobot.by0.link](https://zerobot.by0.link) |
+| 🧱 | **[WebsiteGenerator](https://github.com/WebsiteGenerator/WebsiteGenerator)** | A Python script in the terminal | A generator in the browser |
+| 🔢 | **[Counter](https://github.com/EinfachRuwen/Counter)** | An Android app, clicked together in Sketchware | A web app |
 
 ## The Revival
 
