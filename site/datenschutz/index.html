@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Datenschutz · ZeroBot</title>
+<meta name="description" content="Datenschutzerklärung für zerobot.bf0.by0.link und den Discord-Bot ZeroBot.">
+<meta name="author" content="Ruwen Hohnholz">
+<meta name="theme-color" content="#1f4a5b">
+<link rel="icon" href="/assets/zerobot-avatar.webp">
+<style>
+/* Gleiche Welt wie die Startseite: Petrol-Glasur, Tusche-Konturen, Papierkarten.
+   Bewusst ohne Google Fonts: diese Seite lädt nichts von fremden Servern, es greifen die Ersatzschriften aus index.html. */
+:root{
+  --drip-1:#5f9db3; --drip-2:#457f95; --drip-3:#30657a; --drip-4:#1f4a5b;
+  --ink:#131517; --paper:#fdf6f8; --paper-2:#f6e6ec; --text:#1d2327; --muted:#5b666c;
+  --glaze:#f59fc2; --glaze-deep:#c9577f; --dough:#f1ab45;
+  --sp-blue:#6fd2f0; --sp-yellow:#f6d55a; --sp-coral:#f27b67;
+  --f-display:"Bagel Fat One", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --f-body:"Rethink Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --f-hand:"Gaegu", "Comic Sans MS", "Chalkboard SE", cursive;
+  --line:3px; --shadow:6px 6px 0 var(--ink); --r:20px;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--drip-4)}
+body{margin:0;font-family:var(--f-body);font-size:15px;line-height:1.55;color:var(--text);overflow-x:hidden;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  background:
+    radial-gradient(120% 60% at 0% 0%, var(--drip-2) 0 30%, transparent 30.2%),
+    radial-gradient(90% 40% at 100% 0%, var(--drip-3) 0 34%, transparent 34.2%),
+    var(--drip-4)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sp-yellow);outline-offset:3px;border-radius:6px}
+.page{max-width:860px;margin:0 auto;padding-block:32px 64px;display:grid;gap:28px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.back{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper);font-weight:700;
+  background:var(--ink);border-radius:999px;padding:4px 14px 4px 4px}
+.back img{width:34px;height:34px;border-radius:50%;border:2px solid var(--paper);background:var(--glaze)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);display:flex;flex-wrap:wrap;gap:8px}
+.eyebrow span{background:var(--ink);padding:4px 9px;border-radius:999px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(44px,8vw,88px);line-height:.92;margin:0;color:var(--glaze);
+  -webkit-text-stroke:var(--line) var(--ink);paint-order:stroke fill;text-shadow:0 6px 0 var(--ink);overflow-wrap:anywhere;hyphens:auto}
+.lede{margin:0;color:var(--paper);font-size:16px;background:var(--ink);border-radius:16px;padding:14px 18px;max-width:68ch}
+.card{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);padding:22px 24px;display:grid;gap:12px;min-width:0}
+.card h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(22px,3.2vw,28px);line-height:1.05;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.card h2 .no{font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--paper);background:var(--glaze-deep);border:2px solid var(--ink);border-radius:999px;padding:1px 9px;transform:translateY(-3px)}
+.card h3{margin:6px 0 0;font-size:16px}
+.card p,.card ul{margin:0;max-width:72ch}
+.card ul{padding-left:20px;display:grid;gap:4px}
+.card code{font-family:var(--f-mono);font-size:.86em;background:var(--paper-2);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+address{font-style:normal;font-family:var(--f-mono);font-size:14px;line-height:1.6;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 14px;justify-self:start}
+.tbl{overflow-x:auto;border:2px solid var(--ink);border-radius:14px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:2px dashed var(--paper-2)}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--paper)}
+td:first-child{white-space:nowrap}
+.callout{background:var(--ink);color:var(--paper);border-radius:16px;padding:16px 18px;display:grid;gap:8px;border:var(--line) solid var(--ink)}
+.callout .label{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-yellow);margin:0;font-weight:600}
+.callout p{margin:0}
+.note{font-size:13.5px;color:var(--muted)}
+.foot{color:var(--paper);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;opacity:.85}
+.foot a{color:var(--paper)}
+@media (max-width:560px){
+  .card{padding:18px 16px}
+  thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table,tbody,tr,td{display:block}
+  tr{padding:10px 12px;border-bottom:2px dashed var(--paper-2)}
+  tr:last-child{border-bottom:0}
+  td,tr:last-child td{border:0;padding:2px 0;white-space:normal}
+  td:first-child{white-space:normal}
+  td::before{content:attr(data-label);display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="back" href="/"><img src="/assets/zerobot-avatar.webp" alt="" width="34" height="34">zurück zu ZeroBot</a>
+    <div class="eyebrow"><span>Stand 18.11.2026</span></div>
+  </header>
+
+  <main class="page" style="padding:0;gap:22px" id="inhalt">
+    <h1>Daten&shy;schutz</h1>
+    <p class="lede">ZeroBot läuft hier komplett in deinem Browser. Es gibt kein Konto, keine Statistik und keine Cookies von mir. Trotzdem fallen beim Aufruf technische Daten an, und einige Befehle holen Inhalte von anderen Diensten. Was genau passiert, steht hier.</p>
+
+    <section class="card" aria-labelledby="s1">
+      <h2 id="s1"><span class="no">01</span>Verantwortlicher und Geltungsbereich</h2>
+      <address>
+        Ruwen Hohnholz<br>
+        c/o Autorenglück #45094<br>
+        Albert-Einstein-Str. 47<br>
+        02977 Hoyerswerda<br>
+        E-Mail: <a href="mailto:info@focusonruwen.com">info@focusonruwen.com</a>
+      </address>
+      <p>Diese Datenschutzerklärung gilt für die Website zerobot.bf0.by0.link, einschließlich dieser Seite, und für den Discord-Bot ZeroBot (Abschnitt 08). Es handelt sich um ein privates, nicht kommerzielles Projekt. Einen Datenschutzbeauftragten habe ich nicht benannt.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s2">
+      <h2 id="s2"><span class="no">02</span>Hosting bei Vercel und Server-Logs</h2>
+      <p>Die Website liegt bei Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA. Wenn du sie aufrufst, verarbeitet Vercel technisch notwendige Daten, um sie an deinen Browser auszuliefern und den Betrieb abzusichern:</p>
+      <ul>
+        <li>IP-Adresse und daraus abgeleitetes Land bzw. ungefährer Ort</li>
+        <li>Datum und Uhrzeit des Abrufs</li>
+        <li>aufgerufene Adresse, Statuscode, übertragene Datenmenge, verweisende Seite (Referrer)</li>
+        <li>Browser und Betriebssystem (User-Agent)</li>
+      </ul>
+      <p>Rufst du die Seite über <code>http://</code> auf, leitet Vercel dich auf <code>https://</code> weiter; dabei fallen dieselben Daten an.</p>
+      <p><strong>Rechtsgrundlage</strong> ist mein berechtigtes Interesse, die Seite zuverlässig und sicher auszuliefern (Art. 6 Abs. 1 lit. f DSGVO).</p>
+      <p><strong>Speicherdauer:</strong> In meinem Vercel-Konto sind Protokolle je nach Tarif nur kurz einsehbar, zwischen einer Stunde und einem Tag. Wie lange Vercel selbst Protokolle aufbewahrt, legt Vercel fest; nach eigenen Angaben nur so lange, wie es für den Betrieb, die Sicherheit und gesetzliche Pflichten nötig ist. Ich werte keine Protokolle aus und führe sie nicht mit anderen Daten zusammen.</p>
+      <p><strong>Übermittlung in die USA:</strong> Vercel kann die Daten in den USA und auf Servern weltweit verarbeiten. Vercel ist unter dem EU-US Data Privacy Framework zertifiziert; die Übermittlung stützt sich auf den Angemessenheitsbeschluss der EU-Kommission (Art. 45 DSGVO). Mehr dazu im <a href="https://vercel.com/legal/privacy-notice" rel="noopener">Datenschutzhinweis von Vercel</a>.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s3">
+      <h2 id="s3"><span class="no">03</span>Schriften von Google Fonts</h2>
+      <p>Die Startseite lädt ihre Schriften (Bagel Fat One, Gaegu, JetBrains Mono, Rethink Sans) beim Aufruf von Google Fonts, also von den Servern <code>fonts.googleapis.com</code> und <code>fonts.gstatic.com</code>. Dein Browser übermittelt dabei deine IP-Adresse, die angefragte Adresse und HTTP-Header wie User-Agent und Referrer an Google. Nach Angaben von Google setzt die Fonts-API keine Cookies und nutzt die Daten nicht für Profile oder Werbung.</p>
+      <p>Anbieter ist Google; für Nutzer in der EU ist das Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Eine Verarbeitung in den USA durch Google LLC ist möglich; Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert (Art. 45 DSGVO). Rechtsgrundlage ist mein berechtigtes Interesse an einer einheitlichen Darstellung (Art. 6 Abs. 1 lit. f DSGVO). Mehr in der <a href="https://policies.google.com/privacy" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+      <p class="note">Diese Datenschutzseite selbst lädt keine Schriften von Google.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s4">
+      <h2 id="s4"><span class="no">04</span>Befehle, die andere Dienste fragen</h2>
+      <p>Die meisten Befehle laufen nur in deinem Browser. Einige holen aber, wie der Bot damals, Inhalte aus dem Netz. Nur wenn du einen dieser Befehle abschickst, stellt dein Browser direkt eine Anfrage an den jeweiligen Dienst. Der Dienst erhält dabei deine IP-Adresse, die technischen Angaben deines Browsers und das, was du in den Befehl geschrieben hast. Ich bekomme davon nichts.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Befehl</th><th>Dienst</th><th>Was übertragen wird</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Befehl"><code>/weather</code></td><td data-label="Dienst">Open-Meteo (<code>geocoding-api.open-meteo.com</code>, <code>api.open-meteo.com</code>)</td><td data-label="Übertragen">der eingegebene Ort, danach dessen Koordinaten</td></tr>
+            <tr><td data-label="Befehl"><code>/define</code></td><td data-label="Dienst">Urban Dictionary (<code>api.urbandictionary.com</code>)</td><td data-label="Übertragen">der Suchbegriff</td></tr>
+            <tr><td data-label="Befehl"><code>/whois</code></td><td data-label="Dienst">PlayerDB (<code>playerdb.co</code>, Nodecraft, Inc.), Bilder von Crafatar (<code>crafatar.com</code>)</td><td data-label="Übertragen">der Minecraft-Name, danach die UUID für die Bilder</td></tr>
+            <tr><td data-label="Befehl"><code>/meme</code>, <code>/image&nbsp;aww</code></td><td data-label="Dienst"><code>meme-api.com</code>; das Bild kommt meist von Reddit (<code>i.redd.it</code>) oder einem anderen Bildhoster</td><td data-label="Übertragen">nur die Anfrage selbst</td></tr>
+            <tr><td data-label="Befehl"><code>/image&nbsp;floof</code></td><td data-label="Dienst">TheCatAPI (<code>api.thecatapi.com</code>, Bilder von <code>cdn2.thecatapi.com</code>)</td><td data-label="Übertragen">nur die Anfrage selbst</td></tr>
+            <tr><td data-label="Befehl"><code>/image&nbsp;hug</code></td><td data-label="Dienst">OtakuGIFs (<code>api.otakugifs.xyz</code>, <code>cdn.otakugifs.xyz</code>)</td><td data-label="Übertragen">nur die Anfrage selbst</td></tr>
+            <tr><td data-label="Befehl"><code>/short</code>, <code>/avatar</code></td><td data-label="Dienst">is.gd (<code>is.gd</code>)</td><td data-label="Übertragen">die Adresse, die gekürzt werden soll; bei <code>/avatar</code> nur die Adresse eines Profilbilds dieser Website</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Bilder in den Antworten lädt dein Browser direkt vom jeweiligen Server; dabei werden ebenfalls IP-Adresse, User-Agent und in der Regel die Domain dieser Seite als Herkunft übertragen. Wie lange die Dienste diese Daten speichern, entscheiden sie selbst. is.gd etwa speichert nach eigenen Angaben die gekürzte Adresse und zur Missbrauchsabwehr IP-Adressen.</p>
+      <p><strong>Rechtsgrundlage</strong> ist mein berechtigtes Interesse, dir die Befehle so anzubieten, wie sie damals funktionierten (Art. 6 Abs. 1 lit. f DSGVO). Die Anfrage passiert nur, wenn du den Befehl selbst abschickst.</p>
+      <p><strong>Drittländer:</strong> Diese Dienste können ihren Sitz oder ihre Server außerhalb der EU haben, etwa in den USA. Für Reddit, Inc. besteht eine Zertifizierung unter dem EU-US Data Privacy Framework. Für die übrigen Dienste kann ich kein angemessenes Datenschutzniveau nach Art. 45 DSGVO belegen. Wenn du das nicht möchtest, nutze diese Befehle einfach nicht; alle anderen Befehle funktionieren ohne fremde Server.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s5">
+      <h2 id="s5"><span class="no">05</span>GIFs von Tenor bei „hallo“</h2>
+      <p>Schreibst du „hallo“, „moin“, „servus“ oder „hi“, antwortet ZeroBot manchmal mit einem GIF von Tenor. Dafür bindet die Seite in diesem Moment ein Fenster von <code>tenor.com</code> ein. Tenor gehört zu Google. Dein Browser lädt dabei Inhalte und Skripte von Tenor, darunter im Test auch ein Skript von Google Analytics, und übermittelt deine IP-Adresse, technische Angaben deines Browsers und die Domain dieser Seite. Ob Google dabei Cookies setzt oder Informationen auf deinem Gerät ausliest, hängt von Google und deinen Browser-Einstellungen ab; darauf habe ich keinen Einfluss.</p>
+      <p>Anbieter ist Google (in der EU Google Ireland Limited, Adresse siehe Abschnitt 03); Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert (Art. 45 DSGVO). Rechtsgrundlage für die Einbindung ist mein berechtigtes Interesse, die Original-Antworten des Bots zu zeigen (Art. 6 Abs. 1 lit. f DSGVO). Es gilt die <a href="https://policies.google.com/privacy" rel="noopener">Datenschutzerklärung von Google</a>. Wenn du das vermeiden willst, begrüße ZeroBot nicht mit diesen Wörtern.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s6">
+      <h2 id="s6"><span class="no">06</span>Speicher in deinem Browser</h2>
+      <p>Es werden keine Cookies gesetzt. Nur wenn du auf den Donut klickst, um ZeroBot zu streicheln, speichert die Seite die Anzahl im lokalen Speicher deines Browsers (<code>localStorage</code>, Schlüssel <code>zb-pets</code>, Wert: eine Zahl) und zeigt sie beim nächsten Besuch wieder an. Der Wert verlässt dein Gerät nicht und bleibt, bis du die Website-Daten in deinem Browser löschst. Das dient allein dieser von dir ausgelösten Funktion (§ 25 Abs. 2 Nr. 2 TDDDG).</p>
+      <p>Der Befehl <code>/stats</code> liest die Zahl der Prozessorkerne und, falls dein Browser sie verrät, die ungefähre Arbeitsspeichergröße aus und zeigt sie dir an. Diese Werte werden nicht gespeichert und nicht übertragen. Alles, was du in den Kanal schreibst, bleibt in deinem Browser und ist beim Neuladen weg; Ausnahmen sind nur die Befehle aus Abschnitt 04 und 05.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s7">
+      <h2 id="s7"><span class="no">07</span>Links zu anderen Seiten</h2>
+      <p>Die Seite verlinkt unter anderem auf GitHub, YouTube, Google, NameMC, Tenor und das Impressum auf fcrw.cc. Erst wenn du einen Link anklickst, ruft dein Browser die Zielseite auf; dort gilt deren Datenschutzerklärung. Der Befehl <code>_makeissue</code> erzeugt nur einen Link zu einem vorausgefüllten GitHub-Issue. Abgeschickt wird es erst, wenn du es auf GitHub selbst absendest.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s8">
+      <h2 id="s8"><span class="no">08</span>Der Discord-Bot ZeroBot</h2>
+      <p>Den ursprünglichen Discord-Bot ZeroBot (2021 bis 2022) betreibe ich derzeit nicht. Der Code liegt nur noch als Archiv im Repository. Die Website verbindet sich nicht mit Discord und ist kein Discord-Bot: Alles, was du hier siehst, wird in deinem Browser nachgestellt. Über den Bot verarbeite ich daher zurzeit keine Daten von dir.</p>
+      <p>Die Anwendung „ZeroBot“ ist bei Discord noch registriert. Begegnest du ihr auf Discord, verarbeitet Discord deine Daten nach eigenen Regeln; für Nutzer in der EU ist das Discord Netherlands BV, Schiphol Boulevard 195, 1118 BG Schiphol, Niederlande, mit Datenverarbeitung auch bei Discord Inc. in den USA (zertifiziert unter dem EU-US Data Privacy Framework). Mehr in der <a href="https://discord.com/privacy" rel="noopener">Datenschutzerklärung von Discord</a>.</p>
+      <p>Sollte ich den Bot wieder einschalten, ergänze ich diese Erklärung vorher um alle Daten, die er dann verarbeitet.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s9">
+      <h2 id="s9"><span class="no">09</span>Kontakt per E-Mail</h2>
+      <p>Wenn du mir schreibst, verarbeite ich deine E-Mail-Adresse und deine Nachricht, um dir zu antworten (Art. 6 Abs. 1 lit. f DSGVO). Ich lösche sie, wenn die Anfrage erledigt ist und keine Aufbewahrungsgründe bestehen.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s10">
+      <h2 id="s10"><span class="no">10</span>Deine Rechte</h2>
+      <p>Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Eine formlose E-Mail an <a href="mailto:info@focusonruwen.com">info@focusonruwen.com</a> genügt.</p>
+      <div class="callout">
+        <p class="label">Widerspruchsrecht nach Art. 21 DSGVO</p>
+        <p>Soweit ich Daten auf Grundlage berechtigter Interessen verarbeite (Art. 6 Abs. 1 lit. f DSGVO), kannst du dieser Verarbeitung aus Gründen, die sich aus deiner besonderen Situation ergeben, jederzeit widersprechen. Ich verarbeite die Daten dann nicht mehr, es sei denn, ich kann zwingende schutzwürdige Gründe nachweisen, die deine Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.</p>
+      </div>
+      <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, insbesondere in dem Mitgliedstaat deines Aufenthaltsorts, deines Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes (Art. 77 DSGVO).</p>
+    </section>
+
+    <section class="card" aria-labelledby="s11">
+      <h2 id="s11"><span class="no">11</span>Pflicht zur Bereitstellung, automatisierte Entscheidungen</h2>
+      <p>Du bist nicht verpflichtet, Daten bereitzustellen. Ohne die Übertragung deiner IP-Adresse kann dein Browser die Seite aber technisch nicht laden. Eine automatisierte Entscheidungsfindung einschließlich Profiling (Art. 22 DSGVO) findet nicht statt.</p>
+    </section>
+
+    <section class="card" aria-labelledby="s12">
+      <h2 id="s12"><span class="no">12</span>Änderungen</h2>
+      <p>Ich passe diese Erklärung an, wenn sich die Seite, das Hosting oder der Bot ändern. Es gilt die hier veröffentlichte Fassung.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Code &amp; Zeichnungen: byZero, 2021 · GPL-3.0</span>
+    <span><a href="/">zerobot.bf0.by0.link</a> · <a href="https://github.com/EinfachRuwen/ZeroBot" rel="noopener">github.com/EinfachRuwen/ZeroBot</a></span>
+    <span><a href="https://fcrw.cc/imprint">Impressum</a> · <a href="/datenschutz/" aria-current="page">Datenschutz</a></span>
+  </footer>
+</div>
+</body>
+</html>
